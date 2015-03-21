@@ -1,2 +1,2 @@
 # Gra
-Gra terapeutyczna
+Gra terapeutyczna - Projekt inżynierski
