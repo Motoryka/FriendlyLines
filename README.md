@@ -14,7 +14,7 @@ Git działa w ten sposób, że u siebie lokalnie możemy stworzyć repozytorium.
 2. Uruchamiamy GIT Bash w tym katalogu
 3. Wpisujemy `git init`
 4. Następnie kolejna komenda: `git remote add origin https://github.com/Motoryka/Gra.git` - czyli dodajemy do aktualnego katalogu repozytorium zdalne. Co robi ta komenda: tworzy alias o nazwie `origin` do zdalnego repo `https://github.com/Motoryka/Gra.git`, przez co nie musimy z każdym pushem i pullem wpisywać całego adresu
-5. `git pull origin`
+5. `git pull origin master`
 
 Teraz możemy dodawać, usuwać i zmieniać pliki na naszym lokalnym repo. Kiedy chcemy zcommitować zmiany:
 
@@ -24,5 +24,5 @@ Teraz możemy dodawać, usuwać i zmieniać pliki na naszym lokalnym repo. Kiedy
 Aby sprawdzic stan plikow, ktore zmienialismy mozna wpisac `git status`
 
 ### Zdalne repozytorium
-`git push master` wrzucenie commitów z repo lokalnego na zdalne branch master - teraz wszyscy będą widzieć zmiany
-`git pull` pobranie zmian z repo zdalnego
+`git push` wrzucenie commitów z repo lokalnego na zdalne branch master - teraz wszyscy będą widzieć zmiany
+`git pull origin master` pobranie zmian z repo zdalnego
