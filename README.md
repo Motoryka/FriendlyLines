@@ -17,7 +17,8 @@ Git działa w ten sposób, że u siebie lokalnie możemy stworzyć repozytorium.
 5. `git pull origin`
 
 Teraz możemy dodawać, usuwać i zmieniać pliki na naszym lokalnym repo. Kiedy chcemy zcommitować zmiany:
-1. `git add .` - zamiast `.` mogą być nazwy plików, które chcemy dodać do aktualnego commita
+
+1. Komenda: `git add .` - zamiast `.` mogą być nazwy plików, które chcemy dodać do aktualnego commita
 2. `git commit -m 'Jakis tekst'` - commit zmian
 
 Aby sprawdzic stan plikow, ktore zmienialismy mozna wpisac `git status`
