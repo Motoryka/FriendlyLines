@@ -1,6 +1,7 @@
 .DS_Store
 Library
 Temp
+obj
 *.csproj
 *.pidb
 *.unityproj
@@ -8,3 +9,4 @@ Temp
 *.userprefs
 *.apk
 *.exe
+*.suo
