@@ -15,7 +15,7 @@ public class Test : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-
+        //Graphics.DrawProcedural(MeshTopology.Quads())
 	    if(Input.GetMouseButtonDown(0))
         {
             drawing = true;

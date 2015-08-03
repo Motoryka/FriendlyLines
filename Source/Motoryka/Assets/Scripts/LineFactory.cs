@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LineFactory : MonoBehaviour 
+public class LineFactory 
 {
     static private GameObject _linePrefab;
     static private string _linePrefabName = "LinePrefab";
@@ -13,7 +13,7 @@ public class LineFactory : MonoBehaviour
 
     public Line Create()
     {
-        return ((GameObject)Instantiate(_linePrefab, Vector3.zero, Quaternion.identity)).GetComponent<Line>();
+        return ((GameObject)GameObject.Instantiate(_linePrefab, Vector3.zero, Quaternion.identity)).GetComponent<Line>();
     }
 
     public Line Create(Vector3 startingVertex)

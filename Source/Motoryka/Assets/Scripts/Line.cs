@@ -10,6 +10,8 @@ public class Line : MonoBehaviour
     private int _lrVerticesCount;
     private float _size;
     private float _lrSize;
+    private Color _color;
+    private Color _lrColor;
 
     public Line()
     {
@@ -17,12 +19,16 @@ public class Line : MonoBehaviour
         _lrVerticesCount = 0;
         _size = 1;
         _lrSize = 1;
+        _color = _lrColor = Color.white;
     }
 
 	// Use this for initialization
 	void Start () {
         _lineRenderer = GetComponent<LineRenderer>();
         _defaultPosition = Vector3.zero;
+
+        _lineRenderer.SetColors(_color, _color);
+        _lineRenderer.SetWidth(_size, _size);
 	}
 
     void Update()
@@ -39,6 +45,12 @@ public class Line : MonoBehaviour
         {
             _lrSize = _size;
             _lineRenderer.SetWidth(_lrSize, _lrSize);
+        }
+
+        if(_lrColor != _color)
+        {
+            _lrColor = _color;
+            _lineRenderer.SetColors(_color, _color);
         }
     }
 
@@ -65,5 +77,8 @@ public class Line : MonoBehaviour
         }
     }
 
-    
+    public void SetColor(Color color)
+    {
+        _color = color;
+    }
 }
