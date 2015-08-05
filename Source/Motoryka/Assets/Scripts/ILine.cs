@@ -2,7 +2,7 @@
 using System.Collections;
 
 public interface ILine {
-    int vertexCount { get; set; }
+    int VertexCount { get; }
     void SetColor(Color color);
     void SetSize(float size);
     void AddVertex(Vector2 pos);

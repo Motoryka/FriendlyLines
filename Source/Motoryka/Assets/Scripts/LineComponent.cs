@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class LineComponent : MonoBehaviour, ILine {
+
     private LineRenderer _lineRenderer;
     private Vector3 _defaultPosition;
     private List<Vector3> _vertices;
@@ -54,18 +55,6 @@ public class LineComponent : MonoBehaviour, ILine {
         }
     }
 
-    public int vertexCount
-    {
-        get
-        {
-            return _vertices.Count;
-        }
-        set
-        {
-
-        }
-    }
-
     public void AddVertex(Vector2 pos)
     {
         AddVertex(new Vector3(pos.x, pos.y, _defaultPosition.z));
@@ -81,7 +70,7 @@ public class LineComponent : MonoBehaviour, ILine {
         _size = size;
     }
 
-    public int vertexCount
+    public int VertexCount
     {
         get
         {

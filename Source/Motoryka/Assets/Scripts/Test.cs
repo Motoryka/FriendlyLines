@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Test : MonoBehaviour {
     public bool drawing = false;
-    public Line currentlyDrawing = null;
+    public ILine currentlyDrawing = null;
     public LineFactory lf;
     public Camera camera;
     public Vector3 prevVertex;
@@ -23,7 +23,7 @@ public class Test : MonoBehaviour {
             {
 
                 prevVertex = camera.ScreenToWorldPoint(Input.mousePosition);
-                currentlyDrawing = lf.Create(prevVertex);
+                currentlyDrawing = lf.Create<LineComponent>(prevVertex);
                 currentlyDrawing.SetSize(0.1f);
             }
         }
