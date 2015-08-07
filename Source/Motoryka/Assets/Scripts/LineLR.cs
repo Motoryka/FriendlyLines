@@ -2,34 +2,57 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class LineLR : ILine
-{
-    private LineComponent _lineComponent;
+public class LineLR : MonoBehaviour, ILine {
+
+    private LineRenderer _lineRenderer;
     private Vector3 _defaultPosition;
     private List<Vector3> _vertices;
+    private int _lrVerticesCount;
     private float _size;
+    private float _lrSize;
     private Color _color;
+    private Color _lrColor;
 
-    private GameObject _linePrefab;
-    static private string _linePrefabName = "LinePrefab";
-
-    public LineLR(GameObject parent)
+    public LineLR()
     {
         _vertices = new List<Vector3>();
+        _lrVerticesCount = 0;
         _size = 1;
-        _color = Color.white;
-        _linePrefab = (GameObject)Resources.Load(_linePrefabName);
+        _lrSize = 1;
+        _color = _lrColor = Color.white;
+        _defaultPosition = Vector3.zero;
+    }
 
-        GameObject newLine = GameObject.Instantiate(_linePrefab, Vector3.zero, Quaternion.identity) as GameObject;
+	// Use this for initialization
+	void Start () {
+        _lineRenderer = GetComponent<LineRenderer>();
 
-        if (parent != null)
+        _lineRenderer.SetColors(_color, _color);
+        _lineRenderer.SetWidth(_size, _size);
+	}
+	
+	// Update is called once per frame
+    void Update()
+    {
+        while (_lrVerticesCount < _vertices.Count)
         {
-            newLine.transform.parent = parent.transform;
+            _lineRenderer.SetVertexCount(_lrVerticesCount + 1);
+            _lineRenderer.SetPosition(_lrVerticesCount, _vertices[_lrVerticesCount]);
+
+            _lrVerticesCount++;
         }
 
-        _lineComponent = newLine.GetComponent<LineComponent>();
-        _lineComponent.SetColor(_color);
-        _lineComponent.SetSize(_size);
+        if (_size != _lrSize)
+        {
+            _lrSize = _size;
+            _lineRenderer.SetWidth(_lrSize, _lrSize);
+        }
+
+        if (_lrColor != _color)
+        {
+            _lrColor = _color;
+            _lineRenderer.SetColors(_color, _color);
+        }
     }
 
     public void AddVertex(Vector2 pos)
@@ -41,14 +64,10 @@ public class LineLR : ILine
     {
         pos.z = _defaultPosition.z;
         _vertices.Add(pos);
-
-        _lineComponent.AddVertex(pos);
     }
     public void SetSize(float size)
     {
         _size = size;
-
-        _lineComponent.SetSize(size);
     }
 
     public int VertexCount
@@ -61,8 +80,12 @@ public class LineLR : ILine
 
     public void SetColor(Color color)
     {
+        print("DEBUG. COLOR: " + color);
         _color = color;
+    }
 
-        _lineComponent.SetColor(_color);
+    public void Init(Transform canvas)
+    {
+        transform.parent = canvas;
     }
 }

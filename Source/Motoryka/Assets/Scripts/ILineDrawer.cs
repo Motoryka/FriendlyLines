@@ -5,11 +5,12 @@ public interface ILineDrawer  {
 
     void SetColor(Color color);
     void StartDrawing();
-    void Draw(Vector2 position);
+    void Draw(Vector3 position);
     void StopDrawing();
     void SetSize(float size);
     void SetFrequency(float f);
     void DrawLine(Vector2 a, Vector2 b);
     void DrawLine(Vector2[] vertices);
 
+    bool IsDrawing();
 }

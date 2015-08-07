@@ -198,11 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea6af364ddb4d348b5ebad3463fbaa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawing: 0
-  currentlyDrawing: {fileID: 0}
-  lf: {fileID: 0}
-  camera: {fileID: 291068593}
-  prevVertex: {x: 0, y: 0, z: 0}
+  drawer: {fileID: 1594916034}
+  cam: {fileID: 291068593}
+  color: {r: 1, g: 0, b: 0, a: 0}
 --- !u!4 &1539404611
 Transform:
   m_ObjectHideFlags: 0
@@ -242,9 +240,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc543568c9051e9449075fc040b216c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vertexSpace: .100000001
-  color: {r: 1, g: 1, b: 1, a: 1}
+  frequency: .100000001
+  color: {r: 1, g: .0441176295, b: .0441176295, a: 1}
   size: 1
+  canvas: {fileID: 0}
 --- !u!4 &1594916035
 Transform:
   m_ObjectHideFlags: 0

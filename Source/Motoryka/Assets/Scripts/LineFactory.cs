@@ -13,21 +13,22 @@ public class LineFactory<T> where T : ILine
     {
         T newLine = default(T);
 
-        if (isLineComponent(typeof(T)))
+        if (isLineLR(typeof(T)))
         {
             if (_linePrefab == null)
                 _linePrefab = (GameObject)Resources.Load(_linePrefabName);
 
-            var newLineGameObject = ((GameObject)GameObject.Instantiate(_linePrefab, Vector3.zero, Quaternion.identity)).GetComponent<LineComponent>();
+            var newLineGameObject = ((GameObject)GameObject.Instantiate(_linePrefab, Vector3.zero, Quaternion.identity)).GetComponent<T>();
 
             if (canvas != null)
-                newLineGameObject.transform.parent = canvas.transform;
+                newLineGameObject.Init(canvas.transform);
 
-            newLine = (T)newLineGameObject;
+            newLine = newLineGameObject;
         }
 
         return newLine;
     }
+
 
     public T Create(Vector3 startingVertex)
     {
@@ -38,7 +39,7 @@ public class LineFactory<T> where T : ILine
         return newLine;
     }
 
-    public T Create<T>(Vector3 startingVertex, Vector3 endingVertex)
+    public T Create(Vector3 startingVertex, Vector3 endingVertex)
     {
         T newLine = Create(startingVertex);
 
@@ -48,9 +49,9 @@ public class LineFactory<T> where T : ILine
     }
 
 
-    private bool isLineComponent(Type t)
+    private bool isLineLR(Type t)
     {
-        return t == typeof(LineComponent);
+        return t == typeof(LineLR);
     }
 
 }

@@ -2,14 +2,14 @@
 using System.Collections;
 
 public class Test : MonoBehaviour {
-    public bool drawing = false;
-    public ILine currentlyDrawing = null;
-    public LineFactory lf;
-    public Camera camera;
-    public Vector3 prevVertex;
+    public LineDrawer drawer;
+    public Camera cam;
+    public Color color;
+
 	// Use this for initialization
 	void Start () {
-        lf = new LineFactory();
+        drawer.SetSize(0.2f);
+        drawer.SetColor(color);
 	}
 	
 	// Update is called once per frame
@@ -18,30 +18,17 @@ public class Test : MonoBehaviour {
         //Graphics.DrawProcedural(MeshTopology.Quads())
 	    if(Input.GetMouseButtonDown(0))
         {
-            drawing = true;
-            if(currentlyDrawing == null)
-            {
-
-                prevVertex = camera.ScreenToWorldPoint(Input.mousePosition);
-                currentlyDrawing = lf.Create<LineComponent>(prevVertex);
-                currentlyDrawing.SetSize(0.1f);
-            }
+            drawer.StartDrawing();
         }
 
         if(Input.GetMouseButtonUp(0))
         {
-            drawing = false;
-            currentlyDrawing = null;
+            drawer.StopDrawing();
         }
 
-        if(drawing && currentlyDrawing != null)
+        if(drawer.IsDrawing())
         {
-            Vector3 newPos = camera.ScreenToWorldPoint(Input.mousePosition);
-            if(Vector3.Distance(newPos, prevVertex) > 0.2)
-            {
-                currentlyDrawing.AddVertex(newPos);
-                prevVertex = newPos;
-            }
+            drawer.Draw(cam.ScreenToWorldPoint(Input.mousePosition));
         }
 	}
 }

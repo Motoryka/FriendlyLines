@@ -4,25 +4,31 @@ using System.Collections.Generic;
 
 public class LineDrawer : MonoBehaviour, ILineDrawer {
     public float frequency = 0.1f;
-    public Color color = Color.white;
+    public Color color = Color.red;
     public float size = 1;
+    public GameObject canvas;
 
-    private GameObject _canvas;
-    private List<Vector2> _vertices;
-    private LineFactory _factory;
+    private List<Vector3> _vertices;
+    private LineFactory<LineLR> _factory;
     private bool _drawing;
+    private List<ILine> _lines;
+    private ILine _currentLine;
+    private Vector3 _lastVertex;
 
     public LineDrawer()
     {
-        _vertices = new List<Vector2>();
-        _factory = new LineFactory();
+        _vertices = new List<Vector3>();
+        _factory = new LineFactory<LineLR>();
+        _lines = new List<ILine>();
+        _currentLine = null;
     }
 
 	// Use this for initialization
 	void Start () {
-	    if(_canvas == null)
+        if (canvas == null)
         {
-            _canvas = new GameObject("Canvas");
+            canvas = new GameObject("Canvas");
+            _factory.canvas = canvas;
         }
 	}
 	
@@ -33,22 +39,42 @@ public class LineDrawer : MonoBehaviour, ILineDrawer {
 
     public void SetColor(Color color)
     {
+        print("HERE: " + color);
         this.color = color;
     }
 
     public void StartDrawing()
     {
         _drawing = true;
+        _currentLine = _factory.Create();
+        _lines.Add(_currentLine);
+
+        _currentLine.SetColor(color);
+        _currentLine.SetSize(size);
+        _vertices = new List<Vector3>();
     }
 
-    public void Draw(Vector2 position)
+    public void Draw(Vector3 position)
     {
-        throw new System.NotImplementedException();
+        if(!_drawing)
+        {
+            return;
+        }
+
+        if(_vertices.Count != 0 && Vector3.Distance(_lastVertex, position) < frequency)
+        {
+            return;
+        }
+
+        _currentLine.AddVertex(position);
+        _vertices.Add(position);
+        _lastVertex = position;
     }
 
     public void StopDrawing()
     {
         _drawing = false;
+        _currentLine = null;
     }
 
     public void SetSize(float size)
@@ -69,5 +95,10 @@ public class LineDrawer : MonoBehaviour, ILineDrawer {
     public void DrawLine(Vector2[] vertices)
     {
         throw new System.NotImplementedException();
+    }
+
+    public bool IsDrawing()
+    {
+        return _drawing;
     }
 }
