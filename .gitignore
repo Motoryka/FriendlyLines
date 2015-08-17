@@ -10,3 +10,4 @@ obj
 *.apk
 *.exe
 *.suo
+*.cache
