@@ -200,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawer: {fileID: 1594916034}
   cam: {fileID: 291068593}
-  color: {r: 1, g: 0, b: 0, a: 0}
+  color: {r: .617647052, g: .254325241, b: .254325241, a: .53725493}
 --- !u!4 &1539404611
 Transform:
   m_ObjectHideFlags: 0
