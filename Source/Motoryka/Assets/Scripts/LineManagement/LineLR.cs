@@ -80,7 +80,6 @@ public class LineLR : MonoBehaviour, ILine {
 
     public void SetColor(Color color)
     {
-        print("DEBUG. COLOR: " + color);
         _color = color;
     }
 

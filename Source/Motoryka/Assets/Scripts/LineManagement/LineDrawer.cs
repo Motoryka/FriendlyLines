@@ -10,7 +10,7 @@ public class LineDrawer : MonoBehaviour, ILineDrawer {
 
     private List<Vector3> _vertices;
     private LineFactory<LineLR> _factory;
-    private bool _drawing;
+    public bool _drawing;
     private List<ILine> _lines;
     private ILine _currentLine;
     private Vector3 _lastVertex;
@@ -39,7 +39,6 @@ public class LineDrawer : MonoBehaviour, ILineDrawer {
 
     public void SetColor(Color color)
     {
-        print("HERE: " + color);
         this.color = color;
     }
 
@@ -61,7 +60,7 @@ public class LineDrawer : MonoBehaviour, ILineDrawer {
             return;
         }
 
-        if(_vertices.Count != 0 && Vector3.Distance(_lastVertex, position) < frequency)
+        if(_vertices.Count != 0 && Vector3.Distance(_lastVertex, position) < (1f/frequency))
         {
             return;
         }
