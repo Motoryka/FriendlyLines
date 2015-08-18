@@ -2,6 +2,7 @@
 Library
 Temp
 obj
+Builds
 *.csproj
 *.pidb
 *.unityproj
