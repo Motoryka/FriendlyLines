@@ -28,6 +28,11 @@ public class SceneLoader : MonoBehaviour {
 		Application.LoadLevel (sceneName);
 	}
 
+	public void CloseApp()
+	{
+		Application.Quit ();
+	}
+
 	// Use this for initialization
 	void Start () {
 		//this.LevelNoLabel = gameObject.GetComponent ("LevelNo") as Text;
