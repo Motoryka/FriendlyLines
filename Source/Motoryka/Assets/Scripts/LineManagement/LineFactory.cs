@@ -7,7 +7,7 @@ public class LineFactory<T> where T : ILine
     public GameObject canvas = null;
 
     static private GameObject _linePrefab = null;
-    static private string _linePrefabName = "LinePrefab";
+    static private string _linePrefabName = "Prefabs/LinePrefab";
 
     public T Create()
     {
