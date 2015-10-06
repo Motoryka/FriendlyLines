@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public interface ILine {
     void Init(Transform canvas);
@@ -9,4 +10,5 @@ public interface ILine {
     void SetSize(float size);
     void AddVertex(Vector2 pos);
     void AddVertex(Vector3 pos);
+	List<Vector3> GetVerticles();
 }
