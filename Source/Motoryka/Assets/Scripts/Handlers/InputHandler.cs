@@ -23,18 +23,18 @@ public class InputHandler : MonoBehaviour {
         press += lineDrawer.StartDrawing;
         release += lineDrawer.StopDrawing;
         move += lineDrawer.Draw;
-	
-#if UNITY_ANDROID
 
-        handleInput += _TouchInputHandler;
-
-#elif UNITY_EDITOR || UNITY_STANDALONE
+#if UNITY_EDITOR
 
         handleInput += _MouseInputHandler;
 
+#elif UNITY_ANDROID || UNITY_STANDALONE
+
+        handleInput += _TouchInputHandler;
+
 #endif
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
