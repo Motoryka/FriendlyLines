@@ -10,7 +10,7 @@ public enum LevelPhase
     Finished
 }
 
-public class BaseLvlManager<T> : Singleton<T> where T : MonoBehaviour
+public abstract class BaseLvlManager<T> : Singleton<T> where T : MonoBehaviour
 {
     LevelPhase _phase = LevelPhase.Prestarted;
 
