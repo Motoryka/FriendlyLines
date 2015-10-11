@@ -5,23 +5,26 @@ using System.Xml.Serialization;
 
 public class ConfigLoader : MonoBehaviour {
 
-	public static string SaveConfig()
-	{
-		StreamWriter fileWriter = null;
-
-		string fileName = Application.persistentDataPath + "/" + "GraMotoryka" + ".txt"; 
-		fileWriter = File.CreateText(fileName); 
-		fileWriter.WriteLine("Hello world"); 
-		fileWriter.Close();
-		return Application.persistentDataPath;
-	}
-
-	public static void SerializeConfig(Config details)
+	// serialize config and save to data dir
+	public static void SerializeConfig(Config details, string filename)
 	{
 		XmlSerializer serializer = new XmlSerializer(typeof(Config));
-		using (TextWriter writer = new StreamWriter(Application.persistentDataPath + "/" + "config" + ".txt"))
+
+		using (TextWriter writer = new StreamWriter (Application.persistentDataPath + "/" + filename + ".xml"))
 		{
 			serializer.Serialize(writer, details);
 		}
+	}
+
+	//deserialize config from data dir
+	public static Config DeserializeConfig(string filename)
+	{
+		Config config = null;
+		XmlSerializer serializer = new XmlSerializer(typeof(Config));
+		StreamReader reader = new StreamReader (Application.persistentDataPath + "/" + filename);
+		config = (Config)serializer.Deserialize (reader);
+		reader.Close ();
+
+		return config;
 	}
 }
