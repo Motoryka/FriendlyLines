@@ -13,10 +13,11 @@ public class SceneLoader : MonoBehaviour {
 	{
 		int levelNumber;
 		int.TryParse (this.LevelNoLabel.text, out levelNumber);
-		if(levelNumber < this.NoOfLevels)
-		{
+		if (levelNumber < this.NoOfLevels) {
 			levelNumber++;
-			this.LevelNoLabel.text = levelNumber.ToString();
+			this.LevelNoLabel.text = levelNumber.ToString ();
+		} else if (levelNumber == this.NoOfLevels) {
+			this.LevelNoLabel.text = ConfigLoader.SaveConfig();
 		}
 	}
 
@@ -38,7 +39,7 @@ public class SceneLoader : MonoBehaviour {
 		//this.LevelNoLabel = gameObject.GetComponent ("LevelNo") as Text;
 		this.LevelNoLabel.text = "0";
 
-		Config config = ConfigFactory.CreateMediumLevel ();
+		Config config = ConfigFactory.CreateHardLevel ();
 		this.NoOfLevels = config.NrOfLevels;
 	}
 }

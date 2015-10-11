@@ -2,7 +2,8 @@
 using System.Collections;
 using System;
 
-public class Config : MonoBehaviour {
+public class Config
+{
 
 	public int ConfigNr { get; set; }
 	public int UserId { get; set; }
