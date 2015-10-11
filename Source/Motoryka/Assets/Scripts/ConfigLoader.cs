@@ -1,26 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Xml.Serialization;
 
 public class ConfigLoader : MonoBehaviour {
 
-	public void SaveConfig()
+	// serialize config and save to data dir
+	public static void SerializeConfig(Config details, string filename)
 	{
-		StreamWriter fileWriter = null;
+		XmlSerializer serializer = new XmlSerializer(typeof(Config));
 
-		string fileName = Application.persistentDataPath + "/" + "GraMotoryka" + ".txt"; 
-		fileWriter = File.CreateText(fileName); 
-		fileWriter.WriteLine("Hello world"); 
-		fileWriter.Close();
+		using (TextWriter writer = new StreamWriter (Application.persistentDataPath + "/" + filename + ".xml"))
+		{
+			serializer.Serialize(writer, details);
+		}
 	}
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	//deserialize config from data dir
+	public static Config DeserializeConfig(string filename)
+	{
+		Config config = null;
+		XmlSerializer serializer = new XmlSerializer(typeof(Config));
+		StreamReader reader = new StreamReader (Application.persistentDataPath + "/" + filename);
+		config = (Config)serializer.Deserialize (reader);
+		reader.Close ();
+
+		return config;
 	}
 }
