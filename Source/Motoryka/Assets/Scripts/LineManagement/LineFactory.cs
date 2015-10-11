@@ -48,6 +48,23 @@ public class LineFactory<T> where T : ILine
         return newLine;
     }
 
+    public T Create(Vector2 startingVertex)
+    {
+        T newLine = Create();
+
+        newLine.AddVertex(startingVertex);
+
+        return newLine;
+    }
+
+    public T Create(Vector2 startingVertex, Vector2 endingVertex)
+    {
+        T newLine = Create(startingVertex);
+
+        newLine.AddVertex(endingVertex);
+
+        return newLine;
+    }
 
     private bool isLineLR(Type t)
     {
