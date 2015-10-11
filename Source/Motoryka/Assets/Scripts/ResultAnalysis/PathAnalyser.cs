@@ -4,23 +4,24 @@ using System.Collections.Generic;
 	
 public class PathAnalyser : IAnalyser {
 		
+	private float _acceptedError = 0.15f;
+
 	public PathAnalyser () {}
 
-	public bool IsFinished(List<Vector3> checkpoints, Line line) {
+	public bool IsFinished(ILine generatedLine, ILine userLine) {
 
-		if (line == null)
+		if (userLine == null || generatedLine == null)
 			return false;
 
 		bool isChecked = false;
 
-		foreach (Vector3 checkpoint in checkpoints) {
+		foreach (Vector3 checkpoint in generatedLine.GetVerticles()) {
 
-			foreach(Vector3 point in line.GetVerticles()) {
+			foreach(Vector3 point in userLine.GetVerticles()) {
 
-				float x = Mathf.Abs(point.x - checkpoint.x);
-				float y = Mathf.Abs(point.y - checkpoint.y);
+				float _distance = Vector3.Distance(point, checkpoint);
 
-				if (x < 0.1f && y < 0.1f) {
+				if (_distance < _acceptedError) {
 					isChecked = true;
 					break;
 				}
