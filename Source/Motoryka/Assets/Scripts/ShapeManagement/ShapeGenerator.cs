@@ -31,10 +31,25 @@ public class ShapeGenerator {
 
 		lf = new LineFactory<LineLR> ();
 
+		#region used for testing generators
+
 		//this.CreateStraightLine ();
 
 		//for(int i = 0; i < 3; i++)
 			//this.CreateTriangle ();
+
+		/*this.CreateCurvedLine ();
+
+		Vector2 p0 = new Vector2 (-3, -2);
+		Vector2 p1 = new Vector2 (-5, 2);
+		Vector2 p2 = new Vector2 (-2, 3);
+		Vector2 p3 = new Vector2 (0, 1);
+		var line = lf.Create (p0);
+		line.AddVertex (p3);
+		line.SetColor(new Color(255f,0,0));
+		line.SetSize (0.10f);*/
+
+		#endregion
 	}
 
 	private Vector2 GetRandomPointFromActiveArea()
@@ -82,6 +97,7 @@ public class ShapeGenerator {
 		var firstLineLength = Vector2.Distance (startPoint, secondPoint);
 		while (firstLineLength < minLineLength) {
 			secondPoint = GetRandomPointFromActiveArea ();
+			firstLineLength = Vector2.Distance (startPoint, secondPoint);
 		}
 		// add first line to triangle
 		triangle.AddVertex (secondPoint);
@@ -91,10 +107,56 @@ public class ShapeGenerator {
 		var secondLineLength = Vector2.Distance (secondPoint, lastPoint);
 		while ((secondLineLength < firstLineLength * 0.7f) && (secondLineLength > firstLineLength * 1.4f) && (Vector2.Distance (startPoint, lastPoint) < (firstLineLength * 0.5))) {
 			lastPoint = GetRandomPointFromActiveArea ();
+			secondLineLength = Vector2.Distance (secondPoint, lastPoint);
 		} 
 		// add second line and connect first & last points
 		triangle.AddVertex (lastPoint);
 		triangle.AddVertex (startPoint);
+	}
+
+	private Vector2 CalculateBezierPoint(float t, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
+	{
+		float u = 1.0f - t;
+		float tt = t*t;
+		float uu = u*u;
+		float uuu = uu * u;
+		float ttt = tt * t;
+		
+		Vector2 p = uuu * p0; //first term
+		p += 3.0f * uu * t * p1; //second term
+		p += 3.0f * u * tt * p2; //third term
+		p += ttt * p3; //fourth term
+		
+		return p;
+	}
+
+	public void CreateCurvedLine()
+	{
+		// start point
+		Vector2 p0 = new Vector2 (-3, -2);
+		// first control point
+		Vector2 p1 = new Vector2 (-5, 2);
+		// second control point
+		Vector2 p2 = new Vector2 (-2, 3);
+		// end point
+		Vector2 p3 = new Vector2 (0, 1);
+
+		Vector2 q0 = CalculateBezierPoint(0, p1, p0, p2, p3); // starting point 
+		Vector2 q1; // point of current incrementation
+		float t; // time point of current incrementation [0, 1]
+		int increments = 30; // amount of segments needed to draw curved line
+
+		var curvedLine = this.lf.Create (q0);
+		// set color and size of traingle's lines
+		curvedLine.SetColor(new Color(255f,0,0));
+		curvedLine.SetSize (0.10f);
+		
+		for(int i = 1; i <= increments; i++)
+		{
+			t = i / (float) increments;
+			q1 = CalculateBezierPoint(t, p1, p0, p2, p3);
+			curvedLine.AddVertex(q1);
+		}
 	}
 
 	// Update is called once per frame
