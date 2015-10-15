@@ -5,19 +5,23 @@ public class ShapeGenerator {
 
 	private LineFactory<LineLR> lf;
 
-	float screenWidth; // width in px
-	float screenHeight; // height in px
-	float screenRatio; // width / height [px]
-	float gameUnitsVertical; // amount of game units in vertical dimension
-	float gameUnitsHorizontal; // amount of game units in horizontal dimension
-	float screenMargin; // % 
-	float gameUnitsVerticalMargin;
-	float gameUnitsHorizontalMargin;
-	float gameUnitsHorizontalInActiveArea;
-	float gameUnitsVerticalInActiveArea;
+	private float screenWidth; // width in px
+	private float screenHeight; // height in px
+	private float screenRatio; // width / height [px]
+	private float gameUnitsVertical; // amount of game units in vertical dimension
+	private float gameUnitsHorizontal; // amount of game units in horizontal dimension
+	private float screenMargin; // % 
+	private float gameUnitsVerticalMargin;
+	private float gameUnitsHorizontalMargin;
+	private float gameUnitsHorizontalInActiveArea;
+	private float gameUnitsVerticalInActiveArea;
+
+	public Color color { get; set; }
+	public float size { get; set; }
 
 	// Use this for initialization
-	public void Start () {
+	public void Start () 
+	{
 		this.screenWidth = (float)Screen.width;
 		this.screenHeight = (float)Screen.height;
 		this.screenRatio = this.screenWidth / this.screenHeight;
@@ -33,13 +37,19 @@ public class ShapeGenerator {
 
 		#region used for testing generators
 
-		//this.CreateStraightLine ();
+//		this.color = new Color(255f,0,0);
+//		this.size = 0.10f;
+//
+//		var line = this.CreateStraightLine ();
 
-		//for(int i = 0; i < 3; i++)
+		//for(int i = 0; i < 100; i++)
 			//this.CreateTriangle ();
 
-		/*this.CreateCurvedLine ();
-
+//		this.color = new Color(0,255f,0);
+//		this.size = 0.20f;
+//
+//		var curvedLine = this.CreateCurvedLine ();
+		/*
 		Vector2 p0 = new Vector2 (-3, -2);
 		Vector2 p1 = new Vector2 (-5, 2);
 		Vector2 p2 = new Vector2 (-2, 3);
@@ -59,38 +69,28 @@ public class ShapeGenerator {
 		return new Vector2 (x, y);
 	}
 
-	public void CreateStraightLine()
+	public ILine CreateStraightLine()
 	{
-		float minLineLength = 0.5f * (this.gameUnitsVertical - this.gameUnitsVerticalMargin); // % of active generating area height
-
 		Vector2 startPoint = GetRandomPointFromActiveArea ();
 		var line = this.lf.Create (startPoint);
-
-		Debug.Log ("x: " + startPoint.x + ", y: " + startPoint.y);
-
-		/*Vector2 endPoint = GetRandomPointFromActiveArea ();
-		while (Vector2.Distance(startPoint, endPoint) < minLineLength) {
-			endPoint = GetRandomPointFromActiveArea();
-		}*/
 
 		// add end point symetric to start point 
 		line.AddVertex (new Vector2 (-startPoint.x, -startPoint.y));
 
-		line.SetColor(new Color(255f,0,0));
-		line.SetSize (0.10f);
+		line.SetColor(this.color);
+		line.SetSize (this.size);
+
+		return line;
 	}
 
-	public void CreateTriangle()
+	public ILine CreateTriangle()
 	{
-		float minLineLength = 0.5f * (this.gameUnitsVertical - this.gameUnitsVerticalMargin);
+		float minLineLength = 0.5f * (this.gameUnitsVertical - this.gameUnitsVerticalMargin); // 50% of active generating area height
 
 		// create random start point vector
 		Vector2 startPoint = GetRandomPointFromActiveArea ();
 		// make a traingle start line point
 		var triangle = this.lf.Create (startPoint);
-		// set color and size of traingle's lines
-		triangle.SetColor(new Color(255f,0,0));
-		triangle.SetSize (0.10f);
 
 		// create second point
 		Vector2 secondPoint = GetRandomPointFromActiveArea ();
@@ -112,6 +112,12 @@ public class ShapeGenerator {
 		// add second line and connect first & last points
 		triangle.AddVertex (lastPoint);
 		triangle.AddVertex (startPoint);
+
+		// set color and size of traingle's lines
+		triangle.SetColor(this.color);
+		triangle.SetSize (this.size);
+
+		return triangle;
 	}
 
 	private Vector2 CalculateBezierPoint(float t, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
@@ -130,7 +136,7 @@ public class ShapeGenerator {
 		return p;
 	}
 
-	public void CreateCurvedLine()
+	public ILine CreateCurvedLine()
 	{
 		// start point
 		Vector2 p0 = new Vector2 (-3, -2);
@@ -147,20 +153,18 @@ public class ShapeGenerator {
 		int increments = 30; // amount of segments needed to draw curved line
 
 		var curvedLine = this.lf.Create (q0);
-		// set color and size of traingle's lines
-		curvedLine.SetColor(new Color(255f,0,0));
-		curvedLine.SetSize (0.10f);
-		
+
 		for(int i = 1; i <= increments; i++)
 		{
 			t = i / (float) increments;
 			q1 = CalculateBezierPoint(t, p1, p0, p2, p3);
 			curvedLine.AddVertex(q1);
 		}
-	}
 
-	// Update is called once per frame
-	void Update () {
-	
+		// set color and size of traingle's lines
+		curvedLine.SetColor(this.color);
+		curvedLine.SetSize (this.size);
+
+		return curvedLine;
 	}
 }
