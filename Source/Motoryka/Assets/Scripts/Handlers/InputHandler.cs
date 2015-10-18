@@ -55,7 +55,7 @@ public class InputHandler : MonoBehaviour {
 
             if (touch.phase == TouchPhase.Began)
                 press();
-            else if (touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Ended)
+            else if ( (touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Ended) && lineDrawer.IsDrawing)
                 release();
             else if (touch.phase == TouchPhase.Moved)
                 move(cam.ScreenToWorldPoint(touch.position));

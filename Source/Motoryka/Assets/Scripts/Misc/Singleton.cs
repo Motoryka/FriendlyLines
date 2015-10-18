@@ -18,8 +18,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, IInitable
         get
         {
 
-            lock (_lock)
-            {
                 if (_instance == null)
                 {
                     _instance = (T)FindObjectOfType(typeof(T));
@@ -52,7 +50,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, IInitable
                 }
 
                 return _instance;
-            }
+        
         }
     }
 

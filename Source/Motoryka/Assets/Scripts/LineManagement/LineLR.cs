@@ -33,7 +33,7 @@ public class LineLR : MonoBehaviour, ILine {
         _size = 1;
         _lrSize = 1;
         _color = _lrColor = Color.white;
-        _defaultPosition = new Vector3(0f, 0f, 0f);
+        _defaultPosition = new Vector3(0f, 0f, -1f);
         _lrSortingLayer = "";
     }
 

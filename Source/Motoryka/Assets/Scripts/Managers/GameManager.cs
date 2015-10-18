@@ -19,10 +19,10 @@ public class GameManager : Singleton<GameManager>, IInitable {
     }
 
     int _currentLevel = 1;
-    Config _config;
+    public Config _config;
     bool initialized = false;
 
-    string sceneName = "ExampleLevel";
+    string sceneName = "level";
     string finishSceneName = "end";
     string titleSceneName = "title";
 
@@ -32,7 +32,8 @@ public class GameManager : Singleton<GameManager>, IInitable {
         /* We want this to persist through game life */
         DontDestroyOnLoad(this);
 
-        _config = ConfigLoader.DeserializeConfig("config.xml");
+        //_config = ConfigLoader.DeserializeConfig("config.xml");
+        
         fader = GetComponent<Fader>();
 
         if(fader == null)
@@ -57,7 +58,8 @@ public class GameManager : Singleton<GameManager>, IInitable {
 	
 	// Update is called once per frame
 	void Update () {
-	
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit(); 
 	}
 
     public Shape GetCurrentShape()
@@ -91,8 +93,6 @@ public class GameManager : Singleton<GameManager>, IInitable {
         Debug.Log("Level " + CurrentLevel + " restarted.");
 
         fader.LoadSceneFadingAfterTime(sceneName, new WaitForSeconds(1f));
-        //Destroy(this.gameObject);
-
     }
 
     public int CurrentLevel

@@ -96,6 +96,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 50048545}
   - 212: {fileID: 50048544}
+  - 114: {fileID: 50048546}
   m_Layer: 0
   m_Name: menu1small
   m_TagString: Untagged
@@ -141,6 +142,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &50048546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 50048543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a54f2af393fef94d8c05f41ece5891b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &142149194
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,10 +183,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 799495525}
   m_RootOrder: 0
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 14.6000004, y: -49.8499985}
-  m_SizeDelta: {x: 112.400002, y: 99.6999969}
+  m_AnchorMin: {x: .413000017, y: .187500015}
+  m_AnchorMax: {x: .648000002, y: .5}
+  m_AnchoredPosition: {x: .0999984741, y: .150001526}
+  m_SizeDelta: {x: -.599998474, y: -.300003052}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &142149196
 MonoBehaviour:
@@ -224,7 +236,7 @@ MonoBehaviour:
             Culture=neutral, PublicKeyToken=null
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ExampleLevel
+          m_StringArgument: level
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -383,10 +395,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 799495525}
   m_RootOrder: 1
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -40, y: 40}
-  m_SizeDelta: {x: 64.0999985, y: 64.0999985}
+  m_AnchorMin: {x: .851000011, y: .0250000004}
+  m_AnchorMax: {x: .98333317, y: .225000009}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: .0999984741, y: .0999984741}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &301298937
 MonoBehaviour:
