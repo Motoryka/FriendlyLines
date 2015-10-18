@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/Scenes/title.unity
   - enabled: 1
     path: Assets/Scenes/ExampleLevel.unity
+  - enabled: 1
+    path: Assets/Scenes/end.unity

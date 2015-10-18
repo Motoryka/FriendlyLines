@@ -3,7 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class LineLR : MonoBehaviour, ILine {
+    public string SortingLayer
+    {
+        get
+        {
+            return _sortingLayer;
+        }
+        set
+        {
+            _sortingLayer = value;
+        }
+    }
 
+    private string _sortingLayer;
+    private string _lrSortingLayer;
     private LineRenderer _lineRenderer;
     private Vector3 _defaultPosition;
     private List<Vector3> _vertices;
@@ -20,7 +33,8 @@ public class LineLR : MonoBehaviour, ILine {
         _size = 1;
         _lrSize = 1;
         _color = _lrColor = Color.white;
-        _defaultPosition = Vector3.zero;
+        _defaultPosition = new Vector3(0f, 0f, 0f);
+        _lrSortingLayer = "";
     }
 
 	// Use this for initialization
@@ -52,6 +66,12 @@ public class LineLR : MonoBehaviour, ILine {
         {
             _lrColor = _color;
             _lineRenderer.SetColors(_color, _color);
+        }
+
+        if(_lrSortingLayer != _sortingLayer)
+        {
+            _lrSortingLayer = _sortingLayer;
+            _lineRenderer.sortingLayerName = _lrSortingLayer;
         }
     }
 

@@ -17,12 +17,13 @@ public class InputHandler : MonoBehaviour {
     public delegate void InputHandling();
 
     InputHandling handleInput;
+    bool _isLine = false;
 
 	// Use this for initialization
 	void Start () {
-        press += lineDrawer.StartDrawing;
-        release += lineDrawer.StopDrawing;
-        move += lineDrawer.Draw;
+        press += StartDrawing;
+        release += StopDrawing;
+        move += Move;
 
 #if UNITY_EDITOR
 
@@ -85,4 +86,46 @@ public class InputHandler : MonoBehaviour {
         return Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f;
     }
 
+    void Move(Vector3 pos)
+    {
+        lineDrawer.Draw(pos);
+
+        if (IsFinished())
+        {
+            SceneManager.Instance.CurrentPhase = LevelPhase.Finished;
+            StopDrawing();
+        }
+    }
+    void StartDrawing()
+    {
+        if (!_isLine)
+        {
+            lineDrawer.StartDrawing();
+
+            SceneManager.Instance.RegisterUserLine(lineDrawer.CurrentLine);
+        }
+    }
+
+    void StopDrawing()
+    {
+        if (!_isLine)
+        {
+            lineDrawer.StopDrawing();
+
+            if (IsFinished())
+            {
+                SceneManager.Instance.CurrentPhase = LevelPhase.Finished;
+            }
+            else
+            {
+                SceneManager.Instance.SendMessage("RestartLevel");
+            }
+            _isLine = true;
+        }
+    }
+
+    bool IsFinished()
+    {
+        return SceneManager.Instance.IsFinished();
+    }
 }

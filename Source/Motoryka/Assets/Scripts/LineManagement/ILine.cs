@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public interface ILine {
+    string SortingLayer { get; set; }
     void Init(Transform canvas);
     int VertexCount { get; }
     Color Color { get; }

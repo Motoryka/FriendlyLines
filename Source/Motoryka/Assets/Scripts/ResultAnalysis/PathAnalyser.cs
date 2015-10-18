@@ -4,7 +4,7 @@ using System.Collections.Generic;
 	
 public class PathAnalyser : IAnalyser {
 		
-	private float _acceptedError = 0.15f;
+	private float _acceptedError = 0.5f;
 
 	public PathAnalyser () {}
 

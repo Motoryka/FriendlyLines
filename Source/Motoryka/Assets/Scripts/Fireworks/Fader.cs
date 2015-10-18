@@ -17,34 +17,55 @@ public class Fader : MonoBehaviour {
 
 	public void LoadSceneFading(string scene)
     {
-        if( !fadingTexture )
+        LoadSceneFadingAfterTime(scene, new WaitForSeconds(0f));
+    }
+
+    public void LoadSceneFadingAfterTime(string scene, WaitForSeconds time)
+    {
+        if (!fadingTexture)
         {
             Debug.LogError("No texture to fade.");
-            return;
         }
 
         Debug.Log("Fading to scene " + scene);
-        StartCoroutine("LoadFading", scene);
+        StartCoroutine(LoadFading(scene, time));
     }
 
-    private IEnumerator LoadFading(string scene)
+    public void FinishGame(string startingScene, WaitForSeconds time)
     {
+        if (!fadingTexture)
+        {
+            Debug.LogError("No texture to fade.");
+        }
+
+        Debug.Log("Fading to scene " + startingScene);
+        StartCoroutine(LoadFading(startingScene, time, true));
+    }
+
+
+    private IEnumerator LoadFading(string scene, WaitForSeconds time, bool destroy = false)
+    {
+        yield return time;
+
         isFading = true;
 
         float delay = 0.1f;
         
         _alpha = 0f;
-        fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, _alpha);
+        if( fadingTexture )
+            fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, _alpha);
 
         while(_alpha < 1f)
         {
             yield return new WaitForEndOfFrame();
 
             _alpha += Time.deltaTime * fadingSpeed;
-            fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, _alpha);
+            if (fadingTexture)
+                fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, _alpha);
         }
 
-        fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, 1f);
+        if (fadingTexture)
+            fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, 1f);
 
         yield return new WaitForSeconds(delay/2);
 
@@ -55,16 +76,18 @@ public class Fader : MonoBehaviour {
         while (_alpha > 0)
         {
             _alpha -= Time.deltaTime * fadingSpeed;
-            fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, _alpha);
+            if (fadingTexture)
+                fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, _alpha);
 
             yield return new WaitForEndOfFrame();
         }
-        fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, 0f);
+        if (fadingTexture)
+            fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, 0f);
 
 
         isFading = false;
 
-		ShapeGenerator sg = new ShapeGenerator ();
-		sg.Start ();
+        if (destroy)
+            Destroy(this.gameObject);
     }
 }
