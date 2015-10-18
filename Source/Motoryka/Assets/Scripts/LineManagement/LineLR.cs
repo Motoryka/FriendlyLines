@@ -93,4 +93,9 @@ public class LineLR : MonoBehaviour, ILine {
     {
         get { return this._color; }
     }
+
+	public List<Vector3> GetVerticles() 
+	{
+		return _vertices;
+	}
 }

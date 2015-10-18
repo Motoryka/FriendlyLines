@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Fader : MonoBehaviour {
     public Image fadingTexture;
-    public float fadingSpeed = 2f;
+    public float fadingSpeed = 20f;
     public bool isFading = false;
 
     float _alpha = 0f;
@@ -63,5 +63,8 @@ public class Fader : MonoBehaviour {
 
 
         isFading = false;
+
+		ShapeGenerator sg = new ShapeGenerator ();
+		sg.Start ();
     }
 }
