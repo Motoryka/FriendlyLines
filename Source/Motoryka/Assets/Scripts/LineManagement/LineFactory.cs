@@ -5,6 +5,7 @@ using System;
 public class LineFactory<T> where T : ILine
 {
     public GameObject canvas = null;
+    public string sortingLayer = "Shapes";
 
     static private GameObject _linePrefab = null;
     static private string _linePrefabName = "Prefabs/LinePrefab";
@@ -24,6 +25,7 @@ public class LineFactory<T> where T : ILine
                 newLineGameObject.Init(canvas.transform);
 
             newLine = newLineGameObject;
+            newLine.SortingLayer = sortingLayer;
         }
 
         return newLine;

@@ -1,7 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class ShapeGenerator {
+public enum Shape
+{
+    StraightLine,
+    Triangle,
+    CurvedLine
+}
+
+public class ShapeGenerator : MonoBehaviour {
 
 	private LineFactory<LineLR> lf;
 
@@ -15,12 +23,15 @@ public class ShapeGenerator {
 	private float gameUnitsHorizontalMargin;
 	private float gameUnitsHorizontalInActiveArea;
 	private float gameUnitsVerticalInActiveArea;
+    private delegate ILine CreateFunc();
 
-	public Color color { get; set; }
-	public float size { get; set; }
+    private Dictionary<Shape, CreateFunc> shapeMap;
+
+    public Color color;
+    public float size;
 
 	// Use this for initialization
-	public void Start () 
+    void Start() 
 	{
 		this.screenWidth = (float)Screen.width;
 		this.screenHeight = (float)Screen.height;
@@ -34,6 +45,13 @@ public class ShapeGenerator {
 		this.gameUnitsHorizontalInActiveArea = (this.gameUnitsHorizontal / 2) - (this.gameUnitsHorizontalMargin / 2);
 
 		lf = new LineFactory<LineLR> ();
+
+        shapeMap = new Dictionary<Shape, CreateFunc>
+        {
+            { Shape.StraightLine, CreateStraightLine },
+            { Shape.Triangle, CreateTriangle },
+            { Shape.CurvedLine, CreateCurvedLine }
+        };
 
 		#region used for testing generators
 
@@ -61,6 +79,11 @@ public class ShapeGenerator {
 
 		#endregion
 	}
+
+    public ILine CreateShape(Shape shape)
+    {
+        return shapeMap[shape]();
+    }
 
 	private Vector2 GetRandomPointFromActiveArea()
 	{

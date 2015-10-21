@@ -7,6 +7,7 @@ public class LineDrawer : MonoBehaviour, ILineDrawer {
     public Color color = Color.red;
     public float size = 1;
     public GameObject canvas;
+    public string sortingLayer;
 
     private List<Vector3> _vertices;
     private LineFactory<LineLR> _factory;
@@ -30,6 +31,13 @@ public class LineDrawer : MonoBehaviour, ILineDrawer {
             canvas = new GameObject("Canvas");
             _factory.canvas = canvas;
         }
+
+        if (sortingLayer == "")
+        {
+            sortingLayer = "Lines";
+        }
+
+        _factory.sortingLayer = sortingLayer;
 	}
 	
 	// Update is called once per frame
@@ -99,5 +107,13 @@ public class LineDrawer : MonoBehaviour, ILineDrawer {
     public bool IsDrawing
     {
         get { return this._drawing; }
+    }
+
+    public ILine CurrentLine
+    {
+        get
+        {
+            return _currentLine;
+        }
     }
 }

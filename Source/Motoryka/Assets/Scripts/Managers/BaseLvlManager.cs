@@ -10,10 +10,35 @@ public enum LevelPhase
     Finished
 }
 
-public abstract class BaseLvlManager<T> : Singleton<T> where T : MonoBehaviour
+public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : MonoBehaviour, IInitable
 {
     LevelPhase _phase = LevelPhase.Prestarted;
+    bool initialized = false;
+    public virtual void Init()
+    {
 
+    }
+
+    public void Initialize()
+    {
+        if (!initialized)
+            Init();
+
+        initialized = true;
+    }
+
+    void Start()
+    {
+        Initialize();
+    }
+
+    void Update()
+    {
+        if (CurrentPhase == LevelPhase.Prestarted)
+        {
+            CurrentPhase = LevelPhase.Running;
+        }
+    }
     public LevelPhase CurrentPhase {
         get
         {
@@ -31,34 +56,34 @@ public abstract class BaseLvlManager<T> : Singleton<T> where T : MonoBehaviour
             }
             else if (_phase == LevelPhase.Prestarted && value ==LevelPhase.Started)
             {
-                PreStart();
+                _PreStart();
                 _phase = value;
             }
             else if (_phase == LevelPhase.Prestarted && value == LevelPhase.Running)
             {
-                PreStart();
-                PostStart();
+                _PreStart();
+                _PostStart();
                 _phase = value;
             }
             else if (_phase == LevelPhase.Started && value == LevelPhase.Running)
             {
-                PostStart();
+                _PostStart();
                 _phase = value;
             }
             else if (_phase == LevelPhase.Running && value == LevelPhase.Prefinished)
             {
-                PreFinish();
+                _PreFinish();
                 _phase = value;
             }
             else if (_phase == LevelPhase.Running && value == LevelPhase.Finished)
             {
-                PreFinish();
-                PostFinish();
+                _PreFinish();
+                _PostFinish();
                 _phase = value;
             }
             else if (_phase == LevelPhase.Prefinished && value == LevelPhase.Finished)
             {
-                PostFinish();
+                _PostFinish();
                 _phase = value;
             }
         }
@@ -84,5 +109,32 @@ public abstract class BaseLvlManager<T> : Singleton<T> where T : MonoBehaviour
 
     }
 
+    private void _PreStart()
+    {
+        PreStart();
+    }
+
+    private void _PostStart()
+    {
+        PostStart();
+        GameManager.Instance.SendMessage("StartedLevel"); //.StartedLevel();
+
+    }
+
+    private void _PreFinish()
+    {
+        PreFinish();
+    }
+
+    private void _PostFinish()
+    {
+        PostFinish();
+        GameManager.Instance.SendMessage("FinishedLevel");
+    }
+
+    public void RestartLevel()
+    {
+        GameManager.Instance.SendMessage("RestartLevel");
+    }
 }
 
