@@ -4,4 +4,5 @@ using System.Collections.Generic;
 
 public interface IAnalyser {
 	bool IsFinished(ILine generatedLine, ILine userLine);
+	float GetResult(ILine generatedLine, ILine userLine);
 }
