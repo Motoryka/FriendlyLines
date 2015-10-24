@@ -37,6 +37,8 @@ public class SpriteAdjust : MonoBehaviour {
 
 	void SetStartButton()
 	{
+        if (startButton == null)
+            return;
 		startButton.image.rectTransform.sizeDelta = new Vector2 ((Screen.width / 5)*3 , Screen.height / 2);
 		startButton.image.transform.position = new Vector3 (Screen.width / 2, Screen.height / 2 - Screen.height / 10, 0);
 	}
