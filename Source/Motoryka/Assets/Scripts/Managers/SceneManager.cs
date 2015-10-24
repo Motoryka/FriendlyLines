@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
+using LineManagement;
+
 public class SceneManager : BaseLvlManager<SceneManager> {
     ShapeGenerator sGen;
     ILine shape;

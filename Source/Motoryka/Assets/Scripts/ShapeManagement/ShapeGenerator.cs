@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using LineManagement;
+using LineManagement.GLLines;
 public enum Shape
 {
     StraightLine,
@@ -11,7 +13,7 @@ public enum Shape
 
 public class ShapeGenerator : MonoBehaviour {
 
-	private LineFactory<LineLR> lf;
+	private LineFactory lf;
 
 	private float screenWidth; // width in px
 	private float screenHeight; // height in px
@@ -44,7 +46,7 @@ public class ShapeGenerator : MonoBehaviour {
 		this.gameUnitsVerticalInActiveArea = (this.gameUnitsVertical / 2) - (this.gameUnitsVerticalMargin / 2);
 		this.gameUnitsHorizontalInActiveArea = (this.gameUnitsHorizontal / 2) - (this.gameUnitsHorizontalMargin / 2);
 
-		lf = new LineFactory<LineLR> ();
+        lf = new LineFactory();
 
         shapeMap = new Dictionary<Shape, CreateFunc>
         {
