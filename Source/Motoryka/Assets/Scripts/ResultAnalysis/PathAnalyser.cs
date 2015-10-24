@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-	
+
+using LineManagement;
 public class PathAnalyser : IAnalyser {
 		
 	private float _acceptedError = 0.5f;
@@ -15,11 +16,12 @@ public class PathAnalyser : IAnalyser {
 
 		bool isChecked = false;
 
-		foreach (Vector3 checkpoint in generatedLine.GetVerticles()) {
+		foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
 
-			foreach(Vector3 point in userLine.GetVerticles()) {
+            foreach (Vector2 point in userLine.GetVertices2())
+            {
 
-				float _distance = Vector3.Distance(point, checkpoint);
+                float _distance = Vector2.Distance(point, checkpoint);
 
 				if (_distance < _acceptedError) {
 					isChecked = true;

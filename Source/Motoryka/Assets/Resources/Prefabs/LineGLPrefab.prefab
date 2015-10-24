@@ -1,50 +1,47 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &143014
+--- !u!1 &178324
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 433890}
-  - 114: {fileID: 11457858}
+  - 4: {fileID: 452470}
+  - 114: {fileID: 11491556}
   m_Layer: 0
-  m_Name: LineDrawer
+  m_Name: LineGLPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &433890
+--- !u!4 &452470
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143014}
+  m_GameObject: {fileID: 178324}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11457858
+--- !u!114 &11491556
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143014}
+  m_GameObject: {fileID: 178324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52beb83eaf3e51949bd60597562eff5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 4cc06e39b9e255546bfec3b7ce4e6df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequency: .100000001
-  color: {r: 1, g: 0, b: 0, a: 1}
-  size: 1
-  canvas: {fileID: 0}
-  sortingLayer: 
-  _drawing: 0
+  colors:
+  - {r: .639705896, g: .0517409295, b: .0517409295, a: 1}
+  - {r: .110912874, g: .0867755115, b: .786764741, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -54,5 +51,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 143014}
+  m_RootGameObject: {fileID: 178324}
   m_IsPrefabParent: 1

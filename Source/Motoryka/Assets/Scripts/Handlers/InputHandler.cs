@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using LineManagement.GLLines;
 
 public class InputHandler : MonoBehaviour {
     public LineDrawer lineDrawer;
     public Camera cam;
 
-    public delegate void PressHandler();
+    public delegate void PressHandler(Vector3 where);
     public PressHandler press;
 
     public delegate void ReleaseHandler();
@@ -54,7 +55,7 @@ public class InputHandler : MonoBehaviour {
             Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)
-                press();
+                press(cam.ScreenToWorldPoint(touch.position));
             else if ( (touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Ended) && lineDrawer.IsDrawing)
                 release();
             else if (touch.phase == TouchPhase.Moved)
@@ -70,7 +71,7 @@ public class InputHandler : MonoBehaviour {
     private void _MouseInputHandler()
     {
         if (Input.GetMouseButtonDown(0))
-            press();
+            press(cam.ScreenToWorldPoint(Input.mousePosition));
 
         if (Input.GetMouseButtonUp(0))
             release();
@@ -96,11 +97,13 @@ public class InputHandler : MonoBehaviour {
             StopDrawing();
         }
     }
-    void StartDrawing()
+    void StartDrawing(Vector3 where)
     {
         if (!_isLine)
         {
             lineDrawer.StartDrawing();
+
+            lineDrawer.Draw(where);
 
             SceneManager.Instance.RegisterUserLine(lineDrawer.CurrentLine);
         }
@@ -114,11 +117,11 @@ public class InputHandler : MonoBehaviour {
 
             if (IsFinished())
             {
-                SceneManager.Instance.CurrentPhase = LevelPhase.Finished;
+               SceneManager.Instance.CurrentPhase = LevelPhase.Finished;
             }
             else
             {
-                SceneManager.Instance.SendMessage("RestartLevel");
+               SceneManager.Instance.SendMessage("RestartLevel");
             }
             _isLine = true;
         }
