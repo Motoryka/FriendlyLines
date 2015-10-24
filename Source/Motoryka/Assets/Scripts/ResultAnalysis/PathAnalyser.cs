@@ -16,25 +16,43 @@ public class PathAnalyser : IAnalyser {
 
 		bool isChecked = false;
 
-		foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
+		if (AreFinalPointsCorrect(generatedLine, userLine)) {
+			foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
 
-            foreach (Vector2 point in userLine.GetVertices2())
-            {
+				foreach(Vector2 point in userLine.GetVertices2()) {
 
-                float _distance = Vector2.Distance(point, checkpoint);
+					float _distance = Vector2.Distance(point, checkpoint);
 
-				if (_distance < _acceptedError) {
-					isChecked = true;
-					break;
+					if (_distance < _acceptedError) {
+						isChecked = true;
+						break;
+					}
 				}
-			}
 
-			if (!isChecked) {
-				return false;
+				if (!isChecked) {
+					return false;
+				}
+				isChecked = false;
 			}
-			isChecked = false;
+			return true;
 		}
 
-		return true;
+		return false;
+	}
+
+	private bool AreFinalPointsCorrect (ILine generatedLine, ILine userLine) {
+		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
+		Vector2[] listU = userLine.GetVertices2().ToArray ();
+		
+		if (listG.Length == 0 || listU.Length == 0)
+			return false;
+		
+		if (Vector2.Distance(listG[0], listU[0]) < _acceptedError &&
+		    Vector2.Distance(listG[listG.Length-1], listU[listU.Length-1]) < _acceptedError) {
+			
+			return true;
+		}
+		
+		return false;
 	}
 }
