@@ -130,7 +130,7 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
 
     private void _PostFinish()
     {
-        if (_finishing == false)
+        if (!_finishing && !_restarting)
         {
             _finishing = true;
             PostFinish();
@@ -140,7 +140,7 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
 
     public void RestartLevel()
     {
-        if (_restarting == false)
+        if (!_finishing && !_restarting)
         {
             _restarting = true;
             GameManager.Instance.SendMessage("RestartLevel");
