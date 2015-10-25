@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using LineManagement.GLLines;
 
 public class InputHandler : MonoBehaviour {
     public LineDrawer lineDrawer;
     public Camera cam;
 
-    public delegate void PressHandler();
+    public delegate void PressHandler(Vector3 where);
     public PressHandler press;
 
     public delegate void ReleaseHandler();
@@ -17,12 +18,13 @@ public class InputHandler : MonoBehaviour {
     public delegate void InputHandling();
 
     InputHandling handleInput;
+    bool _isLine = false;
 
 	// Use this for initialization
 	void Start () {
-        press += lineDrawer.StartDrawing;
-        release += lineDrawer.StopDrawing;
-        move += lineDrawer.Draw;
+        press += StartDrawing;
+        release += StopDrawing;
+        move += Move;
 
 #if UNITY_EDITOR
 
@@ -53,8 +55,8 @@ public class InputHandler : MonoBehaviour {
             Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)
-                press();
-            else if (touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Ended)
+                press(cam.ScreenToWorldPoint(touch.position));
+            else if ( (touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Ended) && lineDrawer.IsDrawing)
                 release();
             else if (touch.phase == TouchPhase.Moved)
                 move(cam.ScreenToWorldPoint(touch.position));
@@ -69,7 +71,7 @@ public class InputHandler : MonoBehaviour {
     private void _MouseInputHandler()
     {
         if (Input.GetMouseButtonDown(0))
-            press();
+            press(cam.ScreenToWorldPoint(Input.mousePosition));
 
         if (Input.GetMouseButtonUp(0))
             release();
@@ -85,4 +87,48 @@ public class InputHandler : MonoBehaviour {
         return Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f;
     }
 
+    void Move(Vector3 pos)
+    {
+        lineDrawer.Draw(pos);
+
+        if (IsFinished())
+        {
+            SceneManager.Instance.CurrentPhase = LevelPhase.Finished;
+            StopDrawing();
+        }
+    }
+    void StartDrawing(Vector3 where)
+    {
+        if (!_isLine)
+        {
+            lineDrawer.StartDrawing();
+
+            lineDrawer.Draw(where);
+
+            SceneManager.Instance.RegisterUserLine(lineDrawer.CurrentLine);
+        }
+    }
+
+    void StopDrawing()
+    {
+        if (!_isLine)
+        {
+            lineDrawer.StopDrawing();
+
+            if (IsFinished())
+            {
+               SceneManager.Instance.CurrentPhase = LevelPhase.Finished;
+            }
+            else
+            {
+               SceneManager.Instance.SendMessage("RestartLevel");
+            }
+            _isLine = true;
+        }
+    }
+
+    bool IsFinished()
+    {
+        return SceneManager.Instance.IsFinished();
+    }
 }
