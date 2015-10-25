@@ -14,6 +14,8 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
 {
     LevelPhase _phase = LevelPhase.Prestarted;
     bool initialized = false;
+    bool _restarting = false;
+    bool _finishing = false;
     public virtual void Init()
     {
 
@@ -128,13 +130,21 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
 
     private void _PostFinish()
     {
-        PostFinish();
-        GameManager.Instance.SendMessage("FinishedLevel");
+        if (_finishing == false)
+        {
+            _finishing = true;
+            PostFinish();
+            GameManager.Instance.SendMessage("FinishedLevel");
+        }
     }
 
     public void RestartLevel()
     {
-        GameManager.Instance.SendMessage("RestartLevel");
+        if (_restarting == false)
+        {
+            _restarting = true;
+            GameManager.Instance.SendMessage("RestartLevel");
+        }
     }
 }
 

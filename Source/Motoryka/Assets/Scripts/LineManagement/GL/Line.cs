@@ -83,7 +83,7 @@ namespace LineManagement.GLLines
                 Vector2 p1 = _verticesAdded[_verticesAdded.Count - 2];
                 Vector2 p2 = _verticesAdded[_verticesAdded.Count - 1];
 
-                Vector2 M = calculateM(p0, p1, p2);
+               /* Vector2 M = calculateM(p0, p1, p2);
 
                 Vector2 m1 = p1 + M;
                 Vector2 m2 = p1 - M;
@@ -104,7 +104,9 @@ namespace LineManagement.GLLines
 
                 _triangleVertices.Add(m2);
                 _triangleVertices.Add(p2 - _thickness * line2N);
-                _triangleVertices.Add(p2 + _thickness * line2N);
+                _triangleVertices.Add(p2 + _thickness * line2N);*/
+
+                _triangleVertices.AddRange(_generateRoundTrianglesForLines(p0, p1, p2));
             }
 
             if (_verticesAdded.Count > 3 && v == _verticesAdded[0])
@@ -113,7 +115,10 @@ namespace LineManagement.GLLines
                 Vector2 p1 = _verticesAdded[0];
                 Vector2 p2 = _verticesAdded[_verticesAdded.Count - 2];
 
-                Vector2 M = calculateM(p0, p1, p2);
+
+                _triangleVertices.AddRange(_genJointCircle(p0, p1, p2));
+
+                /*Vector2 M = calculateM(p0, p1, p2);
 
                 Vector2 m1 = p1 + M;
                 Vector2 m2 = p1 - M;
@@ -126,8 +131,62 @@ namespace LineManagement.GLLines
 
                 _triangleVertices[length - 1] = m1;
                 _triangleVertices[length - 2] = m2;
-                _triangleVertices[length - 4] = m2;
+                _triangleVertices[length - 4] = m2;*/
+
+
             }
+        }
+
+        IEnumerable<Vector2> _generateRoundTrianglesForLines(Vector2 p0, Vector2 p1, Vector2 p2)
+        {
+            List<Vector2> triangles = new List<Vector2>();
+
+            Vector2 line2 = (p2 - p1).normalized;
+
+            Vector2 n2 = new Vector2(-line2.y, line2.x).normalized;
+
+
+            triangles.AddRange(_genJointCircle(p0,p1,p2));
+
+            triangles.Add(p1 + _thickness * n2);
+            triangles.Add(p1 - _thickness * n2);
+            triangles.Add(p2 + _thickness * n2);
+
+            triangles.Add(p1 - _thickness * n2);
+            triangles.Add(p2 - _thickness * n2);
+            triangles.Add(p2 + _thickness * n2);
+
+            return triangles;
+        }
+
+        IEnumerable<Vector2> _genJointCircle(Vector2 p0, Vector2 p1, Vector2 p2)
+        {
+            List<Vector2> triangles = new List<Vector2>();
+
+            Vector2 line1 = (p1 - p0).normalized;
+            Vector2 line2 = (p2 - p1).normalized;
+
+            Vector2 n1 = new Vector2(-line1.y, line1.x).normalized;
+            Vector2 n2 = new Vector2(-line2.y, line2.x).normalized;
+
+            float scalar = Vector2.Dot(n1, n2);
+
+            Vector2 r;
+
+            if (Vector2.Dot(n1, line2) < 0)
+            {
+                r = n1 * _thickness;
+            }
+            else
+            {
+                r = -n2 * _thickness;
+            }
+
+            float angle = Mathf.Acos(scalar);
+
+            triangles.AddRange(GraphicsProvider.GetCircleTriangles(p1, r, angle, Color.red, _circleDensity, -1f, _defaultZ));
+
+            return triangles;
         }
 
         Vector2 calculateM(Vector2 p0, Vector2 p1, Vector2 p2)
@@ -205,8 +264,6 @@ namespace LineManagement.GLLines
             {
                 _drawCircles();
             }
-
-            GL.PopMatrix();
         }
 
         void _drawCircles()
@@ -219,7 +276,7 @@ namespace LineManagement.GLLines
                 Vector2 p = _verticesAdded[0];
                 Vector2 v = new Vector2(0f, _thickness);
 
-                _drawCircle(p, v, 1f);
+                GraphicsProvider.DrawCircle(transform, p, v, 2*Mathf.PI, _color, _circleDensity, 1f, _defaultZ);
             }
             else
             {
@@ -232,7 +289,7 @@ namespace LineManagement.GLLines
                 Vector2 p = p0;
                 Vector2 v = n * _thickness;
 
-                _drawCircle(p, v, 0.5f, -1);
+                GraphicsProvider.DrawCircle(transform, p, v, Mathf.PI, _color, _circleDensity, -1f, _defaultZ);
 
                 p0 = _verticesAdded[_verticesAdded.Count - 1];
                 p1 = _verticesAdded[_verticesAdded.Count - 2];
@@ -243,33 +300,11 @@ namespace LineManagement.GLLines
                 p = p0;
                 v = n * _thickness;
 
-                _drawCircle(p, v, 0.5f, -1);
+                GraphicsProvider.DrawCircle(transform, p, v, Mathf.PI, _color, _circleDensity, -1f, _defaultZ);
             }
         }
 
-        void _drawCircle(Vector2 p, Vector2 r, float part, float direction = 1f)
-        {
-            Vector2 prevP = p + r;
-
-            GL.Begin(GL.TRIANGLES);
-            GL.Color(_color);
-
-            for (float angle = 0f; angle <= (2f * Mathf.PI * part); angle += (Mathf.PI / _circleDensity))
-            {
-                float a = Mathf.Sign(direction) * (angle + (Mathf.PI / _circleDensity));
-
-                Vector2 newV = new Vector2(r.x * Mathf.Cos(a) - r.y * Mathf.Sin(a),
-                                            r.x * Mathf.Sin(a) + r.y * Mathf.Cos(a));
-                Vector2 newP = p + newV;
-
-                GL.Vertex3(p.x, p.y, _defaultZ);
-                GL.Vertex3(prevP.x, prevP.y, _defaultZ);
-                GL.Vertex3(newP.x, newP.y, _defaultZ);
-
-                prevP = newP;
-            }
-            GL.End();
-        }
+        
 
         /*Color nextColor()
         {
@@ -348,7 +383,7 @@ namespace LineManagement.GLLines
     static class GraphicsProvider
     {
         static Material _mat;
-        public static GraphicsProvider()
+        static GraphicsProvider()
         {
             _mat = new Material(Shader.Find("Sprites/Default"));
         }
@@ -378,6 +413,68 @@ namespace LineManagement.GLLines
             }
 
             GL.End();
+
+            GL.PopMatrix();
+        }
+
+        static public List<Vector2> GetCircleTriangles(Vector2 p, Vector2 r, float dAngle, Color color, float density, float direction = 1f, float z = 0f)
+        {
+            var vertices = new List<Vector2>();
+
+            Vector2 prevP = p + r;
+
+            density = dAngle * density / (2 * Mathf.PI);
+
+            for (float angle = 0f; angle <= dAngle; angle += (dAngle / density))
+            {
+                float a = Mathf.Sign(direction) * (angle + (dAngle / density));
+
+                Vector2 newV = new Vector2(r.x * Mathf.Cos(a) - r.y * Mathf.Sin(a),
+                                            r.x * Mathf.Sin(a) + r.y * Mathf.Cos(a));
+                Vector2 newP = p + newV;
+
+                vertices.Add(p);
+                vertices.Add(prevP);
+                vertices.Add(newP);
+
+                prevP = newP;
+            }
+
+            return vertices;
+        }
+
+        public static void DrawCircle(Transform transform, Vector2 p, Vector2 r, float dAngle, Color color, float density, float direction = 1f, float z = 0f)
+        {
+            _mat.SetPass(0);
+            density = dAngle * density / (2 * Mathf.PI);
+
+            GL.PushMatrix();
+
+            GL.MultMatrix(transform.localToWorldMatrix);
+
+            GL.Begin(GL.TRIANGLES);
+            GL.Color(color);
+
+            Vector2 prevP = p + r;
+
+
+            for (float angle = 0f; angle <= dAngle; angle += (dAngle / density))
+            {
+                float a = Mathf.Sign(direction) * (angle + (dAngle / density));
+
+                Vector2 newV = new Vector2(r.x * Mathf.Cos(a) - r.y * Mathf.Sin(a),
+                                            r.x * Mathf.Sin(a) + r.y * Mathf.Cos(a));
+                Vector2 newP = p + newV;
+
+                GL.Vertex3(p.x, p.y, z);
+                GL.Vertex3(prevP.x, prevP.y, z);
+                GL.Vertex3(newP.x, newP.y, z);
+
+                prevP = newP;
+            }
+            GL.End();
+
+            GL.PopMatrix();
         }
     }
 
