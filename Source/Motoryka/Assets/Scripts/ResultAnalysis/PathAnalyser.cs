@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class PathAnalyser : IAnalyser {
 		
-	private float _acceptedError = 0.15f;
+	private float _acceptedError = 0.5f;
+	private float _accuracy = 2f;
 
 	public PathAnalyser () {}
 
@@ -14,8 +15,9 @@ public class PathAnalyser : IAnalyser {
 			return false;
 
 		bool isChecked = false;
-
-		if (AreFinalPointsCorrect(generatedLine, userLine)) {
+		
+        GetResult(generatedLine, userLine);
+		//if (AreFinalPointsCorrect(generatedLine, userLine)) {
 			foreach (Vector3 checkpoint in generatedLine.GetVerticles()) {
 
 				foreach(Vector3 point in userLine.GetVerticles()) {
@@ -32,12 +34,11 @@ public class PathAnalyser : IAnalyser {
 					return false;
 				}
 				isChecked = false;
-			}
+            }
 			return true;
-		}
-		GetResult (generatedLine, userLine);
+		//}
 		
-		return false;
+		//return false;
 	}
 
 	private bool AreFinalPointsCorrect (ILine generatedLine, ILine userLine) {
@@ -76,29 +77,35 @@ public class PathAnalyser : IAnalyser {
 			float min = 100;
 			
 			for (int i = 0; i < listG.Length -1; i++) {
-				
 				//(x2 - x1)(y - y1) = (y2 - y1)(x - x1)
-				
+
 				Vector3 p1 = listG[i];
 				Vector3 p2 = listG[i+1];
 				
 				float left = (p2.x - p1.x)*(point.y - p1.y);
 				float right= (p2.y - p1.y)*(point.x - p1.x);
-				
+
+				float distA = Vector3.Distance(p1, point);
+				float distB = Vector3.Distance(p2, point);
+				float distC = Vector3.Distance(p1, p2);
+
+				//Debug.Log(distA + " + " + distB + " = " + distC);
+				float distCheck = Mathf.Abs((distA + distB) - distC);
+
 				float score = Mathf.Abs(left - right);
-				if (min > score) {
+				if (min > score && distCheck < _acceptedError) {
 					min = score;
 				}
 				//Debug.Log (min);
 			}
 			
-			if (min < 1) {
+			if (min < _accuracy) {
 				correctPoints++;
 			}else {
 				wrongPoints++;
 			}
 		}
-		
+		Debug.Log (correctPoints + " " + wrongPoints);
 		if (correctPoints + wrongPoints != 0) {
 			return (correctPoints*100) / (correctPoints + wrongPoints);
 		}
