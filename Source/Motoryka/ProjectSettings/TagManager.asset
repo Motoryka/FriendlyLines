@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Backgrounds
+    uniqueID: 2284554193
+    locked: 0
+  - name: Shapes
+    uniqueID: 1219555579
+    locked: 0
+  - name: Lines
+    uniqueID: 1178533481
+    locked: 0

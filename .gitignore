@@ -2,6 +2,7 @@
 Library
 Temp
 obj
+Builds
 *.csproj
 *.pidb
 *.unityproj
@@ -10,3 +11,4 @@ obj
 *.apk
 *.exe
 *.suo
+*.cache
