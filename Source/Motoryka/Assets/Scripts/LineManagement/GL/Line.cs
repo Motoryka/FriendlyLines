@@ -32,7 +32,7 @@ namespace LineManagement.GLLines
         // Use this for initialization
         void Start()
         {
-            _mat = new Material(Shader.Find("Sprites/Default"));
+            
             _color = Color.red;
             _thickness = 1f;
             _defaultZ = 0;
@@ -197,29 +197,9 @@ namespace LineManagement.GLLines
         {
             UpdateThickness();
             UpdateColor();
-            _mat.SetPass(0);
+            
 
-            GL.PushMatrix();
-
-            GL.MultMatrix(transform.localToWorldMatrix);
-
-            GL.Begin(GL.TRIANGLES);
-
-            GL.Color(_color);
-
-            for (int i = 0; i < _triangleVertices.Count - 2; i += 3)
-            {
-                //GL.Color(nextColor());
-
-                for (int j = 0; j < 3; ++j)
-                {
-                    Vector2 v = _triangleVertices[i + j];
-
-                    GL.Vertex3(v.x, v.y, _defaultZ);
-                }
-            }
-
-            GL.End();
+            GraphicsProvider.DrawTriangles(transform, _color, _defaultZ, _triangleVertices);
 
             if (_verticesAdded.Count > 0 && (_verticesAdded[0] != _verticesAdded[_verticesAdded.Count - 1] || _verticesAdded.Count == 1))
             {
@@ -362,6 +342,42 @@ namespace LineManagement.GLLines
         public List<Vector2> GetVertices2()
         {
             return _vertices;
+        }
+    }
+
+    static class GraphicsProvider
+    {
+        static Material _mat;
+        public static GraphicsProvider()
+        {
+            _mat = new Material(Shader.Find("Sprites/Default"));
+        }
+
+        public static void DrawTriangles(Transform transform, Color color, float z, List<Vector2> triangleVertices)
+        {
+            _mat.SetPass(0);
+
+            GL.PushMatrix();
+
+            GL.MultMatrix(transform.localToWorldMatrix);
+
+            GL.Begin(GL.TRIANGLES);
+
+            GL.Color(color);
+
+            for (int i = 0; i < triangleVertices.Count - 2; i += 3)
+            {
+                //GL.Color(nextColor());
+
+                for (int j = 0; j < 3; ++j)
+                {
+                    Vector2 v = triangleVertices[i + j];
+
+                    GL.Vertex3(v.x, v.y, z);
+                }
+            }
+
+            GL.End();
         }
     }
 
