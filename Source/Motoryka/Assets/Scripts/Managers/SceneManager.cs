@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 using LineManagement;
+using LineManagement.GLLines;
 
 public class SceneManager : BaseLvlManager<SceneManager>
 {
     ShapeGenerator sGen;
-    ILine shape;
     ILine userLine;
     PathAnalyser analizer;
 
@@ -34,7 +35,17 @@ public class SceneManager : BaseLvlManager<SceneManager>
             inputHandler.move += OnMove;
         }
 
-        shape = sGen.CreateShape(GameManager.Instance.GetCurrentShape());
+        List<Vector2> prevVertices = GameManager.Instance.GetPreviousShapeVertices();
+
+        if (prevVertices == null)
+        {
+            shape = sGen.CreateShape(GameManager.Instance.GetCurrentShape());
+        }
+        else
+        {
+            shape = sGen.CreateShape(prevVertices);
+        }
+
         drewThisRound = false;
     }
 
