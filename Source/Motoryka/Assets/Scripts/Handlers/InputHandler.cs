@@ -90,12 +90,6 @@ public class InputHandler : MonoBehaviour {
     void Move(Vector3 pos)
     {
         lineDrawer.Draw(pos);
-
-        if (IsFinished())
-        {
-            SceneManager.Instance.CurrentPhase = LevelPhase.Finished;
-            StopDrawing();
-        }
     }
     void StartDrawing(Vector3 where)
     {
@@ -104,8 +98,6 @@ public class InputHandler : MonoBehaviour {
             lineDrawer.StartDrawing();
 
             lineDrawer.Draw(where);
-
-            SceneManager.Instance.RegisterUserLine(lineDrawer.CurrentLine);
         }
     }
 
@@ -115,15 +107,7 @@ public class InputHandler : MonoBehaviour {
         {
             lineDrawer.StopDrawing();
 
-            if (IsFinished())
-            {
-               SceneManager.Instance.CurrentPhase = LevelPhase.Finished;
-            }
-            else
-            {
-               SceneManager.Instance.SendMessage("RestartLevel");
-            }
-            _isLine = true;
+            //_isLine = true;
         }
     }
 

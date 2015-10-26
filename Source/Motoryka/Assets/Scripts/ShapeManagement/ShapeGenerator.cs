@@ -94,6 +94,15 @@ public class ShapeGenerator : MonoBehaviour {
         return shapeMap[shape]();
     }
 
+    public ILine CreateShape(List<Vector2> shape)
+    {
+        var line = this.lf.Create(shape);
+        line.SetColor(this.color);
+        line.SetSize(this.size);
+
+        return line;
+    }
+
 	private Vector2 GetRandomPointFromActiveArea()
 	{
 		float x = Random.Range (-this.gameUnitsHorizontalInActiveArea, this.gameUnitsHorizontalInActiveArea);

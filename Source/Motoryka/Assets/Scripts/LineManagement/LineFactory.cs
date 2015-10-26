@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 namespace LineManagement
 {
@@ -81,6 +82,19 @@ namespace LineManagement
             T newLine = Create(startingVertex);
 
             newLine.AddVertex(endingVertex);
+
+            return newLine;
+        }
+
+        public T Create(List<Vector2> vertices)
+        {
+            if (vertices.Count == 0)
+                return Create();
+
+            T newLine = Create(vertices[0]);
+
+            foreach (Vector2 v in vertices)
+                newLine.AddVertex(v);
 
             return newLine;
         }
