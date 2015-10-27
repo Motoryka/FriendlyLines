@@ -33,7 +33,7 @@ public class ShapeGenerator : MonoBehaviour {
 	private float gameUnitsHorizontalMargin;
 	private float gameUnitsHorizontalInActiveArea;
 	private float gameUnitsVerticalInActiveArea;
-    private delegate ILine CreateFunc();
+    private delegate ShapeElement CreateFunc();
 
     private Dictionary<Shape, CreateFunc> shapeMap;
 
@@ -89,19 +89,25 @@ public class ShapeGenerator : MonoBehaviour {
 		};
 	}
 
-    public ILine CreateShape(Shape shape)
+	public ShapeElement CreateShape(Shape shape)
     {
         return shapeMap[shape]();
     }
 
-    public ILine CreateShape(List<Vector2> shape)
+	public ShapeElement CreateShape(List<Vector2> shape)
     {
         var line = this.lf.Create(shape);
         line.SetColor(this.color);
         line.SetSize(this.size);
 
-        return line;
-    }
+		var startPoint = this.lf.Create(shape [0]);
+		startPoint.SetColor (Color.green);
+		startPoint.SetSize (this.size);
+
+		ShapeElement element = new ShapeElement (line, startPoint);
+
+		return element;
+	}
 
 	private Vector2 GetRandomPointFromActiveArea()
 	{
@@ -122,7 +128,7 @@ public class ShapeGenerator : MonoBehaviour {
 		return new Vector2 (x, y);
 	}
 
-	public ILine CreateHorizontalLine()
+	public ShapeElement CreateHorizontalLine()
 	{
 		Vector2 startPoint = GetRandomPointOnYAxisFromActiveArea(0);
 		while(startPoint.x < 2 && startPoint.x > -2)
@@ -136,11 +142,17 @@ public class ShapeGenerator : MonoBehaviour {
 		
 		line.SetColor(this.color);
 		line.SetSize (this.size);
-		
-		return line;
+
+		var startLine = this.lf.Create(startPoint);
+		startLine.SetColor (Color.green);
+		startLine.SetSize (this.size);
+
+		ShapeElement shape = new ShapeElement (line, startLine);
+
+		return shape;
 	}
 
-	public ILine CreateVerticalLine()
+	public ShapeElement CreateVerticalLine()
 	{
 		Vector2 startPoint = GetRandomPointOnXAxisFromActiveArea(0);
 		while(startPoint.y < 1 && startPoint.y > -1)
@@ -154,11 +166,17 @@ public class ShapeGenerator : MonoBehaviour {
 		
 		line.SetColor(this.color);
 		line.SetSize (this.size);
+
+		var startLine = this.lf.Create(startPoint);
+		startLine.SetColor (Color.green);
+		startLine.SetSize (this.size);
 		
-		return line;
+		ShapeElement shape = new ShapeElement (line, startLine);
+
+		return shape;
 	}
 
-	public ILine CreateStraightLine()
+	public ShapeElement CreateStraightLine()
 	{
 		Vector2 startPoint = GetRandomPointFromActiveArea ();
 		var line = this.lf.Create (startPoint);
@@ -169,10 +187,16 @@ public class ShapeGenerator : MonoBehaviour {
 		line.SetColor(this.color);
 		line.SetSize (this.size);
 
-		return line;
+		var startLine = this.lf.Create(startPoint);
+		startLine.SetColor (Color.green);
+		startLine.SetSize (this.size);
+		
+		ShapeElement shape = new ShapeElement (line, startLine);
+
+		return shape;
 	}
 
-	public ILine CreateDiagonalLine()
+	public ShapeElement CreateDiagonalLine()
 	{
 		Vector2 startPoint = GetRandomPointFromActiveArea ();
 		while( (startPoint.x > -2 && startPoint.x < 2) || (startPoint.y < 1 && startPoint.y > -1) )
@@ -186,11 +210,17 @@ public class ShapeGenerator : MonoBehaviour {
 		
 		line.SetColor(this.color);
 		line.SetSize (this.size);
+
+		var startLine = this.lf.Create(startPoint);
+		startLine.SetColor (Color.green);
+		startLine.SetSize (this.size);
 		
-		return line;
+		ShapeElement shape = new ShapeElement (line, startLine);
+		
+		return shape;
 	}
 
-	public ILine CreateCircle()
+	public ShapeElement CreateCircle()
 	{
 		float radius = Random.Range (1f, 4f);
 		Vector2 startPoint = new Vector2(0, radius);
@@ -208,10 +238,16 @@ public class ShapeGenerator : MonoBehaviour {
 		circle.SetColor(this.color);
 		circle.SetSize (this.size);
 
-		return circle;
+		var startLine = this.lf.Create(startPoint);
+		startLine.SetColor (Color.green);
+		startLine.SetSize (this.size);
+		
+		ShapeElement shape = new ShapeElement (circle, startLine);
+		
+		return shape;
 	}
 
-	public ILine CreateEllipse()
+	public ShapeElement CreateEllipse()
 	{
 		float radius = Random.Range (1f, 4f);
 
@@ -239,10 +275,16 @@ public class ShapeGenerator : MonoBehaviour {
 		ellipse.SetColor(this.color);
 		ellipse.SetSize (this.size);
 		
-		return ellipse;
+		var startLine = this.lf.Create(startPoint);
+		startLine.SetColor (Color.green);
+		startLine.SetSize (this.size);
+		
+		ShapeElement shape = new ShapeElement (ellipse, startLine);
+		
+		return shape;
 	}
 
-	public ILine CreateTriangle()
+	public ShapeElement CreateTriangle()
 	{
 		float minLineLength = 0.6f * (this.gameUnitsVertical - this.gameUnitsVerticalMargin); // 60% of active generating area height
 		
@@ -285,11 +327,17 @@ public class ShapeGenerator : MonoBehaviour {
 		// set color and size of traingle's lines
 		triangle.SetColor(this.color);
 		triangle.SetSize (this.size);
+
+		var startLine = this.lf.Create(A);
+		startLine.SetColor (Color.green);
+		startLine.SetSize (this.size);
 		
-		return triangle;
+		ShapeElement shape = new ShapeElement (triangle, startLine);
+		
+		return shape;
 	}
 
-	public ILine CreateSquare()
+	public ShapeElement CreateSquare()
 	{
 		Vector2 A = GetRandomPointFromActiveArea();
 		float pointTranslation =  Vector2.Distance(A, new Vector2(0f, 0f)); // distance of the point from the center of the screen
@@ -306,10 +354,16 @@ public class ShapeGenerator : MonoBehaviour {
 		square.SetColor(this.color);
 		square.SetSize (this.size);
 
-		return square;
+		var startLine = this.lf.Create(A);
+		startLine.SetColor (Color.green);
+		startLine.SetSize (this.size);
+		
+		ShapeElement shape = new ShapeElement (square, startLine);
+		
+		return shape;
 	}
 
-	public ILine CreateRectangle()
+	public ShapeElement CreateRectangle()
 	{
 		Vector2 A = GetRandomPointFromActiveArea();
 		while((A.x < 1 && A.x > -1) || (A.y < 1 && A.y > -1) || A.x > 6 || A.x < -6){
@@ -324,7 +378,13 @@ public class ShapeGenerator : MonoBehaviour {
 		rectangle.SetColor(this.color);
 		rectangle.SetSize (this.size);
 		
-		return rectangle;
+		var startLine = this.lf.Create(A);
+		startLine.SetColor (Color.green);
+		startLine.SetSize (this.size);
+		
+		ShapeElement shape = new ShapeElement (rectangle, startLine);
+		
+		return shape;
 	}
 
 	private Vector2 CalculateBezierPoint(float t, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
@@ -340,7 +400,7 @@ public class ShapeGenerator : MonoBehaviour {
 		return p;
 	}
 
-	public ILine CreateCurvedLine()
+	public ShapeElement CreateCurvedLine()
 	{
 		List<Vector2> bezierCurve = this.BezierCurves[Random.Range(0, this.BezierCurves.Count)];
 
@@ -362,6 +422,12 @@ public class ShapeGenerator : MonoBehaviour {
 		curvedLine.SetColor(this.color);
 		curvedLine.SetSize (this.size);
 
-		return curvedLine;
+		var startLine = this.lf.Create(q0);
+		startLine.SetColor (Color.green);
+		startLine.SetSize (this.size);
+		
+		ShapeElement shape = new ShapeElement (curvedLine, startLine);
+		
+		return shape;
 	}
 }

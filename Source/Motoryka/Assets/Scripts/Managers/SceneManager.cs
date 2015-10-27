@@ -39,11 +39,11 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
         if (prevVertices == null)
         {
-            shape = sGen.CreateShape(GameManager.Instance.GetCurrentShape());
+            shape = sGen.CreateShape(GameManager.Instance.GetCurrentShape()).Shape;
         }
         else
         {
-            shape = sGen.CreateShape(prevVertices);
+            shape = sGen.CreateShape(prevVertices).Shape;
         }
 
         drewThisRound = false;
