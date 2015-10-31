@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-	
+
+using LineManagement;
 public class PathAnalyser : IAnalyser {
 		
 	private float _acceptedError = 0.5f;
@@ -16,11 +17,11 @@ public class PathAnalyser : IAnalyser {
 		bool isChecked = false;
 
 		if (AreFinalPointsCorrect(generatedLine, userLine)) {
-			foreach (Vector3 checkpoint in generatedLine.GetVerticles()) {
+			foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
 
-				foreach(Vector3 point in userLine.GetVerticles()) {
+				foreach(Vector2 point in userLine.GetVertices2()) {
 
-					float _distance = Vector3.Distance(point, checkpoint);
+					float _distance = Vector2.Distance(point, checkpoint);
 
 					if (_distance < _acceptedError) {
 						isChecked = true;
@@ -40,14 +41,14 @@ public class PathAnalyser : IAnalyser {
 	}
 
 	private bool AreFinalPointsCorrect (ILine generatedLine, ILine userLine) {
-		Vector3[] listG = generatedLine.GetVerticles ().ToArray ();
-		Vector3[] listU = userLine.GetVerticles ().ToArray ();
+		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
+		Vector2[] listU = userLine.GetVertices2().ToArray ();
 		
 		if (listG.Length == 0 || listU.Length == 0)
 			return false;
 		
-		if (Vector3.Distance(listG[0], listU[0]) < _acceptedError &&
-		    Vector3.Distance(listG[listG.Length-1], listU[listU.Length-1]) < _acceptedError) {
+		if (Vector2.Distance(listG[0], listU[0]) < _acceptedError &&
+		    Vector2.Distance(listG[listG.Length-1], listU[listU.Length-1]) < _acceptedError) {
 			
 			return true;
 		}

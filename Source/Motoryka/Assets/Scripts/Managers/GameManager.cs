@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using LineManagement;
+using LineManagement.GLLines;
+using System.Collections.Generic;
 
 public class GameManager : Singleton<GameManager>, IInitable {
     public Fader fader;
@@ -25,6 +28,8 @@ public class GameManager : Singleton<GameManager>, IInitable {
     string sceneName = "level";
     string finishSceneName = "end";
     string titleSceneName = "title";
+
+    List<Vector2> _previousShapeVertices = null;
 
 	// Use this for initialization
     public void Initialize()
@@ -67,9 +72,15 @@ public class GameManager : Singleton<GameManager>, IInitable {
         return _config.Shapes[CurrentLevel - 1];
     }
 
+    public List<Vector2> GetPreviousShapeVertices()
+    {
+        return _previousShapeVertices;
+    }
+
     public void FinishedLevel()
     {
         Debug.Log("Level " + CurrentLevel + " finished.");
+        _previousShapeVertices = null;
 
         _currentLevel++;
 
@@ -88,8 +99,10 @@ public class GameManager : Singleton<GameManager>, IInitable {
         Debug.Log("Level " + CurrentLevel + " started.");
     }
 
-    public void RestartLevel()
+    public void RestartLevel(ILine currentShape)
     {
+        _previousShapeVertices = currentShape.GetVertices2();
+
         Debug.Log("Level " + CurrentLevel + " restarted.");
 
         fader.LoadSceneFadingAfterTime(sceneName, new WaitForSeconds(1f));

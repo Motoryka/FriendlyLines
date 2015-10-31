@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class GUIConfigManager : MonoBehaviour {
 
 	public void ToggleComboBoxOnClick(GameObject panel){
-		if (panel.active) {
+		if (panel.activeSelf) {
 			panel.SetActive (false);
 		} else
 			panel.SetActive (true);

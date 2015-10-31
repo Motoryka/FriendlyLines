@@ -2,118 +2,126 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class LineDrawer : MonoBehaviour, ILineDrawer {
-    public float frequency = 0.1f;
-    public Color color = Color.red;
-    public float size = 1;
-    public GameObject canvas;
-    public string sortingLayer;
-
-    private List<Vector3> _vertices;
-    private LineFactory<LineLR> _factory;
-    public bool _drawing;
-    private List<ILine> _lines;
-    private ILine _currentLine;
-    private Vector3 _lastVertex;
-
-    public LineDrawer()
+namespace LineManagement
+{
+    public class LineDrawer<T> : MonoBehaviour, ILineDrawer where T : ILine
     {
-        _vertices = new List<Vector3>();
-        _factory = new LineFactory<LineLR>();
-        _lines = new List<ILine>();
-        _currentLine = null;
-    }
+        public float frequency = 0.1f;
+        public Color color = Color.red;
+        public float size = 1;
+        public GameObject canvas;
+        public string sortingLayer;
 
-	// Use this for initialization
-	void Start () {
-        if (canvas == null)
+        private List<Vector3> _vertices;
+        private LineFactory<T> _factory;
+        public bool _drawing;
+        private List<ILine> _lines;
+        private ILine _currentLine;
+        private Vector3 _lastVertex;
+
+        public LineDrawer()
         {
-            canvas = new GameObject("Canvas");
+            _vertices = new List<Vector3>();
+            _factory = new LineFactory<T>();
+            _lines = new List<ILine>();
+            _currentLine = null;
+        }
+
+        // Use this for initialization
+        void Start()
+        {
+            if (canvas == null)
+            {
+                canvas = new GameObject("Canvas");
+            }
+
             _factory.canvas = canvas;
+
+            if (sortingLayer == "")
+            {
+                sortingLayer = "Lines";
+            }
+
+            _factory.sortingLayer = sortingLayer;
         }
 
-        if (sortingLayer == "")
+        // Update is called once per frame
+        void Update()
         {
-            sortingLayer = "Lines";
+
         }
 
-        _factory.sortingLayer = sortingLayer;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-    public void SetColor(Color color)
-    {
-        this.color = color;
-    }
-
-    public void StartDrawing()
-    {
-        _drawing = true;
-        _currentLine = _factory.Create();
-        _lines.Add(_currentLine);
-
-        _currentLine.SetColor(color);
-        _currentLine.SetSize(size);
-        _vertices = new List<Vector3>();
-    }
-
-    public void Draw(Vector3 position)
-    {
-        if(!_drawing)
+        public void SetColor(Color color)
         {
-            return;
+            this.color = color;
         }
 
-        if(_vertices.Count != 0 && Vector3.Distance(_lastVertex, position) < (1f/frequency))
+        public void StartDrawing()
         {
-            return;
+            _drawing = true;
+            _currentLine = _factory.Create();
+            _lines.Add(_currentLine);
+
+            _currentLine.SetColor(color);
+            _currentLine.SetSize(size);
+            _vertices = new List<Vector3>();
         }
 
-        _currentLine.AddVertex(position);
-        _vertices.Add(position);
-        _lastVertex = position;
-    }
-
-    public void StopDrawing()
-    {
-        _drawing = false;
-        _currentLine = null;
-    }
-
-    public void SetSize(float size)
-    {
-        this.size = size;
-    }
-
-    public void SetFrequency(float f)
-    {
-        this.frequency = f;
-    }
-
-    public void DrawLine(Vector2 a, Vector2 b)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void DrawLine(Vector2[] vertices)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public bool IsDrawing
-    {
-        get { return this._drawing; }
-    }
-
-    public ILine CurrentLine
-    {
-        get
+        public void Draw(Vector3 position)
         {
-            return _currentLine;
+            if (!_drawing)
+            {
+                return;
+            }
+
+            if (_vertices.Count != 0 && Vector3.Distance(_lastVertex, position) < (1f / frequency))
+            {
+                return;
+            }
+
+            _currentLine.AddVertex(position);
+            _vertices.Add(position);
+            _lastVertex = position;
+        }
+
+        public void StopDrawing()
+        {
+            _drawing = false;
+            _currentLine = null;
+        }
+
+        public void SetSize(float size)
+        {
+            this.size = size;
+        }
+
+        public void SetFrequency(float f)
+        {
+            this.frequency = f;
+        }
+
+        public void DrawLine(Vector2 a, Vector2 b)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DrawLine(Vector2[] vertices)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool IsDrawing
+        {
+            get { return this._drawing; }
+        }
+
+        public ILine CurrentLine
+        {
+            get
+            {
+                return _currentLine;
+            }
         }
     }
+
 }
