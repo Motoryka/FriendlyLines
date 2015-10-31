@@ -43,7 +43,6 @@ public class SpriteAdjust : MonoBehaviour {
         img.rectTransform.sizeDelta = new Vector2((Screen.width / 10) * 6, (Screen.width / 10) * 3);
         img.rectTransform.position = new Vector3(Screen.width / 2, Screen.height / 2 - Screen.height / 10, 0);
     }
-
 	// Update is called once per frame
 	void Update () {
 	
