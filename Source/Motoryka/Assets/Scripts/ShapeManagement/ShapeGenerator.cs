@@ -37,10 +37,12 @@ public class ShapeGenerator : MonoBehaviour {
 
     private Dictionary<Shape, CreateFunc> shapeMap;
 
+	public Color pointColor;
     public Color color;
     public float size;
 
 	private List<List<Vector2>> BezierCurves;
+	private List<Colors> colors;
 
 	// Use this for initialization
     void Start() 
@@ -87,6 +89,26 @@ public class ShapeGenerator : MonoBehaviour {
 			{ Shape.Square, CreateSquare },
 			{ Shape.Rectangle, CreateRectangle }
 		};
+
+		colors = new List<Colors> () {
+			new Colors (new Color(0.5f,0,0), new Color(1,1,0.6f)),//bordo
+			new Colors (new Color(0.9f,0,0), new Color(1,0.5f, 0.5f)),//red
+			new Colors (new Color(1,0.5f,0), new Color(0.58f, 1,1)), //orange
+			new Colors (new Color(1,0.9f,0), new Color(0, 0.58f, 0.58f)),  //yellow
+			new Colors (new Color(1, 0.5f, 0.5f), new Color(0.39f, 0, 0.78f)), //light pink
+			new Colors (new Color(1, 0.1f, 0.57f), new Color(1,1,0.38f)), //pink
+			new Colors (new Color(0.6f, 0.8f, 0.2f), new Color(0.36f, 0.36f, 0.36f)), //light green
+			new Colors (new Color(0, 0.4f, 0), new Color(0,1,0)), //dark green
+			new Colors (new Color(0.2f, 0.4f, 0.4f), new Color(1,1, 0.5f)), // blue/gray
+			new Colors (new Color(0,0,0.8f), new Color(0.78f, 0, 0.78f)), //blue
+			new Colors (new Color(0.55f, 0, 0.55f), new Color(1, 0.58f, 1)), //violet
+			new Colors (new Color(0.6f, 0.4f, 0.3f), new Color(1, 0.7f, 0.4f)), //brown
+			new Colors (new Color(0.54f, 0.27f, 0.05f), new Color(0.2f, 1, 0.2f)), //dark brown
+			new Colors (new Color(0.9f, 1,1), new Color(0.2f, 0.2f, 1)), //white
+			new Colors (new Color(0.5f, 0.5f, 0.5f), new Color(1,0.7f, 0.2f)), //gray
+			new Colors (new Color(1,0.8f, 0.5f), new Color(0.8f, 0.4f, 0)), //pitch / ligth orange
+			new Colors (new Color(0.5f, 0.5f, 0), new Color(0.5f, 0.9f, 0.2f))//olive
+		};
 	}
 
 	public ShapeElement CreateShape(Shape shape)
@@ -101,7 +123,7 @@ public class ShapeGenerator : MonoBehaviour {
         line.SetSize(this.size);
 
 		var startPoint = this.lf.Create(shape [0]);
-		startPoint.SetColor (Color.green);
+		startPoint.SetColor (this.pointColor);
 		startPoint.SetSize (this.size);
 
 		ShapeElement element = new ShapeElement (line, startPoint);
@@ -139,17 +161,27 @@ public class ShapeGenerator : MonoBehaviour {
 		
 		// add end point symetric to start point 
 		line.AddVertex (new Vector2 (-startPoint.x, -startPoint.y));
-		
-		line.SetColor(this.color);
+
+		Colors c = GetRandomColor ();
+
+		line.SetColor(c.GetLineColor());
 		line.SetSize (this.size);
 
 		var startLine = this.lf.Create(startPoint);
-		startLine.SetColor (Color.green);
+		startLine.SetColor (c.GetPointColor());
 		startLine.SetSize (this.size);
 
 		ShapeElement shape = new ShapeElement (line, startLine);
 
 		return shape;
+	}
+
+	private Colors GetRandomColor() {
+		System.Random rnd = new System.Random();
+		int number = rnd.Next(0, colors.Count);
+		this.color = colors [number].GetLineColor ();
+		this.pointColor = colors [number].GetPointColor ();
+		return colors [number];
 	}
 
 	public ShapeElement CreateVerticalLine()
@@ -163,12 +195,13 @@ public class ShapeGenerator : MonoBehaviour {
 		
 		// add end point symetric to start point 
 		line.AddVertex (new Vector2 (-startPoint.x, -startPoint.y));
+		Colors c = GetRandomColor ();
 		
-		line.SetColor(this.color);
+		line.SetColor(c.GetLineColor());
 		line.SetSize (this.size);
 
 		var startLine = this.lf.Create(startPoint);
-		startLine.SetColor (Color.green);
+		startLine.SetColor (c.GetPointColor());
 		startLine.SetSize (this.size);
 		
 		ShapeElement shape = new ShapeElement (line, startLine);
@@ -183,12 +216,13 @@ public class ShapeGenerator : MonoBehaviour {
 
 		// add end point symetric to start point 
 		line.AddVertex (new Vector2 (-startPoint.x, -startPoint.y));
+		Colors c = GetRandomColor ();
 
-		line.SetColor(this.color);
+		line.SetColor(c.GetLineColor());
 		line.SetSize (this.size);
 
 		var startLine = this.lf.Create(startPoint);
-		startLine.SetColor (Color.green);
+		startLine.SetColor (c.GetPointColor());
 		startLine.SetSize (this.size);
 		
 		ShapeElement shape = new ShapeElement (line, startLine);
@@ -207,12 +241,13 @@ public class ShapeGenerator : MonoBehaviour {
 		
 		// add end point symetric to start point 
 		line.AddVertex (new Vector2 (-startPoint.x, -startPoint.y));
-		
-		line.SetColor(this.color);
+		Colors c = GetRandomColor ();
+
+		line.SetColor(c.GetLineColor());
 		line.SetSize (this.size);
 
 		var startLine = this.lf.Create(startPoint);
-		startLine.SetColor (Color.green);
+		startLine.SetColor (c.GetPointColor());
 		startLine.SetSize (this.size);
 		
 		ShapeElement shape = new ShapeElement (line, startLine);
@@ -234,12 +269,13 @@ public class ShapeGenerator : MonoBehaviour {
 		}
 
 		circle.AddVertex(new Vector2(0, radius));
+		Colors c = GetRandomColor ();
 
-		circle.SetColor(this.color);
+		circle.SetColor(c.GetLineColor());
 		circle.SetSize (this.size);
 
 		var startLine = this.lf.Create(startPoint);
-		startLine.SetColor (Color.green);
+		startLine.SetColor (c.GetPointColor());
 		startLine.SetSize (this.size);
 		
 		ShapeElement shape = new ShapeElement (circle, startLine);
@@ -271,12 +307,13 @@ public class ShapeGenerator : MonoBehaviour {
 		}
 
 		ellipse.AddVertex(new Vector2(0, yFactor * radius));
-		
-		ellipse.SetColor(this.color);
+		Colors c = GetRandomColor ();
+
+		ellipse.SetColor(c.GetLineColor());
 		ellipse.SetSize (this.size);
 		
 		var startLine = this.lf.Create(startPoint);
-		startLine.SetColor (Color.green);
+		startLine.SetColor (c.GetPointColor());
 		startLine.SetSize (this.size);
 		
 		ShapeElement shape = new ShapeElement (ellipse, startLine);
@@ -323,13 +360,14 @@ public class ShapeGenerator : MonoBehaviour {
 		triangle.AddVertex (B);
 		triangle.AddVertex (C);
 		triangle.AddVertex (A);
-		
+
+		Colors c = GetRandomColor ();
 		// set color and size of traingle's lines
-		triangle.SetColor(this.color);
+		triangle.SetColor(c.GetLineColor());
 		triangle.SetSize (this.size);
 
 		var startLine = this.lf.Create(A);
-		startLine.SetColor (Color.green);
+		startLine.SetColor (c.GetPointColor());
 		startLine.SetSize (this.size);
 		
 		ShapeElement shape = new ShapeElement (triangle, startLine);
@@ -351,11 +389,13 @@ public class ShapeGenerator : MonoBehaviour {
 		square.AddVertex(new Vector2(-A.y, A.x));
 		square.AddVertex(A);
 
-		square.SetColor(this.color);
+		Colors c = GetRandomColor ();
+
+		square.SetColor(c.GetLineColor());
 		square.SetSize (this.size);
 
 		var startLine = this.lf.Create(A);
-		startLine.SetColor (Color.green);
+		startLine.SetColor (c.GetPointColor());
 		startLine.SetSize (this.size);
 		
 		ShapeElement shape = new ShapeElement (square, startLine);
@@ -374,12 +414,14 @@ public class ShapeGenerator : MonoBehaviour {
 		rectangle.AddVertex(new Vector2(-A.x, -A.y));
 		rectangle.AddVertex(new Vector2(A.x, -A.y));
 		rectangle.AddVertex(A);
-		
-		rectangle.SetColor(this.color);
+
+		Colors c = GetRandomColor ();
+
+		rectangle.SetColor(c.GetLineColor());
 		rectangle.SetSize (this.size);
 		
 		var startLine = this.lf.Create(A);
-		startLine.SetColor (Color.green);
+		startLine.SetColor (c.GetPointColor());
 		startLine.SetSize (this.size);
 		
 		ShapeElement shape = new ShapeElement (rectangle, startLine);
@@ -418,12 +460,13 @@ public class ShapeGenerator : MonoBehaviour {
 			curvedLine.AddVertex(q1);
 		}
 
+		Colors c = GetRandomColor ();
 		// set color and size of triangle's lines
-		curvedLine.SetColor(this.color);
+		curvedLine.SetColor(c.GetLineColor());
 		curvedLine.SetSize (this.size);
 
 		var startLine = this.lf.Create(q0);
-		startLine.SetColor (Color.green);
+		startLine.SetColor (c.GetPointColor());
 		startLine.SetSize (this.size);
 		
 		ShapeElement shape = new ShapeElement (curvedLine, startLine);

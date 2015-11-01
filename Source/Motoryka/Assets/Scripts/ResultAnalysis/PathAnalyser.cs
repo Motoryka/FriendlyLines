@@ -18,7 +18,7 @@ public class PathAnalyser : IAnalyser {
 
 		bool isChecked = false;
 
-		//GetResult (generatedLine, userLine);
+		GetResult (generatedLine, userLine);
 		if (AreFinalPointsCorrect(generatedLine, userLine)) {
 			foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
 
@@ -108,7 +108,7 @@ public class PathAnalyser : IAnalyser {
 				wrongPoints++;
 			}
 		}
-		Debug.Log (correctPoints + " " + wrongPoints);
+		//Debug.Log (correctPoints + " " + wrongPoints);
 		if (correctPoints + wrongPoints != 0) {
 			return (correctPoints*100) / (correctPoints + wrongPoints);
 		}
