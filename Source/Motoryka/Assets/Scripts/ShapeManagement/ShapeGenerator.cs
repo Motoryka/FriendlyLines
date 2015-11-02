@@ -91,23 +91,29 @@ public class ShapeGenerator : MonoBehaviour {
 		};
 
 		colors = new List<Colors> () {
-			new Colors (new Color(0.5f,0,0), new Color(1,1,0.6f)),//bordo
-			new Colors (new Color(0.9f,0,0), new Color(1,0.5f, 0.5f)),//red
-			new Colors (new Color(1,0.5f,0), new Color(0.58f, 1,1)), //orange
-			new Colors (new Color(1,0.9f,0), new Color(0, 0.58f, 0.58f)),  //yellow
-			new Colors (new Color(1, 0.5f, 0.5f), new Color(0.39f, 0, 0.78f)), //light pink
-			new Colors (new Color(1, 0.1f, 0.57f), new Color(1,1,0.38f)), //pink
+			new Colors (new Color(1,1,0.6f), 		new Color(0.5f,0,0)),//beige
+			new Colors (new Color(0.5f,0,0), 		new Color(1,1,0.6f)),//bordo
+			new Colors (new Color(1,0.5f, 0.5f), 	new Color(0.9f,0,0)),//pink
+			new Colors (new Color(0.9f,0,0), 		new Color(1,0.5f, 0.5f)),//red
+			new Colors (new Color(0.58f, 1,1), 		new Color(1,0.5f,0)), //light blue
+			new Colors (new Color(1,0.5f,0), 		new Color(0.58f, 1,1)), //orange
+			new Colors (new Color(0, 0.58f, 0.58f), new Color(1,0.9f,0)),  //blue
+			new Colors (new Color(1,0.9f,0), 		new Color(0, 0.58f, 0.58f)),  //yellow
+			new Colors (new Color(1, 0.5f, 0.5f), 	new Color(0.39f, 0, 0.78f)), //light pink
+			new Colors (new Color(1, 0.1f, 0.57f), 	new Color(1,1,0.38f)), //pink
+			new Colors (new Color(0.36f, 0.36f, 0.36f), new Color(0.6f, 0.8f, 0.2f)), //gray
 			new Colors (new Color(0.6f, 0.8f, 0.2f), new Color(0.36f, 0.36f, 0.36f)), //light green
-			new Colors (new Color(0, 0.4f, 0), new Color(0,1,0)), //dark green
+			new Colors (new Color(0.7f,1,0), 		new Color(1, 0.5f, 0)), //glary green
+			new Colors (new Color(0, 0.4f, 0), 		new Color(0,1,0)), //dark green
 			new Colors (new Color(0.2f, 0.4f, 0.4f), new Color(1,1, 0.5f)), // blue/gray
-			new Colors (new Color(0,0,0.8f), new Color(0.78f, 0, 0.78f)), //blue
+			new Colors (new Color(0,0,0.8f), 		new Color(0.78f, 0, 0.78f)), //blue
 			new Colors (new Color(0.55f, 0, 0.55f), new Color(1, 0.58f, 1)), //violet
-			new Colors (new Color(0.6f, 0.4f, 0.3f), new Color(1, 0.7f, 0.4f)), //brown
+			new Colors (new Color(1, 0.7f, 0.4f), 	new Color(0.6f, 0.4f, 0.3f)), //orange
+			new Colors (new Color(0.6f, 0.4f, 0.3f),new Color(1, 0.7f, 0.4f)), //brown
 			new Colors (new Color(0.54f, 0.27f, 0.05f), new Color(0.2f, 1, 0.2f)), //dark brown
-			new Colors (new Color(0.9f, 1,1), new Color(0.2f, 0.2f, 1)), //white
+			new Colors (new Color(0.9f, 1,1), 		new Color(0.2f, 0.2f, 1)), //white
 			new Colors (new Color(0.5f, 0.5f, 0.5f), new Color(1,0.7f, 0.2f)), //gray
-			new Colors (new Color(1,0.8f, 0.5f), new Color(0.8f, 0.4f, 0)), //pitch / ligth orange
-			new Colors (new Color(0.5f, 0.5f, 0), new Color(0.5f, 0.9f, 0.2f))//olive
+			new Colors (new Color(0.5f, 0.5f, 0), 	new Color(0.5f, 0.9f, 0.2f))//olive
 		};
 	}
 
@@ -149,7 +155,7 @@ public class ShapeGenerator : MonoBehaviour {
 	}
 	
 	private Colors GetRandomColor() {
-		System.Random rnd = new System.Random(new System.DateTime().Millisecond);
+		System.Random rnd = new System.Random(System.DateTime.Now.Millisecond);
 		int number = rnd.Next(0, colors.Count);
 		this.color = colors [number].Line;
 		this.pointColor = colors [number].StartPoint;
