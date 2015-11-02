@@ -118,7 +118,6 @@ public class ShapeGenerator : MonoBehaviour {
 
 	public ShapeElement CreateShape(ShapeElement shape)
     {
-		Debug.Log (shape.StartPoint.GetVertices2 ().Count);
 		var line = this.lf.Create(shape.Shape.GetVertices2());
 		line.SetColor(shape.Shape.Color);
         line.SetSize(this.size);
@@ -148,6 +147,14 @@ public class ShapeGenerator : MonoBehaviour {
 		float x = Random.Range (-this.gameUnitsHorizontalInActiveArea+2, this.gameUnitsHorizontalInActiveArea-2);
 		return new Vector2 (x, y);
 	}
+	
+	private Colors GetRandomColor() {
+		System.Random rnd = new System.Random(new System.DateTime().Millisecond);
+		int number = rnd.Next(0, colors.Count);
+		this.color = colors [number].Line;
+		this.pointColor = colors [number].StartPoint;
+		return colors [number];
+	}
 
 	public ShapeElement CreateHorizontalLine()
 	{
@@ -173,14 +180,6 @@ public class ShapeGenerator : MonoBehaviour {
 		ShapeElement shape = new ShapeElement (line, startLine);
 
 		return shape;
-	}
-
-	private Colors GetRandomColor() {
-		System.Random rnd = new System.Random();
-		int number = rnd.Next(0, colors.Count);
-		this.color = colors [number].Line;
-		this.pointColor = colors [number].StartPoint;
-		return colors [number];
 	}
 
 	public ShapeElement CreateVerticalLine()
