@@ -29,7 +29,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
     string finishSceneName = "end";
     string titleSceneName = "title";
 
-    List<Vector2> _previousShapeVertices = null;
+	ShapeElement _previousShapeVertices = null;
 
 	// Use this for initialization
     public void Initialize()
@@ -72,7 +72,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
         return _config.Shapes[CurrentLevel - 1];
     }
 
-    public List<Vector2> GetPreviousShapeVertices()
+    public ShapeElement GetPreviousShapeVertices()
     {
         return _previousShapeVertices;
     }
@@ -99,9 +99,9 @@ public class GameManager : Singleton<GameManager>, IInitable {
         Debug.Log("Level " + CurrentLevel + " started.");
     }
 
-    public void RestartLevel(ILine currentShape)
+    public void RestartLevel(ShapeElement currentShape)
     {
-        _previousShapeVertices = currentShape.GetVertices2();
+		_previousShapeVertices = currentShape;
 
         Debug.Log("Level " + CurrentLevel + " restarted.");
 

@@ -10,11 +10,21 @@ public class Colors {
 		this.pointColor = point;
 	}
 
-	public Color GetLineColor() {
-		return lineColor;
+	public Color Line {
+		get {
+			return lineColor;
+		}
+		set {
+			lineColor = value;
+		}
 	}
-
-	public Color GetPointColor() {
-		return pointColor;
+	
+	public Color StartPoint {
+		get {
+			return pointColor;
+		}
+		set {
+			pointColor = value;
+		}
 	}
 }

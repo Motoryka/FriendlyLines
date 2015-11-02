@@ -35,15 +35,15 @@ public class SceneManager : BaseLvlManager<SceneManager>
             inputHandler.move += OnMove;
         }
 
-        List<Vector2> prevVertices = GameManager.Instance.GetPreviousShapeVertices();
+        ShapeElement prevVertices = GameManager.Instance.GetPreviousShapeVertices();
 
         if (prevVertices == null)
         {
-            shape = sGen.CreateShape(GameManager.Instance.GetCurrentShape()).Shape;
+            shape = sGen.CreateShape(GameManager.Instance.GetCurrentShape());
         }
         else
         {
-            shape = sGen.CreateShape(prevVertices).Shape;
+            shape = sGen.CreateShape(prevVertices);
         }
 
         drewThisRound = false;
@@ -57,7 +57,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
     public bool IsFinished()
     {
         if (userLine != null)
-            return analizer.IsFinished(shape, userLine);
+            return analizer.IsFinished(shape.Shape, userLine);
         return false;
     }
 
