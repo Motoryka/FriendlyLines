@@ -42,8 +42,8 @@ public class ConfigFactory : MonoBehaviour {
 			Username = "Jezyna", 
 			TeacherName = "Magda Mops", 
 			CreateDate = DateTime.Now,
-            NrOfLevels = 3,
-            Shapes = new List<Shape> { Shape.StraightLine, Shape.CurvedLine, Shape.Triangle }
+            NrOfLevels = 9,
+			Shapes = new List<Shape> { Shape.HorizontalLine, Shape.VerticalLine, Shape.DiagonalLine, Shape.CurvedLine, Shape.Circle, Shape.Ellipse, Shape.Triangle, Shape.Square, Shape.Rectangle }
 		};
 		return config;
 	}
