@@ -110,26 +110,20 @@ public class ShapeGenerator : MonoBehaviour {
 		return new Vector2 (x, y);
 	}
 
-	private Vector2 GetRandomPointOnXAxisFromActiveArea(float x)
+	private ILine DisplayVertex(Vector2 startPoint, Color color)
 	{
-		float y = Random.Range (-this.gameUnitsVerticalInActiveArea, this.gameUnitsVerticalInActiveArea);
-		return new Vector2 (x, y);
-	}
-
-	private Vector2 GetRandomPointOnYAxisFromActiveArea(float y)
-	{
-		float x = Random.Range (-this.gameUnitsHorizontalInActiveArea+2, this.gameUnitsHorizontalInActiveArea-2);
-		return new Vector2 (x, y);
+		var dot = this.lf.Create(startPoint);
+		dot.SetColor (color);
+		dot.SetSize (this.size-0.5f);
+		return dot;
 	}
 
 	public ILine CreateHorizontalLine()
 	{
-		Vector2 startPoint = GetRandomPointOnYAxisFromActiveArea(0);
-		while(startPoint.x < 2 && startPoint.x > -2)
-		{
-			startPoint = GetRandomPointOnYAxisFromActiveArea(0);
-		}
+		Vector2 startPoint = new Vector2(Random.Range (-this.gameUnitsHorizontalInActiveArea + 2, -2), 0);
 		var line = this.lf.Create (startPoint);
+
+		this.DisplayVertex(startPoint, Color.red);
 		
 		// add end point symetric to start point 
 		line.AddVertex (new Vector2 (-startPoint.x, -startPoint.y));
@@ -142,12 +136,11 @@ public class ShapeGenerator : MonoBehaviour {
 
 	public ILine CreateVerticalLine()
 	{
-		Vector2 startPoint = GetRandomPointOnXAxisFromActiveArea(0);
-		while(startPoint.y < 1 && startPoint.y > -1)
-		{
-			startPoint = GetRandomPointOnXAxisFromActiveArea(0);
-		}
+		Vector2 startPoint = new Vector2(0, Random.Range (this.gameUnitsVerticalInActiveArea - 1, 1));
+
 		var line = this.lf.Create (startPoint);
+
+		this.DisplayVertex(startPoint, Color.red);
 		
 		// add end point symetric to start point 
 		line.AddVertex (new Vector2 (-startPoint.x, -startPoint.y));
@@ -174,12 +167,14 @@ public class ShapeGenerator : MonoBehaviour {
 
 	public ILine CreateDiagonalLine()
 	{
-		Vector2 startPoint = GetRandomPointFromActiveArea ();
-		while( (startPoint.x > -2 && startPoint.x < 2) || (startPoint.y < 1 && startPoint.y > -1) )
-		{
+		Vector2 startPoint;
+		do{
 			startPoint = GetRandomPointFromActiveArea ();
-		}
+		}while(startPoint.x > -2 || startPoint.y < 1);
+
 		var line = this.lf.Create (startPoint);
+
+		this.DisplayVertex(startPoint, Color.red);
 		
 		// add end point symetric to start point 
 		line.AddVertex (new Vector2 (-startPoint.x, -startPoint.y));
@@ -195,6 +190,8 @@ public class ShapeGenerator : MonoBehaviour {
 		float radius = Random.Range (1f, 4f);
 		Vector2 startPoint = new Vector2(0, radius);
 		var circle = this.lf.Create (startPoint);
+
+		this.DisplayVertex(startPoint, Color.red);
 
 		for(float theta = 0; theta < 2*Mathf.PI; theta += 2*Mathf.PI / 100)
 		{
@@ -227,6 +224,8 @@ public class ShapeGenerator : MonoBehaviour {
 		Vector2 startPoint = new Vector2(0, yFactor * radius);
 		var ellipse = this.lf.Create (startPoint);
 
+		this.DisplayVertex(startPoint, Color.red);
+
 		for(float theta = 0; theta <= 2*Mathf.PI; theta += 2*Mathf.PI / 100)
 		{
 			var x = xFactor * radius * Mathf.Sin (theta);
@@ -235,6 +234,8 @@ public class ShapeGenerator : MonoBehaviour {
 		}
 
 		ellipse.AddVertex(new Vector2(0, yFactor * radius));
+
+		this.DisplayVertex(startPoint, Color.red);
 		
 		ellipse.SetColor(this.color);
 		ellipse.SetSize (this.size);
@@ -250,26 +251,28 @@ public class ShapeGenerator : MonoBehaviour {
 		Vector2 A = GetRandomPointFromActiveArea ();
 
 		// create second point
-		Vector2 B = GetRandomPointFromActiveArea ();
-		var firstLineLength = Vector2.Distance (A, B);
-		while (firstLineLength < minLineLength) {
+		Vector2 B;
+		float firstLineLength;
+		do{
 			B = GetRandomPointFromActiveArea ();
 			firstLineLength = Vector2.Distance (A, B);
-		}
+		} while(firstLineLength < minLineLength);
 
-		Vector2 C = GetRandomPointFromActiveArea ();
+		Vector2 C, AC, BA, BC;
 		Vector2 AB = (B - A).normalized;
-		Vector2 AC = (C - A).normalized;
-		float angleInA = Mathf.Acos (Vector2.Dot (AB, AC)) * 180 / Mathf.PI;
-
-		var secondLineLength = Vector2.Distance (B, C);
-
-		while (((secondLineLength < firstLineLength * 0.7f) && (secondLineLength > firstLineLength * 1.4f)) || (angleInA < 20f || angleInA > 100f)) {
+		float angleInA;
+		float angleInB;
+		float secondLineLength;
+		do {
 			C = GetRandomPointFromActiveArea ();
 			secondLineLength = Vector2.Distance (B, C);
 			AC = (C - A).normalized;
+			BA = (A - B).normalized;
+			BC = (C - B).normalized;
 			angleInA = Mathf.Acos (Vector2.Dot (AB, AC)) * 180 / Mathf.PI;
-		} 
+			angleInB = Mathf.Acos (Vector2.Dot (BA, BC)) * 180 / Mathf.PI;
+		} while (((secondLineLength < firstLineLength * 0.7f) && (secondLineLength > firstLineLength * 1.4f)) || (angleInA < 25f || angleInA > 100f) || (angleInB < 25f || angleInB > 100f));
+
 		// point of the center of a triangle
 		var translation = new Vector2( (A.x + B.x + C.x) / 3, (A.y + B.y + C.y) / 3);
 		// translate triangle to the center of a screen
@@ -281,6 +284,9 @@ public class ShapeGenerator : MonoBehaviour {
 		triangle.AddVertex (B);
 		triangle.AddVertex (C);
 		triangle.AddVertex (A);
+
+		this.DisplayVertex(A, Color.red);
+		this.DisplayVertex(B, Color.yellow);
 		
 		// set color and size of traingle's lines
 		triangle.SetColor(this.color);
@@ -291,12 +297,13 @@ public class ShapeGenerator : MonoBehaviour {
 
 	public ILine CreateSquare()
 	{
-		Vector2 A = GetRandomPointFromActiveArea();
-		float pointTranslation =  Vector2.Distance(A, new Vector2(0f, 0f)); // distance of the point from the center of the screen
-		while(pointTranslation < 1 || pointTranslation > this.gameUnitsVerticalInActiveArea){
+		Vector2 A;
+		float pointTranslation; // distance of the point from the center of the screen
+		do {
 			A = GetRandomPointFromActiveArea();
 			pointTranslation =  Vector2.Distance(A, new Vector2(0f, 0f));
-		}
+		} while (A.y < 1 || pointTranslation < 1 || pointTranslation > this.gameUnitsVerticalInActiveArea);
+
 		var square = this.lf.Create(A);
 		square.AddVertex(new Vector2(A.y, -A.x));
 		square.AddVertex(new Vector2(-A.x, -A.y));
@@ -306,15 +313,18 @@ public class ShapeGenerator : MonoBehaviour {
 		square.SetColor(this.color);
 		square.SetSize (this.size);
 
+		this.DisplayVertex(A, Color.red);
+
 		return square;
 	}
 
 	public ILine CreateRectangle()
 	{
-		Vector2 A = GetRandomPointFromActiveArea();
-		while((A.x < 1 && A.x > -1) || (A.y < 1 && A.y > -1) || A.x > 6 || A.x < -6){
+		Vector2 A;
+		do {
 			A = GetRandomPointFromActiveArea();
-		}
+		} while ((A.x < 1 && A.x > -1) || (A.y < 1 && A.y > -1) || A.x > 6 || A.x < -6 || (Mathf.Abs (A.x) < Mathf.Abs (A.y) * 1.2f && Mathf.Abs (A.x) > Mathf.Abs(A.y) * 0.8f));
+
 		var rectangle = this.lf.Create(A);
 		rectangle.AddVertex(new Vector2(-A.x, A.y));
 		rectangle.AddVertex(new Vector2(-A.x, -A.y));
@@ -323,6 +333,8 @@ public class ShapeGenerator : MonoBehaviour {
 		
 		rectangle.SetColor(this.color);
 		rectangle.SetSize (this.size);
+
+		this.DisplayVertex(A, Color.red);
 		
 		return rectangle;
 	}
@@ -361,6 +373,8 @@ public class ShapeGenerator : MonoBehaviour {
 		// set color and size of triangle's lines
 		curvedLine.SetColor(this.color);
 		curvedLine.SetSize (this.size);
+
+		this.DisplayVertex(q0, Color.red);
 
 		return curvedLine;
 	}
