@@ -61,6 +61,13 @@ public class SceneManager : BaseLvlManager<SceneManager>
         return false;
     }
 
+	public bool IsStartCorrect(Vector3 where) 
+	{
+		if (where != null)
+			return analizer.IsStartCorrect (where, shape.Shape);
+		return false;
+	}
+
     public void OnStopDraw()
     {
         if (drewThisRound)

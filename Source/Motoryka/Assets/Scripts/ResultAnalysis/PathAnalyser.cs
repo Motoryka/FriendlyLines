@@ -3,13 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 
 using LineManagement;
+
+public enum AccuracyLevel {
+	Easy,
+	Medium,
+	Hard
+}
+
 public class PathAnalyser : IAnalyser {
 		
+	private Dictionary<AccuracyLevel, int> levelMap = new Dictionary<AccuracyLevel, int> () 
+	{
+		{AccuracyLevel.Easy, 4},
+		{AccuracyLevel.Medium, 2},
+		{AccuracyLevel.Hard, 1}
+	};
+
+	private AccuracyLevel level;
 	private float _acceptedError = 0.5f;
 	private float _accuracy = 2f;
 	private float _finalPointsError = 0.5f;
 
-	public PathAnalyser () {}
+	public PathAnalyser () {
+		level = AccuracyLevel.Medium;
+	}
+
+	public PathAnalyser (AccuracyLevel level) {
+		this.level = level;
+	}
 
 	public bool IsFinished(ILine generatedLine, ILine userLine) {
 
@@ -26,7 +47,7 @@ public class PathAnalyser : IAnalyser {
 
 					float _distance = Vector2.Distance(point, checkpoint);
 
-					if (_distance < _acceptedError) {
+					if (_distance < _acceptedError*levelMap[level]) {
 						isChecked = true;
 						break;
 					}
@@ -51,8 +72,8 @@ public class PathAnalyser : IAnalyser {
 		if (listG.Length == 0 || listU.Length == 0)
 			return false;
 		
-		if (Vector2.Distance(listG[0], listU[0]) < _finalPointsError &&
-		    Vector2.Distance(listG[listG.Length-1], listU[listU.Length-1]) < _finalPointsError) {
+		if (Vector2.Distance(listG[0], listU[0]) < _finalPointsError*levelMap[level] &&
+		    Vector2.Distance(listG[listG.Length-1], listU[listU.Length-1]) < _finalPointsError*levelMap[level]) {
 			
 			return true;
 		}
@@ -67,7 +88,7 @@ public class PathAnalyser : IAnalyser {
 		
 		float covGen = GetGenLineCovering (generatedLine, userLine);
 		
-		Debug.Log (covUser + " ...:" + covGen + " == " + (covUser+covGen)/2);
+		//Debug.Log (covUser + " ...:" + covGen + " == " + (covUser+covGen)/2);
 		return (covUser+covGen)/2;
 	}
 	
@@ -145,5 +166,15 @@ public class PathAnalyser : IAnalyser {
 		}
 		
 		return 0;
+	}
+
+	
+	public bool IsStartCorrect(Vector3 point, ILine generatedLine) {
+		Vector2 vec = new Vector2 (point.x, point.y);
+		if (Vector2.Distance (vec, generatedLine.GetVertices2()[0]) < _finalPointsError) {
+			return true;
+		}
+
+		return false;
 	}
 }
