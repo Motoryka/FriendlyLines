@@ -14,18 +14,17 @@ public class PathAnalyser : IAnalyser {
 		
 	private Dictionary<AccuracyLevel, int> levelMap = new Dictionary<AccuracyLevel, int> () 
 	{
-		{AccuracyLevel.Easy, 4},
+		{AccuracyLevel.Easy, 3},
 		{AccuracyLevel.Medium, 2},
 		{AccuracyLevel.Hard, 1}
 	};
 
-	private AccuracyLevel level;
+	private AccuracyLevel level = AccuracyLevel.Medium;
 	private float _acceptedError = 0.5f;
 	private float _accuracy = 2f;
 	private float _finalPointsError = 0.5f;
 
 	public PathAnalyser () {
-		level = AccuracyLevel.Medium;
 	}
 
 	public PathAnalyser (AccuracyLevel level) {
@@ -39,30 +38,31 @@ public class PathAnalyser : IAnalyser {
 
 		bool isChecked = false;
 
-		GetResult (generatedLine, userLine);
-		if (AreFinalPointsCorrect(generatedLine, userLine)) {
-			foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
+		foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
 
-				foreach(Vector2 point in userLine.GetVertices2()) {
+			foreach(Vector2 point in userLine.GetVertices2()) {
 
-					float _distance = Vector2.Distance(point, checkpoint);
+				float _distance = Vector2.Distance(point, checkpoint);
 
-					if (_distance < _acceptedError*levelMap[level]) {
-						isChecked = true;
-						break;
-					}
+				if (_distance < _acceptedError*levelMap[level]) {
+					isChecked = true;
+					break;
 				}
-
-				if (!isChecked) {
-					return false;
-				}
-				isChecked = false;
 			}
 
-			return true;
+			if (!isChecked) {
+				return false;
+			}
+			isChecked = false;
 		}
 
-		return false;
+		int size = generatedLine.GetVertices2 ().Count;
+
+		if (size > 0 && generatedLine.GetVertices2 () [0] == generatedLine.GetVertices2 () [size-1]) {
+			return AreFinalPointsCorrect(generatedLine, userLine);
+		}
+
+		return true;
 	}
 
 	private bool AreFinalPointsCorrect (ILine generatedLine, ILine userLine) {
@@ -72,8 +72,8 @@ public class PathAnalyser : IAnalyser {
 		if (listG.Length == 0 || listU.Length == 0)
 			return false;
 		
-		if (Vector2.Distance(listG[0], listU[0]) < _finalPointsError*levelMap[level] &&
-		    Vector2.Distance(listG[listG.Length-1], listU[listU.Length-1]) < _finalPointsError*levelMap[level]) {
+		if (Vector2.Distance(listG[0], listU[0]) < _finalPointsError &&
+		    Vector2.Distance(listG[listG.Length-1], listU[listU.Length-1]) < _finalPointsError) {
 			
 			return true;
 		}
@@ -83,26 +83,25 @@ public class PathAnalyser : IAnalyser {
 	
 	public float GetResult (ILine generatedLine, ILine userLine) {
 		Vector3[] listG = generatedLine.GetVerticles ().ToArray ();
-		
+
 		float covUser = GetUserLineCovering (userLine, listG);
-		
+
 		float covGen = GetGenLineCovering (generatedLine, userLine);
 		
-		//Debug.Log (covUser + " ...:" + covGen + " == " + (covUser+covGen)/2);
+		Debug.Log (covUser + " ...:" + covGen + " == " + (covUser+covGen)/2 + "%");
 		return (covUser+covGen)/2;
 	}
 	
+	//jaki procent linii narysowanej lezy na tej wygenerowanej
 	private float GetUserLineCovering(ILine userLine, Vector3[] listG) {
 		int correctPoints = 0;
 		int wrongPoints = 0;
 		
 		foreach(Vector3 point in userLine.GetVerticles()) {
-			
 			float min = 100;
 			
 			for (int i = 0; i < listG.Length -1; i++) {
 				//(x2 - x1)(y - y1) = (y2 - y1)(x - x1)
-				
 				Vector3 p1 = listG[i];
 				Vector3 p2 = listG[i+1];
 				
@@ -112,31 +111,30 @@ public class PathAnalyser : IAnalyser {
 				float distA = Vector3.Distance(p1, point);
 				float distB = Vector3.Distance(p2, point);
 				float distC = Vector3.Distance(p1, p2);
-				
-				//Debug.Log(distA + " + " + distB + " = " + distC);
+
 				float distCheck = Mathf.Abs((distA + distB) - distC);
 				
 				float score = Mathf.Abs(left - right);
 				if (min > score && distCheck < _acceptedError) {
 					min = score;
 				}
-				//Debug.Log (min);
 			}
 			
-			if (min < _accuracy) {
+			if (min < _accuracy*levelMap[level]) {
 				correctPoints++;
 			}else {
 				wrongPoints++;
 			}
 		}
-		//Debug.Log (correctPoints + " " + wrongPoints);
+
 		if (correctPoints + wrongPoints != 0) {
 			return (correctPoints*100) / (correctPoints + wrongPoints);
 		}
 		
 		return 0;
 	}
-	
+
+	//jaki procent wygenerowanych wierzcholkow zostal pokryty
 	private float GetGenLineCovering (ILine generatedLine, ILine userLine) {
 		int correctCheckpoints = 0;
 		int wrongCheckpoints = 0;
