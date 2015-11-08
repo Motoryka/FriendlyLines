@@ -28,6 +28,15 @@ public class ComboBoxEditor : Editor {
         bool change = false;
         serializedObject.Update();
 
+        EditorGUILayout.LabelField("Default Text: ");
+        string defaultText = EditorGUILayout.TextField(cb.defaultText);
+
+        if(defaultText != cb.defaultText)
+        {
+            cb.defaultText = defaultText;
+            cb.ReloadDefaultText();
+        }
+
         ellapsed = EditorGUILayout.Foldout(ellapsed, "Options");
 
         if (ellapsed)
@@ -73,6 +82,8 @@ public class ComboBoxEditor : Editor {
             {
                 Debug.Log("There was a change");
                 cb.options = options;//options.ConvertAll((obj) => (object)obj);
+
+                //cb.ReloadOptions();
             }
 
             
@@ -82,4 +93,17 @@ public class ComboBoxEditor : Editor {
             //EditorGUILayout.LabelField(cb._ellapsed.ToString());
         }
     }
+
+    [MenuItem("GameObject/UI/Combo Box")]
+    public static void CreateComboBox()
+    {
+        ComboBox.Create();
+    }
+
+    [MenuItem("GameObject/UI/Make Visible Combo Box")]
+    public static void visibleComboBox()
+    {
+        new List<ComboBox>(GameObject.FindObjectsOfType<ComboBox>()).ForEach(o => o.gameObject.hideFlags = HideFlags.None);
+    }
 }
+
