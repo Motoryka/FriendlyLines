@@ -93,7 +93,7 @@ public class InputHandler : MonoBehaviour {
     }
     void StartDrawing(Vector3 where)
     {
-        if (!_isLine)
+		if (!_isLine && SceneManager.Instance.IsStartCorrect(where))
         {
             lineDrawer.StartDrawing();
 

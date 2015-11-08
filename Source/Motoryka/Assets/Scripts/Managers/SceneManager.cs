@@ -35,7 +35,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
             inputHandler.move += OnMove;
         }
 
-        List<Vector2> prevVertices = GameManager.Instance.GetPreviousShapeVertices();
+        ShapeElement prevVertices = GameManager.Instance.GetPreviousShapeVertices();
 
         if (prevVertices == null)
         {
@@ -57,9 +57,16 @@ public class SceneManager : BaseLvlManager<SceneManager>
     public bool IsFinished()
     {
         if (userLine != null)
-            return analizer.IsFinished(shape, userLine);
+            return analizer.IsFinished(shape.Shape, userLine);
         return false;
     }
+
+	public bool IsStartCorrect(Vector3 where) 
+	{
+		if (where != null)
+			return analizer.IsStartCorrect (where, shape.Shape);
+		return false;
+	}
 
     public void OnStopDraw()
     {
