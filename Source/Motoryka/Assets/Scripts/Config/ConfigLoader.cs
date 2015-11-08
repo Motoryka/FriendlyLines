@@ -24,7 +24,7 @@ public class ConfigLoader {
         StreamReader reader;
         try
         {
-            reader = new StreamReader(Application.persistentDataPath + "/" + filename);
+			reader = new StreamReader(Application.persistentDataPath + "/" + filename + ".xml");
         }
         catch (FileNotFoundException e)
         {
