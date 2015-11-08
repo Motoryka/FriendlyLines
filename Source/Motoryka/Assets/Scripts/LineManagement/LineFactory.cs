@@ -1,22 +1,42 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
-public class LineFactory<T> where T : ILine
+namespace LineManagement
 {
-    public GameObject canvas = null;
-
-    static private GameObject _linePrefab = null;
-    static private string _linePrefabName = "Prefabs/LinePrefab";
-
-    public T Create()
+    public class LineFactory<T> where T : ILine
     {
-        T newLine = default(T);
+        public GameObject canvas = null;
+        public string sortingLayer = "Shapes";
 
-        if (isLineLR(typeof(T)))
+        static private GameObject _linePrefab = null;
+        static private string _linePrefabName = "Prefabs/LinePrefab";
+        static private string _lineGLPrefabName = "Prefabs/LineGLPrefab";
+
+        public T Create()
         {
-            if (_linePrefab == null)
-                _linePrefab = (GameObject)Resources.Load(_linePrefabName);
+            T newLine = default(T);
+
+            if (isLineLR(typeof(T)))
+            {
+                if (_linePrefab == null)
+                    _linePrefab = (GameObject)Resources.Load(_linePrefabName);
+
+                /*  var newLineGameObject = ((GameObject)GameObject.Instantiate(_linePrefab, Vector3.zero, Quaternion.identity)).GetComponent<T>();
+
+                  if (canvas != null)
+                      newLineGameObject.Init(canvas.transform);
+
+                  newLine = newLineGameObject;
+                  newLine.SortingLayer = sortingLayer;*/
+            }
+            else if (isLineGL(typeof(T)))
+            {
+                if (_linePrefab == null)
+                    _linePrefab = (GameObject)Resources.Load(_lineGLPrefabName);
+
+            }
 
             var newLineGameObject = ((GameObject)GameObject.Instantiate(_linePrefab, Vector3.zero, Quaternion.identity)).GetComponent<T>();
 
@@ -24,51 +44,71 @@ public class LineFactory<T> where T : ILine
                 newLineGameObject.Init(canvas.transform);
 
             newLine = newLineGameObject;
+            newLine.SortingLayer = sortingLayer;
+
+            return newLine;
         }
 
-        return newLine;
-    }
 
+        public T Create(Vector3 startingVertex)
+        {
+            T newLine = Create();
 
-    public T Create(Vector3 startingVertex)
-    {
-        T newLine = Create();
+            newLine.AddVertex(startingVertex);
 
-        newLine.AddVertex(startingVertex);
+            return newLine;
+        }
 
-        return newLine;
-    }
+        public T Create(Vector3 startingVertex, Vector3 endingVertex)
+        {
+            T newLine = Create(startingVertex);
 
-    public T Create(Vector3 startingVertex, Vector3 endingVertex)
-    {
-        T newLine = Create(startingVertex);
+            newLine.AddVertex(endingVertex);
 
-        newLine.AddVertex(endingVertex);
+            return newLine;
+        }
 
-        return newLine;
-    }
+        public T Create(Vector2 startingVertex)
+        {
+            T newLine = Create();
 
-    public T Create(Vector2 startingVertex)
-    {
-        T newLine = Create();
+            newLine.AddVertex(startingVertex);
 
-        newLine.AddVertex(startingVertex);
+            return newLine;
+        }
 
-        return newLine;
-    }
+        public T Create(Vector2 startingVertex, Vector2 endingVertex)
+        {
+            T newLine = Create(startingVertex);
 
-    public T Create(Vector2 startingVertex, Vector2 endingVertex)
-    {
-        T newLine = Create(startingVertex);
+            newLine.AddVertex(endingVertex);
 
-        newLine.AddVertex(endingVertex);
+            return newLine;
+        }
 
-        return newLine;
-    }
+        public T Create(List<Vector2> vertices)
+        {
+            if (vertices.Count == 0)
+                return Create();
 
-    private bool isLineLR(Type t)
-    {
-        return t == typeof(LineLR);
+            T newLine = Create(vertices[0]);
+
+            foreach (Vector2 v in vertices)
+                newLine.AddVertex(v);
+
+            return newLine;
+        }
+
+        private bool isLineLR(Type t)
+        {
+            return t == typeof(LineManagement.LineRendererLines.Line);
+        }
+
+        private bool isLineGL(Type t)
+        {
+            return t == typeof(LineManagement.GLLines.Line);
+        }
+
     }
 
 }
