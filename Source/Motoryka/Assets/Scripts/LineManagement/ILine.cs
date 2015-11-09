@@ -17,6 +17,8 @@ namespace LineManagement
         List<Vector3> GetVertices();
         List<Vector2> GetVertices2();
         void SetVertice(int vertice, Vector2 v);
-		void CollapseToPoint(Vector2 v);
+		void CollapseToPoint(Vector2 v, float inTime);
+
+        void Delete();
     }
 }

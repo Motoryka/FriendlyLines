@@ -56,9 +56,17 @@ public class InputHandler : MonoBehaviour {
             Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)
-                press(cam.ScreenToWorldPoint(touch.position));
-            else if ( (touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Ended) && lineDrawer.IsDrawing)
-                release();
+            {
+                if (SceneManager.Instance.IsStartCorrect(cam.ScreenToWorldPoint(touch.position)))
+                {
+                    press(cam.ScreenToWorldPoint(touch.position));
+                }
+            }
+            else if ((touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Ended) && lineDrawer.IsDrawing)
+            {
+                if(lineDrawer.IsDrawing)
+                    release();
+            }
             else if (touch.phase == TouchPhase.Moved)
                 move(cam.ScreenToWorldPoint(touch.position));
 
@@ -74,8 +82,13 @@ public class InputHandler : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("There was a press");
-            if(press != null)
-                press(cam.ScreenToWorldPoint(Input.mousePosition));
+            if (press != null)
+            {
+                if (SceneManager.Instance.IsStartCorrect(cam.ScreenToWorldPoint(Input.mousePosition)))
+                {
+                    press(cam.ScreenToWorldPoint(Input.mousePosition));
+                }
+            }
             else
                 Debug.Log("press is null!");
         }
@@ -83,7 +96,8 @@ public class InputHandler : MonoBehaviour {
         if (Input.GetMouseButtonUp(0))
         {
             Debug.Log("There was a release");
-            release();
+            if (lineDrawer.IsDrawing)
+                release();
         }
 
         if (_mouseMoved())
@@ -116,12 +130,12 @@ public class InputHandler : MonoBehaviour {
 
     void StopDrawing()
     {
-        if (!_isLine)
+        if (!_isLine && lineDrawer.IsDrawing)
         {
             Debug.Log("Input: stopping drawing");
             lineDrawer.StopDrawing();
 
-            //_isLine = true;
+            _isLine = true;
         }
     }
 
