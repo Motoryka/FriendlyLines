@@ -295,10 +295,8 @@ namespace LineManagement.GLLines
             {
                 isCollapsing = false;
             }
-            else
-            {
-                recomputeTriangles();
-            }
+                
+            recomputeTriangles();
 		}
 
         void UpdateThickness()

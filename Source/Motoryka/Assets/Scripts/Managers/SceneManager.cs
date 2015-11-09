@@ -16,6 +16,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     public LineDrawer lineDrawer;
 
+    public float collapsingTime = 0.3f;
+
     bool drewThisRound = false;
 
     public override void Init()
@@ -72,11 +74,12 @@ public class SceneManager : BaseLvlManager<SceneManager>
     protected override void PreFinish()
     {
         Debug.Log("Prefinish");
-        float time = 0.4f;
+
         lineDrawer.StopDrawing();
-        shape.Shape.CollapseToPoint(Vector2.zero, time);
-        shape.StartPoint.CollapseToPoint(Vector2.zero, time);
-        userLine.CollapseToPoint(Vector2.zero, time);
+
+        shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);
+        shape.StartPoint.CollapseToPoint(Vector2.zero, collapsingTime);
+        userLine.CollapseToPoint(Vector2.zero, collapsingTime);
     }
 
     public void RegisterUserLine(ILine line)
