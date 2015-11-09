@@ -80,7 +80,6 @@ public class ComboBoxEditor : Editor {
 
             if(change)
             {
-                Debug.Log("There was a change");
                 cb.options = options;//options.ConvertAll((obj) => (object)obj);
 
                 //cb.ReloadOptions();

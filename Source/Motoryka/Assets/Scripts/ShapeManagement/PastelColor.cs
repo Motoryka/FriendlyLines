@@ -72,4 +72,26 @@ public class PastelColorFactory
         colorList.Add(pastelColor);
         return pastelColor;
     }
+
+    public static string GetColorName(Color c)
+    {
+        foreach(PastelColor pc in colorList)
+        {
+            if (pc.Color == c)
+                return pc.Name;
+        }
+
+        return "Nieznany";
+    }
+
+    public static PastelColor GetColor(string name)
+    {
+        foreach (PastelColor pc in colorList)
+        {
+            if (pc.Name == name)
+                return pc;
+        }
+
+        return PastelColorFactory.Black;
+    }
 }

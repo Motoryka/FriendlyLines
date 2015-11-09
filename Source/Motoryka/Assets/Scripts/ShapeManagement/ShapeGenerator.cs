@@ -30,6 +30,20 @@ public static class LineStroke
     public const float Thick = 1.2f;
 
     public const float VeryThick = 1.4f;
+
+
+    public static int FloatToInt(float f)
+    {
+        return _ftoi[f];
+    }
+
+    public static float IntToFloat(int i)
+    {
+        return _itof[i];
+    }
+
+    static Dictionary<float, int> _ftoi = new Dictionary<float, int> { { VeryThin, 0 }, { Thin, 1 }, { Medium, 2 }, { Thick, 3 }, { VeryThick, 4 } };
+    static Dictionary<int, float> _itof = new Dictionary<int, float> { { 0, VeryThin }, { 1, Thin }, { 2, Medium }, { 3, Thick }, { 4, VeryThick } };
 }
 
 public class ShapeGenerator : MonoBehaviour
