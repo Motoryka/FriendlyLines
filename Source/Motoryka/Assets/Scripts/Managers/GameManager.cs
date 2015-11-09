@@ -37,7 +37,9 @@ public class GameManager : Singleton<GameManager>, IInitable {
         /* We want this to persist through game life */
         DontDestroyOnLoad(this);
 
-        //_config = ConfigLoader.DeserializeConfig("config.xml");
+		Config conf = ConfigFactory.CreateHardLevel();
+		ConfigLoader.SerializeConfig(conf, "config");
+        _config = ConfigLoader.DeserializeConfig("config");
         
         fader = GetComponent<Fader>();
 
@@ -69,7 +71,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public Shape GetCurrentShape()
     {
-        return _config.Shapes[CurrentLevel - 1];
+		return _config.Levels[CurrentLevel - 1].shape;
     }
 
     public ShapeElement GetPreviousShapeVertices()

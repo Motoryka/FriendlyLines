@@ -22,6 +22,7 @@ public class InputHandler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Debug.Log("Adding to press");
         press += StartDrawing;
         release += StopDrawing;
         move += Move;
@@ -71,10 +72,19 @@ public class InputHandler : MonoBehaviour {
     private void _MouseInputHandler()
     {
         if (Input.GetMouseButtonDown(0))
-            press(cam.ScreenToWorldPoint(Input.mousePosition));
+        {
+            Debug.Log("There was a press");
+            if(press != null)
+                press(cam.ScreenToWorldPoint(Input.mousePosition));
+            else
+                Debug.Log("press is null!");
+        }
 
         if (Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("There was a release");
             release();
+        }
 
         if (_mouseMoved())
             move(cam.ScreenToWorldPoint(Input.mousePosition));
@@ -93,8 +103,11 @@ public class InputHandler : MonoBehaviour {
     }
     void StartDrawing(Vector3 where)
     {
+        Debug.Log("Input: starting drawing");
+
 		if (!_isLine && SceneManager.Instance.IsStartCorrect(where))
         {
+            Debug.Log("Input: starting drawing");
             lineDrawer.StartDrawing();
 
             lineDrawer.Draw(where);
@@ -105,6 +118,7 @@ public class InputHandler : MonoBehaviour {
     {
         if (!_isLine)
         {
+            Debug.Log("Input: stopping drawing");
             lineDrawer.StopDrawing();
 
             //_isLine = true;
