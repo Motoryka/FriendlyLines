@@ -49,6 +49,14 @@ public class SceneManager : BaseLvlManager<SceneManager>
         drewThisRound = false;
     }
 
+    protected override void PreFinish()
+    {
+//        base.PostFinish();
+        Animator animator = GetComponent<Animator>();
+        animator.SetTrigger("finished");
+        Debug.Log("Animation trigger is set");
+    }
+
     public void RegisterUserLine(ILine line)
     {
         userLine = line;
