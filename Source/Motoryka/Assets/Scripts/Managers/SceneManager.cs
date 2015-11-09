@@ -82,9 +82,9 @@ public class SceneManager : BaseLvlManager<SceneManager>
         userLine.CollapseToPoint(Vector2.zero, collapsingTime);
     }
 
-    protected override void PreFinish()
+    protected override void PostFinish()
     {
-//        base.PostFinish();
+        userLine.Delete();
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("finished");
         Debug.Log("Animation trigger is set");
