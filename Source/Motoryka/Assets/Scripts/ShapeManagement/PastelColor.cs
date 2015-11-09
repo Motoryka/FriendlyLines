@@ -22,6 +22,7 @@ public class PastelColorFactory
 
     static PastelColorFactory()
     {
+        colorList = new List<PastelColor>();
         LightRed = AddColorToList("Jasny czerwony", new Color(1f, 0.702f, 0.702f));
         LightGreen = AddColorToList("Jasny zielony", new Color(0.6f, 1f, 0.608f));
         LightBlue = AddColorToList("Jasny niebieski", new Color(0.702f, 0.898f, 1f));

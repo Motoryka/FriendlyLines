@@ -20,10 +20,14 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     public override void Init()
     {
-		if(sGen != null)
-      		sGen = GetComponent<ShapeGenerator>();
-		else
-			sGen = new ShapeGenerator();
+        if (sGen != null)
+            sGen = GetComponent<ShapeGenerator>();
+        else
+        {
+            var go = new GameObject();
+            go.name = "ShapeGenerator";
+            sGen = go.AddComponent<ShapeGenerator>();
+        }
         analizer = new PathAnalyser();
     }
 
@@ -64,7 +68,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
         drewThisRound = false;
 
-        this.shape = this.sGen.CreateShape(this.sGen.CollapseShape(shape));
+        //this.shape = this.sGen.CreateShape(this.sGen.CollapseShape(shape));
     }
 
     public void RegisterUserLine(ILine line)

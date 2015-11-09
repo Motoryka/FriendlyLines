@@ -61,7 +61,7 @@ public class ShapeGenerator : MonoBehaviour
     private List<Colors> colors;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         this.screenWidth = (float)Screen.width;
         this.screenHeight = (float)Screen.height;
