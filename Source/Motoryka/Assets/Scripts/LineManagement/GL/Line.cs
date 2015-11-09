@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace LineManagement.GLLines
 {
+    using System;
 
     public class Line : MonoBehaviour, ILine
     {
@@ -16,13 +18,19 @@ namespace LineManagement.GLLines
         Color _color;
         Color _newColor;
         Material _mat;
+		bool isCollapsing = false;
+		Vector2 collapseTargetPoint;
+		List<float> vertexAccellerations;
+		List<float> previousVelocities;
+
+        List<Vector2> verticesToCollapse;
 
         bool shouldRecompute = true;
         bool parentSet = false;
 
         Transform _parent;
 
-        float _circleDensity = 16;
+        float _circleDensity = 16f;
 
         public Line()
         {
@@ -35,10 +43,39 @@ namespace LineManagement.GLLines
             
             _color = Color.red;
             _thickness = 1f;
-            _defaultZ = 0;
+            _defaultZ = 0f;
 
             recomputeTriangles();
         }
+
+        public void SetVertice(int vertice, Vector2 v)
+        {
+            try
+            {
+                this._vertices[vertice] = v;
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Debug.LogError("Index out of range exception in SetVertice: " + e.Message);
+            }
+        }
+
+		public void CollapseToPoint(Vector2 v, float collapseTime)
+		{
+			isCollapsing = true;
+			collapseTargetPoint = v;
+
+			vertexAccellerations = new List<float>();
+			previousVelocities = new List<float>();
+            verticesToCollapse = _vertices;
+
+            foreach (Vector2 vertex in verticesToCollapse)
+			{
+				float a = 2f*(v - vertex).magnitude / (Mathf.Pow(collapseTime,2f));
+				vertexAccellerations.Add(a);
+				previousVelocities.Add (0f);
+			}
+		}
 
         void recomputeTriangles()
         {
@@ -224,7 +261,43 @@ namespace LineManagement.GLLines
             UpdateColor();
             UpdateVertices();
 
+
+			if(isCollapsing)
+			{
+				_collapseVertices();
+			}
         }
+
+		void _collapseVertices()
+		{
+            int inDestination = 0;
+
+            for (int i = 0; i < verticesToCollapse.Count; ++i)
+			{
+                Vector2 line = (collapseTargetPoint - verticesToCollapse[i]);
+                float v = previousVelocities[i] + vertexAccellerations[i] * Time.deltaTime;
+                Vector2 direction = line.normalized;
+                Vector2 newPos = verticesToCollapse[i] + direction * previousVelocities[i] * Time.deltaTime + direction * vertexAccellerations[i] * Mathf.Pow(Time.deltaTime, 2f) / 2;
+                previousVelocities[i] = v;
+
+                if ((verticesToCollapse[i] - collapseTargetPoint).magnitude < (newPos - collapseTargetPoint).magnitude)
+                {
+                    verticesToCollapse[i] = collapseTargetPoint;
+                    inDestination++;
+                }
+                else
+                {
+                    verticesToCollapse[i] = newPos;
+                }
+            }
+
+            if (inDestination == verticesToCollapse.Count)
+            {
+                isCollapsing = false;
+            }
+                
+            recomputeTriangles();
+		}
 
         void UpdateThickness()
         {
@@ -361,7 +434,7 @@ namespace LineManagement.GLLines
             AddVertex(new Vector2(pos.x, pos.y));
         }
 
-        public List<Vector3> GetVerticles()
+        public List<Vector3> GetVertices()
         {
             var l = new List<Vector3>();
 
@@ -377,6 +450,12 @@ namespace LineManagement.GLLines
         public List<Vector2> GetVertices2()
         {
             return _vertices;
+        }
+
+
+        public void Delete()
+        {
+            Destroy(gameObject);
         }
     }
 

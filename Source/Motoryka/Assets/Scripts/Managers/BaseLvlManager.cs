@@ -18,7 +18,7 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
     bool _restarting = false;
     bool _finishing = false;
     
-    protected ILine shape;
+    protected ShapeElement shape;
     public virtual void Init()
     {
 

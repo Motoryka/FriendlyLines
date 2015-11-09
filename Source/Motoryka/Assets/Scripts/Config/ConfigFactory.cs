@@ -4,7 +4,8 @@ using Random = UnityEngine.Random;
 using System;
 using System.Collections.Generic;
 
-public class ConfigFactory : MonoBehaviour {
+public class ConfigFactory 
+{
 
 	public static Config CreateEasyLevel()
 	{
@@ -44,9 +45,9 @@ public class ConfigFactory : MonoBehaviour {
 			CreationDate = DateTime.Now,
             NrOfLevels = 3,
 			Levels = new List<LevelConfig> {
-				new LevelConfig { levelNumber = 1, shape = Shape.Circle, shapeStroke = 1f, brushStroke = 1f, shapeColor = Color.blue, brushColor = Color.cyan, difficulty = 2 },
-				new LevelConfig { levelNumber = 2, shape = Shape.Square, shapeStroke = 1f, brushStroke = 1f, shapeColor = Color.blue, brushColor = Color.cyan, difficulty = 2 },
-				new LevelConfig { levelNumber = 3, shape = Shape.Triangle, shapeStroke = 1f, brushStroke = 1f, shapeColor = Color.blue, brushColor = Color.cyan, difficulty = 2 }
+				new LevelConfig { levelNumber = 1, shape = Shape.CurvedLine, shapeStroke = LineStroke.Thin, brushStroke = LineStroke.Thin, shapeColor = Color.yellow, brushColor = Color.red, difficulty = 2 },
+				new LevelConfig { levelNumber = 2, shape = Shape.Square, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = Color.blue, brushColor = Color.cyan, difficulty = 2 },
+				new LevelConfig { levelNumber = 3, shape = Shape.Triangle, shapeStroke = LineStroke.Thick, brushStroke = LineStroke.Thick, shapeColor = Color.gray, brushColor = Color.black, difficulty = 2 }
 			}
 		};
 		return config;
