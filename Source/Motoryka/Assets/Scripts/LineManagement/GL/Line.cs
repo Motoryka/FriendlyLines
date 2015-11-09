@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace LineManagement.GLLines
 {
+    using System;
 
     public class Line : MonoBehaviour, ILine
     {
@@ -38,6 +39,18 @@ namespace LineManagement.GLLines
             _defaultZ = 0;
 
             recomputeTriangles();
+        }
+
+        public void SetVertice(int vertice, Vector2 v)
+        {
+            try
+            {
+                this._vertices[vertice] = v;
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Debug.LogError("Index out of range exception in SetVertice: " + e.Message);
+            }
         }
 
         void recomputeTriangles()
@@ -361,7 +374,7 @@ namespace LineManagement.GLLines
             AddVertex(new Vector2(pos.x, pos.y));
         }
 
-        public List<Vector3> GetVerticles()
+        public List<Vector3> GetVertices()
         {
             var l = new List<Vector3>();
 

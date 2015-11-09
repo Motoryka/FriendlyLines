@@ -82,7 +82,7 @@ public class PathAnalyser : IAnalyser {
 	}
 	
 	public float GetResult (ILine generatedLine, ILine userLine) {
-		Vector3[] listG = generatedLine.GetVerticles ().ToArray ();
+		Vector3[] listG = generatedLine.GetVertices().ToArray ();
 
 		float covUser = GetUserLineCovering (userLine, listG);
 
@@ -97,7 +97,7 @@ public class PathAnalyser : IAnalyser {
 		int correctPoints = 0;
 		int wrongPoints = 0;
 		
-		foreach(Vector3 point in userLine.GetVerticles()) {
+		foreach(Vector3 point in userLine.GetVertices()) {
 			float min = 100;
 			
 			for (int i = 0; i < listG.Length -1; i++) {
@@ -128,7 +128,7 @@ public class PathAnalyser : IAnalyser {
 		}
 
 		if (correctPoints + wrongPoints != 0) {
-			return (correctPoints*100) / (correctPoints + wrongPoints);
+			return ((correctPoints*100) / (correctPoints + wrongPoints));
 		}
 		
 		return 0;
@@ -139,10 +139,10 @@ public class PathAnalyser : IAnalyser {
 		int correctCheckpoints = 0;
 		int wrongCheckpoints = 0;
 		
-		foreach (Vector3 checkpoint in generatedLine.GetVerticles()) {
+		foreach (Vector3 checkpoint in generatedLine.GetVertices()) {
 			bool correct = false;
 			
-			foreach(Vector3 point in userLine.GetVerticles()) {
+			foreach(Vector3 point in userLine.GetVertices()) {
 				
 				float _distance = Vector3.Distance(point, checkpoint);
 				

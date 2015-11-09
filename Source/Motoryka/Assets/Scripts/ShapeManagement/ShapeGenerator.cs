@@ -19,10 +19,25 @@ public enum Shape
     Rectangle
 }
 
+public static class LineStroke
+{
+    public const float VeryThin = 0.4f;
+
+    public const float Thin = 0.7f;
+
+    public const float Medium = 1.0f;
+
+    public const float Thick = 1.2f;
+
+    public const float VeryThick = 1.4f;
+}
+
 public class ShapeGenerator : MonoBehaviour
 {
 
     private LineFactory lf;
+
+    private PastelColorFactory pcf;
 
     private float screenWidth; // width in px
     private float screenHeight; // height in px
@@ -61,6 +76,8 @@ public class ShapeGenerator : MonoBehaviour
 
         lf = new LineFactory();
 
+        pcf = new PastelColorFactory();
+
         BezierCurves = new List<List<Vector2>>
 		{
 			new List<Vector2> { new Vector2(-3, -2), new Vector2(-5, 2), new Vector2(-2, 3), new Vector2(0, 1) },
@@ -91,31 +108,31 @@ public class ShapeGenerator : MonoBehaviour
 			{ Shape.Rectangle, CreateRectangle }
 		};
 
-        colors = new List<Colors>() {
-			new Colors (new Color(1,1,0.6f), 		new Color(0.5f,0,0)),//beige
-			new Colors (new Color(0.5f,0,0), 		new Color(1,1,0.6f)),//bordo
-			new Colors (new Color(1,0.5f, 0.5f), 	new Color(0.9f,0,0)),//pink
-			new Colors (new Color(0.9f,0,0), 		new Color(1,0.5f, 0.5f)),//red
-			new Colors (new Color(0.58f, 1,1), 		new Color(1,0.5f,0)), //light blue
-			new Colors (new Color(1,0.5f,0), 		new Color(0.58f, 1,1)), //orange
-			new Colors (new Color(0, 0.58f, 0.58f), new Color(1,0.9f,0)),  //blue
-			new Colors (new Color(1,0.9f,0), 		new Color(0, 0.58f, 0.58f)),  //yellow
-			new Colors (new Color(1, 0.5f, 0.5f), 	new Color(0.39f, 0, 0.78f)), //light pink
-			new Colors (new Color(1, 0.1f, 0.57f), 	new Color(1,1,0.38f)), //pink
-			new Colors (new Color(0.36f, 0.36f, 0.36f), new Color(0.6f, 0.8f, 0.2f)), //gray
-			new Colors (new Color(0.6f, 0.8f, 0.2f), new Color(0.36f, 0.36f, 0.36f)), //light green
-			new Colors (new Color(0.7f,1,0), 		new Color(1, 0.5f, 0)), //glary green
-			new Colors (new Color(0, 0.4f, 0), 		new Color(0,1,0)), //dark green
-			new Colors (new Color(0.2f, 0.4f, 0.4f), new Color(1,1, 0.5f)), // blue/gray
-			new Colors (new Color(0,0,0.8f), 		new Color(0.78f, 0, 0.78f)), //blue
-			new Colors (new Color(0.55f, 0, 0.55f), new Color(1, 0.58f, 1)), //violet
-			new Colors (new Color(1, 0.7f, 0.4f), 	new Color(0.6f, 0.4f, 0.3f)), //orange
-			new Colors (new Color(0.6f, 0.4f, 0.3f),new Color(1, 0.7f, 0.4f)), //brown
-			new Colors (new Color(0.54f, 0.27f, 0.05f), new Color(0.2f, 1, 0.2f)), //dark brown
-			new Colors (new Color(0.9f, 1,1), 		new Color(0.2f, 0.2f, 1)), //white
-			new Colors (new Color(0.5f, 0.5f, 0.5f), new Color(1,0.7f, 0.2f)), //gray
-			new Colors (new Color(0.5f, 0.5f, 0), 	new Color(0.5f, 0.9f, 0.2f))//olive
-		};
+        //colors = new List<Colors>() {
+        //    new Colors (new Color(1,1,0.6f), 		new Color(0.5f,0,0)),//beige
+        //    new Colors (new Color(0.5f,0,0), 		new Color(1,1,0.6f)),//bordo
+        //    new Colors (new Color(1,0.5f, 0.5f), 	new Color(0.9f,0,0)),//pink
+        //    new Colors (new Color(0.9f,0,0), 		new Color(1,0.5f, 0.5f)),//red
+        //    new Colors (new Color(0.58f, 1,1), 		new Color(1,0.5f,0)), //light blue
+        //    new Colors (new Color(1,0.5f,0), 		new Color(0.58f, 1,1)), //orange
+        //    new Colors (new Color(0, 0.58f, 0.58f), new Color(1,0.9f,0)),  //blue
+        //    new Colors (new Color(1,0.9f,0), 		new Color(0, 0.58f, 0.58f)),  //yellow
+        //    new Colors (new Color(1, 0.5f, 0.5f), 	new Color(0.39f, 0, 0.78f)), //light pink
+        //    new Colors (new Color(1, 0.1f, 0.57f), 	new Color(1,1,0.38f)), //pink
+        //    new Colors (new Color(0.36f, 0.36f, 0.36f), new Color(0.6f, 0.8f, 0.2f)), //gray
+        //    new Colors (new Color(0.6f, 0.8f, 0.2f), new Color(0.36f, 0.36f, 0.36f)), //light green
+        //    new Colors (new Color(0.7f,1,0), 		new Color(1, 0.5f, 0)), //glary green
+        //    new Colors (new Color(0, 0.4f, 0), 		new Color(0,1,0)), //dark green
+        //    new Colors (new Color(0.2f, 0.4f, 0.4f), new Color(1,1, 0.5f)), // blue/gray
+        //    new Colors (new Color(0,0,0.8f), 		new Color(0.78f, 0, 0.78f)), //blue
+        //    new Colors (new Color(0.55f, 0, 0.55f), new Color(1, 0.58f, 1)), //violet
+        //    new Colors (new Color(1, 0.7f, 0.4f), 	new Color(0.6f, 0.4f, 0.3f)), //orange
+        //    new Colors (new Color(0.6f, 0.4f, 0.3f),new Color(1, 0.7f, 0.4f)), //brown
+        //    new Colors (new Color(0.54f, 0.27f, 0.05f), new Color(0.2f, 1, 0.2f)), //dark brown
+        //    new Colors (new Color(0.9f, 1,1), 		new Color(0.2f, 0.2f, 1)), //white
+        //    new Colors (new Color(0.5f, 0.5f, 0.5f), new Color(1,0.7f, 0.2f)), //gray
+        //    new Colors (new Color(0.5f, 0.5f, 0), 	new Color(0.5f, 0.9f, 0.2f))//olive
+		//};
     }
 
     public ShapeElement CreateShape(Shape shape)
@@ -165,18 +182,18 @@ public class ShapeGenerator : MonoBehaviour
         Vector2 startPoint = new Vector2(Random.Range(-this.gameUnitsHorizontalInActiveArea + 2, -2), 0);
         var line = this.lf.Create(startPoint);
 
-        this.DisplayVertex(startPoint, Color.red);
+        //this.DisplayVertex(startPoint, Color.red);
 
         // add end point symetric to start point 
         line.AddVertex(new Vector2(-startPoint.x, -startPoint.y));
 
-        Colors color = GetRandomColor();
+        //Colors color = GetRandomColor();
 
-        line.SetColor(color.Line);
+        line.SetColor(this.color);
         line.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-        startLine.SetColor(color.StartPoint);
+        startLine.SetColor(this.color);
         startLine.SetSize(this.size);
 
         ShapeElement shape = new ShapeElement(line, startLine);
@@ -190,17 +207,17 @@ public class ShapeGenerator : MonoBehaviour
 
         var line = this.lf.Create(startPoint);
 
-        this.DisplayVertex(startPoint, Color.red);
+        //this.DisplayVertex(startPoint, Color.red);
 
         // add end point symetric to start point 
         line.AddVertex(new Vector2(-startPoint.x, -startPoint.y));
-        Colors c = GetRandomColor();
+        //Colors c = GetRandomColor();
 
-        line.SetColor(c.Line);
+        line.SetColor(this.color);
         line.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-        startLine.SetColor(c.StartPoint);
+        startLine.SetColor(this.color);
         startLine.SetSize(this.size);
 
         ShapeElement shape = new ShapeElement(line, startLine);
@@ -215,13 +232,13 @@ public class ShapeGenerator : MonoBehaviour
 
         // add end point symetric to start point 
         line.AddVertex(new Vector2(-startPoint.x, -startPoint.y));
-        Colors c = GetRandomColor();
+        //Colors c = GetRandomColor();
 
-        line.SetColor(c.Line);
+        line.SetColor(this.color);
         line.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-        startLine.SetColor(c.StartPoint);
+        startLine.SetColor(this.color);
         startLine.SetSize(this.size);
 
         ShapeElement shape = new ShapeElement(line, startLine);
@@ -239,17 +256,17 @@ public class ShapeGenerator : MonoBehaviour
 
         var line = this.lf.Create(startPoint);
 
-        this.DisplayVertex(startPoint, Color.red);
+        //this.DisplayVertex(startPoint, Color.red);
 
         // add end point symetric to start point 
         line.AddVertex(new Vector2(-startPoint.x, -startPoint.y));
-        Colors c = GetRandomColor();
+        //Colors c = GetRandomColor();
 
-        line.SetColor(c.Line);
+        line.SetColor(this.color);
         line.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-        startLine.SetColor(c.StartPoint);
+        startLine.SetColor(this.color);
         startLine.SetSize(this.size);
 
         ShapeElement shape = new ShapeElement(line, startLine);
@@ -263,7 +280,7 @@ public class ShapeGenerator : MonoBehaviour
         Vector2 startPoint = new Vector2(0, radius);
         var circle = this.lf.Create(startPoint);
 
-        this.DisplayVertex(startPoint, Color.red);
+        //this.DisplayVertex(startPoint, Color.red);
 
         for (float theta = 0; theta < 2 * Mathf.PI; theta += 2 * Mathf.PI / 100)
         {
@@ -273,13 +290,13 @@ public class ShapeGenerator : MonoBehaviour
         }
 
         circle.AddVertex(new Vector2(0, radius));
-        Colors c = GetRandomColor();
+        //Colors c = GetRandomColor();
 
-        circle.SetColor(c.Line);
+        circle.SetColor(this.color);
         circle.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-        startLine.SetColor(c.StartPoint);
+        startLine.SetColor(this.color);
         startLine.SetSize(this.size);
 
         ShapeElement shape = new ShapeElement(circle, startLine);
@@ -305,8 +322,6 @@ public class ShapeGenerator : MonoBehaviour
         Vector2 startPoint = new Vector2(0, yFactor * radius);
         var ellipse = this.lf.Create(startPoint);
 
-        this.DisplayVertex(startPoint, Color.red);
-
         for (float theta = 0; theta <= 2 * Mathf.PI; theta += 2 * Mathf.PI / 100)
         {
             var x = xFactor * radius * Mathf.Sin(theta);
@@ -315,16 +330,16 @@ public class ShapeGenerator : MonoBehaviour
         }
 
         ellipse.AddVertex(new Vector2(0, yFactor * radius));
-        Colors c = GetRandomColor();
+        //Colors c = GetRandomColor();
 
-        ellipse.SetColor(c.Line);
+        ellipse.SetColor(this.color);
 
-        this.DisplayVertex(startPoint, Color.red);
+        //this.DisplayVertex(startPoint, Color.red);
 
         ellipse.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-        startLine.SetColor(c.StartPoint);
+        startLine.SetColor(this.color);
         startLine.SetSize(this.size);
 
         ShapeElement shape = new ShapeElement(ellipse, startLine);
@@ -335,7 +350,6 @@ public class ShapeGenerator : MonoBehaviour
     public ShapeElement CreateTriangle()
     {
         float minLineLength = 0.6f * (this.gameUnitsVertical - this.gameUnitsVerticalMargin); // 60% of active generating area height
-
         // create random start point vector
         Vector2 A = GetRandomPointFromActiveArea();
 
@@ -376,17 +390,17 @@ public class ShapeGenerator : MonoBehaviour
         triangle.AddVertex(C);
         triangle.AddVertex(A);
 
-        Colors c = GetRandomColor();
+        //Colors c = GetRandomColor();
 
-        this.DisplayVertex(A, Color.red);
-        this.DisplayVertex(B, Color.yellow);
+        //this.DisplayVertex(A, Color.red);
+        //this.DisplayVertex(B, Color.yellow);
 
         // set color and size of traingle's lines
-        triangle.SetColor(c.Line);
+        triangle.SetColor(this.color);
         triangle.SetSize(this.size);
 
         var startLine = this.lf.Create(A);
-        startLine.SetColor(c.StartPoint);
+        startLine.SetColor(this.color);
         startLine.SetSize(this.size);
 
         ShapeElement shape = new ShapeElement(triangle, startLine);
@@ -410,15 +424,15 @@ public class ShapeGenerator : MonoBehaviour
         square.AddVertex(new Vector2(-A.y, A.x));
         square.AddVertex(A);
 
-        Colors c = GetRandomColor();
+        //Colors c = GetRandomColor();
 
-        square.SetColor(c.Line);
+        square.SetColor(this.color);
         square.SetSize(this.size);
 
         var startLine = this.lf.Create(A);
-        startLine.SetColor(c.StartPoint);
+        startLine.SetColor(this.color);
         startLine.SetSize(this.size);
-        this.DisplayVertex(A, Color.red);
+        //this.DisplayVertex(A, Color.red);
 
         ShapeElement shape = new ShapeElement(square, startLine);
 
@@ -439,15 +453,15 @@ public class ShapeGenerator : MonoBehaviour
         rectangle.AddVertex(new Vector2(A.x, -A.y));
         rectangle.AddVertex(A);
 
-        Colors c = GetRandomColor();
+        //Colors c = GetRandomColor();
 
-        rectangle.SetColor(c.Line);
+        rectangle.SetColor(this.color);
         rectangle.SetSize(this.size);
 
-        this.DisplayVertex(A, Color.red);
+        //this.DisplayVertex(A, Color.red);
 
         var startLine = this.lf.Create(A);
-        startLine.SetColor(c.StartPoint);
+        startLine.SetColor(this.color);
         startLine.SetSize(this.size);
 
         ShapeElement shape = new ShapeElement(rectangle, startLine);
@@ -486,17 +500,30 @@ public class ShapeGenerator : MonoBehaviour
             curvedLine.AddVertex(q1);
         }
 
-        Colors c = GetRandomColor();
+        //Colors c = GetRandomColor();
         // set color and size of triangle's lines
-        curvedLine.SetColor(c.Line);
+        curvedLine.SetColor(this.color);
         curvedLine.SetSize(this.size);
 
         var startLine = this.lf.Create(q0);
-        startLine.SetColor(c.StartPoint);
+        startLine.SetColor(this.color/*PastelColorFactory.LightRed.Color*/);
         startLine.SetSize(this.size);
-        this.DisplayVertex(q0, Color.red);
 
         ShapeElement shape = new ShapeElement(curvedLine, startLine);
+
+        return shape;
+    }
+
+    public ShapeElement CollapseShape(ShapeElement shape)
+    {
+        var increments = 30;
+        List<Vector2> verticeList = shape.Shape.GetVertices2();
+
+        shape.StartPoint.SetVertice(0, verticeList[0] / 2);
+        for (int i = 0; i < shape.Shape.VertexCount; i++)
+        {
+            shape.Shape.SetVertice(i, verticeList[i] / 2);
+        }
 
         return shape;
     }

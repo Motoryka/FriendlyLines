@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace LineManagement.LineRendererLines
 {
+    using System;
+
     public class Line : MonoBehaviour, ILine
     {
         public string SortingLayer
@@ -79,6 +81,18 @@ namespace LineManagement.LineRendererLines
             }
         }
 
+        public void SetVertice(int vertice, Vector2 v)
+        {
+            try
+            {
+                this._vertices[vertice] = v;
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Debug.LogError("Index out of range exception in SetVertice: " + e.Message);
+            }
+        }
+
         public void AddVertex(Vector2 pos)
         {
             AddVertex(new Vector3(pos.x, pos.y, _defaultPosition.z));
@@ -118,7 +132,7 @@ namespace LineManagement.LineRendererLines
             get { return this._color; }
         }
 
-        public List<Vector3> GetVerticles()
+        public List<Vector3> GetVertices()
         {
             return _vertices;
         }

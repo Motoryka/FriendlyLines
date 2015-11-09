@@ -14,11 +14,16 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     public InputHandler inputHandler;
 
+    public LineDrawer lineDrawer;
+
     bool drewThisRound = false;
 
     public override void Init()
     {
-        sGen = GetComponent<ShapeGenerator>();
+		if(sGen != null)
+      		sGen = GetComponent<ShapeGenerator>();
+		else
+			sGen = new ShapeGenerator();
         analizer = new PathAnalyser();
     }
 
@@ -35,7 +40,18 @@ public class SceneManager : BaseLvlManager<SceneManager>
             inputHandler.move += OnMove;
         }
 
+        if (this.lineDrawer == null)
+        {
+            this.lineDrawer = GameObject.FindObjectOfType<LineDrawer>();
+        }
+
         ShapeElement prevVertices = GameManager.Instance.GetPreviousShapeVertices();
+
+        this.sGen.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeColor;
+        this.sGen.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeStroke;
+
+        this.lineDrawer.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushColor;
+        this.lineDrawer.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushStroke;
 
         if (prevVertices == null)
         {
@@ -47,6 +63,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
         }
 
         drewThisRound = false;
+
+        this.shape = this.sGen.CreateShape(this.sGen.CollapseShape(shape));
     }
 
     public void RegisterUserLine(ILine line)

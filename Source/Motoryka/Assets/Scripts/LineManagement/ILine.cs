@@ -14,7 +14,8 @@ namespace LineManagement
         void SetSize(float size);
         void AddVertex(Vector2 pos);
         void AddVertex(Vector3 pos);
-        List<Vector3> GetVerticles();
+        List<Vector3> GetVertices();
         List<Vector2> GetVertices2();
+        void SetVertice(int vertice, Vector2 v);
     }
 }
