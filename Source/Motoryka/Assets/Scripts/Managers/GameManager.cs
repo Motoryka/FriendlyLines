@@ -37,7 +37,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
         /* We want this to persist through game life */
         DontDestroyOnLoad(this);
 
-		Config conf = ConfigFactory.CreateHardLevel();
+		Config conf = ConfigFactory.CreateMediumLevel();
 		ConfigLoader.SerializeConfig(conf, "config");
         _config = ConfigLoader.DeserializeConfig("config");
         
