@@ -9,6 +9,7 @@ public class Config
 	public int Id { get; set; }
 	public string Name { get; set; }
 	public DateTime CreationDate { get; set; }
+	public bool DrawStartPoint { get; set; }
 	public int NrOfLevels { get; set; }
 	public List<LevelConfig> Levels { get; set; }
 }
