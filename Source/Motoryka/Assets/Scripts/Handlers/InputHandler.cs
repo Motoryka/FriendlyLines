@@ -22,6 +22,7 @@ public class InputHandler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Debug.Log("Adding to press");
         press += StartDrawing;
         release += StopDrawing;
         move += Move;
@@ -55,9 +56,17 @@ public class InputHandler : MonoBehaviour {
             Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)
-                press(cam.ScreenToWorldPoint(touch.position));
-            else if ( (touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Ended) && lineDrawer.IsDrawing)
-                release();
+            {
+                if (SceneManager.Instance.IsStartCorrect(cam.ScreenToWorldPoint(touch.position)))
+                {
+                    press(cam.ScreenToWorldPoint(touch.position));
+                }
+            }
+            else if ((touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Ended) && lineDrawer.IsDrawing)
+            {
+                if(lineDrawer.IsDrawing)
+                    release();
+            }
             else if (touch.phase == TouchPhase.Moved)
                 move(cam.ScreenToWorldPoint(touch.position));
 
@@ -71,10 +80,25 @@ public class InputHandler : MonoBehaviour {
     private void _MouseInputHandler()
     {
         if (Input.GetMouseButtonDown(0))
-            press(cam.ScreenToWorldPoint(Input.mousePosition));
+        {
+            Debug.Log("There was a press");
+            if (press != null)
+            {
+                if (SceneManager.Instance.IsStartCorrect(cam.ScreenToWorldPoint(Input.mousePosition)))
+                {
+                    press(cam.ScreenToWorldPoint(Input.mousePosition));
+                }
+            }
+            else
+                Debug.Log("press is null!");
+        }
 
         if (Input.GetMouseButtonUp(0))
-            release();
+        {
+            Debug.Log("There was a release");
+            if (lineDrawer.IsDrawing)
+                release();
+        }
 
         if (_mouseMoved())
             move(cam.ScreenToWorldPoint(Input.mousePosition));
@@ -93,8 +117,11 @@ public class InputHandler : MonoBehaviour {
     }
     void StartDrawing(Vector3 where)
     {
-        if (!_isLine)
+        Debug.Log("Input: starting drawing");
+
+		if (!_isLine && SceneManager.Instance.IsStartCorrect(where))
         {
+            Debug.Log("Input: starting drawing");
             lineDrawer.StartDrawing();
 
             lineDrawer.Draw(where);
@@ -103,11 +130,12 @@ public class InputHandler : MonoBehaviour {
 
     void StopDrawing()
     {
-        if (!_isLine)
+        if (!_isLine && lineDrawer.IsDrawing)
         {
+            Debug.Log("Input: stopping drawing");
             lineDrawer.StopDrawing();
 
-            //_isLine = true;
+            _isLine = true;
         }
     }
 

@@ -14,11 +14,20 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     public InputHandler inputHandler;
 
+    public LineDrawer lineDrawer;
+
+    public float collapsingTime = 0.3f;
+
     bool drewThisRound = false;
 
     public override void Init()
     {
-        sGen = GetComponent<ShapeGenerator>();
+        if (sGen != null)
+            sGen = GetComponent<ShapeGenerator>();
+        else
+        {
+            sGen = gameObject.AddComponent<ShapeGenerator>();
+        }
         analizer = new PathAnalyser();
     }
 
@@ -35,7 +44,18 @@ public class SceneManager : BaseLvlManager<SceneManager>
             inputHandler.move += OnMove;
         }
 
-        List<Vector2> prevVertices = GameManager.Instance.GetPreviousShapeVertices();
+        if (this.lineDrawer == null)
+        {
+            this.lineDrawer = GameObject.FindObjectOfType<LineDrawer>();
+        }
+
+        ShapeElement prevVertices = GameManager.Instance.GetPreviousShapeVertices();
+
+        this.sGen.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeColor;
+        this.sGen.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeStroke;
+
+        this.lineDrawer.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushColor;
+        this.lineDrawer.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushStroke;
 
         if (prevVertices == null)
         {
@@ -47,6 +67,19 @@ public class SceneManager : BaseLvlManager<SceneManager>
         }
 
         drewThisRound = false;
+
+        //this.shape = this.sGen.CreateShape(this.sGen.CollapseShape(shape));
+    }
+
+    protected override void PreFinish()
+    {
+        Debug.Log("Prefinish");
+
+        lineDrawer.StopDrawing();
+
+        shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);
+        shape.StartPoint.CollapseToPoint(Vector2.zero, collapsingTime);
+        userLine.CollapseToPoint(Vector2.zero, collapsingTime);
     }
 
     protected override void PreFinish()
@@ -65,9 +98,16 @@ public class SceneManager : BaseLvlManager<SceneManager>
     public bool IsFinished()
     {
         if (userLine != null)
-            return analizer.IsFinished(shape, userLine);
+            return analizer.IsFinished(shape.Shape, userLine);
         return false;
     }
+
+	public bool IsStartCorrect(Vector3 where) 
+	{
+		if (where != null)
+			return analizer.IsStartCorrect (where, shape.Shape);
+		return false;
+	}
 
     public void OnStopDraw()
     {

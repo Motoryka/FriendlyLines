@@ -58,6 +58,7 @@ namespace LineManagement
 
         public void StartDrawing()
         {
+            Debug.Log("LineDrawer: starting drawing");
             _drawing = true;
             _currentLine = _factory.Create();
             _lines.Add(_currentLine);
@@ -86,6 +87,7 @@ namespace LineManagement
 
         public void StopDrawing()
         {
+            Debug.Log("LineDrawer: stoping drawing");
             _drawing = false;
             _currentLine = null;
         }

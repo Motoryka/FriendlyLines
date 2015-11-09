@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace LineManagement.LineRendererLines
 {
+    using System;
+
     public class Line : MonoBehaviour, ILine
     {
         public string SortingLayer
@@ -39,6 +41,11 @@ namespace LineManagement.LineRendererLines
             _defaultPosition = new Vector3(0f, 0f, -1f);
             _lrSortingLayer = "";
         }
+
+		public void CollapseToPoint(Vector2 v, float inTime)
+		{
+			throw new NotImplementedException();
+		}
 
         // Use this for initialization
         void Start()
@@ -76,6 +83,18 @@ namespace LineManagement.LineRendererLines
             {
                 _lrSortingLayer = _sortingLayer;
                 _lineRenderer.sortingLayerName = _lrSortingLayer;
+            }
+        }
+
+        public void SetVertice(int vertice, Vector2 v)
+        {
+            try
+            {
+                this._vertices[vertice] = v;
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Debug.LogError("Index out of range exception in SetVertice: " + e.Message);
             }
         }
 
@@ -118,7 +137,7 @@ namespace LineManagement.LineRendererLines
             get { return this._color; }
         }
 
-        public List<Vector3> GetVerticles()
+        public List<Vector3> GetVertices()
         {
             return _vertices;
         }
@@ -134,6 +153,12 @@ namespace LineManagement.LineRendererLines
             }
 
             return l;
+        }
+
+
+        public void Delete()
+        {
+            throw new NotImplementedException();
         }
     }
 }
