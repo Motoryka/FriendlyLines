@@ -24,9 +24,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
             sGen = GetComponent<ShapeGenerator>();
         else
         {
-            var go = new GameObject();
-            go.name = "ShapeGenerator";
-            sGen = go.AddComponent<ShapeGenerator>();
+            sGen = gameObject.AddComponent<ShapeGenerator>();
         }
         analizer = new PathAnalyser();
     }
@@ -69,6 +67,16 @@ public class SceneManager : BaseLvlManager<SceneManager>
         drewThisRound = false;
 
         //this.shape = this.sGen.CreateShape(this.sGen.CollapseShape(shape));
+    }
+
+    protected override void PreFinish()
+    {
+        Debug.Log("Prefinish");
+        float time = 0.4f;
+        lineDrawer.StopDrawing();
+        shape.Shape.CollapseToPoint(Vector2.zero, time);
+        shape.StartPoint.CollapseToPoint(Vector2.zero, time);
+        userLine.CollapseToPoint(Vector2.zero, time);
     }
 
     public void RegisterUserLine(ILine line)

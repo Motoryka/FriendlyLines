@@ -42,7 +42,7 @@ namespace LineManagement.LineRendererLines
             _lrSortingLayer = "";
         }
 
-		public void CollapseToPoint(Vector2 v)
+		public void CollapseToPoint(Vector2 v, float inTime)
 		{
 			throw new NotImplementedException();
 		}
@@ -153,6 +153,12 @@ namespace LineManagement.LineRendererLines
             }
 
             return l;
+        }
+
+
+        public void Delete()
+        {
+            throw new NotImplementedException();
         }
     }
 }

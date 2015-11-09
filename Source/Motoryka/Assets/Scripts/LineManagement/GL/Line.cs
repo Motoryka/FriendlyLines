@@ -23,6 +23,8 @@ namespace LineManagement.GLLines
 		List<float> vertexAccellerations;
 		List<float> previousVelocities;
 
+        List<Vector2> verticesToCollapse;
+
         bool shouldRecompute = true;
         bool parentSet = false;
 
@@ -65,9 +67,11 @@ namespace LineManagement.GLLines
 
 			vertexAccellerations = new List<float>();
 			previousVelocities = new List<float>();
-			foreach (Vector2 vertex in _triangleVertices)
+            verticesToCollapse = _vertices;
+
+            foreach (Vector2 vertex in verticesToCollapse)
 			{
-				float a = 2f*(v - vertex) / (Mathf.Pow(collapseTime,2f));
+				float a = 2f*(v - vertex).magnitude / (Mathf.Pow(collapseTime,2f));
 				vertexAccellerations.Add(a);
 				previousVelocities.Add (0f);
 			}
@@ -266,10 +270,35 @@ namespace LineManagement.GLLines
 
 		void _collapseVertices()
 		{
-			for (int i = 0; i< _triangleVertices.Count ; ++i)
+            int inDestination = 0;
+
+            for (int i = 0; i < verticesToCollapse.Count; ++i)
 			{
-				Vector2 direction = 
-			}
+                Vector2 line = (collapseTargetPoint - verticesToCollapse[i]);
+                float v = previousVelocities[i] + vertexAccellerations[i] * Time.deltaTime;
+                Vector2 direction = line.normalized;
+                Vector2 newPos = verticesToCollapse[i] + direction * previousVelocities[i] * Time.deltaTime + direction * vertexAccellerations[i] * Mathf.Pow(Time.deltaTime, 2f) / 2;
+                previousVelocities[i] = v;
+
+                if ((verticesToCollapse[i] - collapseTargetPoint).magnitude < (newPos - collapseTargetPoint).magnitude)
+                {
+                    verticesToCollapse[i] = collapseTargetPoint;
+                    inDestination++;
+                }
+                else
+                {
+                    verticesToCollapse[i] = newPos;
+                }
+            }
+
+            if (inDestination == verticesToCollapse.Count)
+            {
+                isCollapsing = false;
+            }
+            else
+            {
+                recomputeTriangles();
+            }
 		}
 
         void UpdateThickness()
@@ -423,6 +452,12 @@ namespace LineManagement.GLLines
         public List<Vector2> GetVertices2()
         {
             return _vertices;
+        }
+
+
+        public void Delete()
+        {
+            Destroy(gameObject);
         }
     }
 
