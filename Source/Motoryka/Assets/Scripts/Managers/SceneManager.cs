@@ -57,6 +57,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
         this.lineDrawer.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushColor;
         this.lineDrawer.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushStroke;
 
+		this.sGen.drawStartPoint = GameManager.Instance._config.DrawStartPoint;
+
         if (prevVertices == null)
         {
             shape = sGen.CreateShape(GameManager.Instance.GetCurrentShape());

@@ -13,7 +13,7 @@ public class ComboBox : MonoBehaviour {
     delegate void ClickOutsideAction(ComboBox sender = null, GameObject panel = null);
     static event ClickOutsideAction OnClickOutside;
 
-    public delegate void OptionChangeAction(GameObject sender, string newValue);
+    public delegate void OptionChangeAction(GameObject sender, string newValue, int index);
     public event OptionChangeAction OnOptionChange;
 
     int _selectedOption = 0;
@@ -21,6 +21,9 @@ public class ComboBox : MonoBehaviour {
     Text _text;
     bool _ellapsed = false;
     RectTransform _rectTransform;
+
+    int indexOptionToSet = -1;
+    string textToSet = "";
 
     GameObject _itemPrefab;
 
@@ -171,6 +174,18 @@ public class ComboBox : MonoBehaviour {
             if (OnClickOutside != null)
                 OnClickOutside(this, _panel.gameObject);
         }
+
+        if(indexOptionToSet != -1 && options != null)
+        {
+            _text.text = options[indexOptionToSet];
+            indexOptionToSet = -1;
+        }
+
+        if (textToSet != "")
+        {
+            _text.text = textToSet;
+            textToSet = "";
+        }
 	}
 
     void ToggleEllapse()
@@ -180,7 +195,6 @@ public class ComboBox : MonoBehaviour {
 
     void Collapse(ComboBox sender, GameObject panel)
     {
-        Debug.Log(sender.gameObject.name + ": Collapse");
         panel.gameObject.SetActive(false);
         sender._ellapsed = false;
     }
@@ -209,11 +223,29 @@ public class ComboBox : MonoBehaviour {
 
     void changeText(string text)
     {
+        int index = 0;
+
+        for (index = 0; index < options.Count; ++index )
+        {
+            if (options[index] == text)
+                break;
+        }
+
         if (OnOptionChange != null)
-            OnOptionChange(gameObject, text);
+            OnOptionChange(gameObject, text, index);
 
         _text.text = text;
         Collapse(this, _panel.gameObject);
+    }
+
+    public void SetChoice(string text)
+    {
+        textToSet = text;
+    }
+
+    public void SetChoice(int index)
+    {
+        indexOptionToSet = index;
     }
 
     Rect rectTransformToRect(RectTransform rt)
