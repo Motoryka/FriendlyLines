@@ -12,4 +12,10 @@ public class Config
 	public bool DrawStartPoint { get; set; }
 	public int NrOfLevels { get; set; }
 	public List<LevelConfig> Levels { get; set; }
+
+    public Config()
+    {
+        CreationDate = DateTime.Now;
+        Levels = new List<LevelConfig>();
+    }
 }

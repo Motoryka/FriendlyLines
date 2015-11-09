@@ -180,7 +180,6 @@ public class ComboBox : MonoBehaviour {
 
     void Collapse(ComboBox sender, GameObject panel)
     {
-        Debug.Log(sender.gameObject.name + ": Collapse");
         panel.gameObject.SetActive(false);
         sender._ellapsed = false;
     }
