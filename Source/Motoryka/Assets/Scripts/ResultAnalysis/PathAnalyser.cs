@@ -12,15 +12,15 @@ public enum AccuracyLevel {
 
 public class PathAnalyser : IAnalyser {
 		
-	private Dictionary<AccuracyLevel, int> levelMap = new Dictionary<AccuracyLevel, int> () 
+	private Dictionary<AccuracyLevel, float> levelMap = new Dictionary<AccuracyLevel, float> () 
 	{
-		{AccuracyLevel.Easy, 3},
-		{AccuracyLevel.Medium, 2},
+		{AccuracyLevel.Easy, 2},
+		{AccuracyLevel.Medium, 1.5f},
 		{AccuracyLevel.Hard, 1}
 	};
 
 	private AccuracyLevel level = AccuracyLevel.Medium;
-	private float _acceptedError = 0.5f;
+	private float _acceptedError = 0.4f;
 	private float _accuracy = 2f;
 	private float _finalPointsError = 0.5f;
 
@@ -82,7 +82,7 @@ public class PathAnalyser : IAnalyser {
 	}
 	
 	public float GetResult (ILine generatedLine, ILine userLine) {
-		Vector3[] listG = generatedLine.GetVertices().ToArray ();
+		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
 
 		float covUser = GetUserLineCovering (userLine, listG);
 
@@ -93,24 +93,24 @@ public class PathAnalyser : IAnalyser {
 	}
 	
 	//jaki procent linii narysowanej lezy na tej wygenerowanej
-	private float GetUserLineCovering(ILine userLine, Vector3[] listG) {
+	private float GetUserLineCovering(ILine userLine, Vector2[] listG) {
 		int correctPoints = 0;
 		int wrongPoints = 0;
 		
-		foreach(Vector3 point in userLine.GetVertices()) {
+		foreach(Vector2 point in userLine.GetVertices2()) {
 			float min = 100;
 			
 			for (int i = 0; i < listG.Length -1; i++) {
 				//(x2 - x1)(y - y1) = (y2 - y1)(x - x1)
-				Vector3 p1 = listG[i];
-				Vector3 p2 = listG[i+1];
+				Vector2 p1 = listG[i];
+				Vector2 p2 = listG[i+1];
 				
 				float left = (p2.x - p1.x)*(point.y - p1.y);
 				float right= (p2.y - p1.y)*(point.x - p1.x);
 				
-				float distA = Vector3.Distance(p1, point);
-				float distB = Vector3.Distance(p2, point);
-				float distC = Vector3.Distance(p1, p2);
+				float distA = Vector2.Distance(p1, point);
+				float distB = Vector2.Distance(p2, point);
+				float distC = Vector2.Distance(p1, p2);
 
 				float distCheck = Mathf.Abs((distA + distB) - distC);
 				
@@ -139,12 +139,12 @@ public class PathAnalyser : IAnalyser {
 		int correctCheckpoints = 0;
 		int wrongCheckpoints = 0;
 		
-		foreach (Vector3 checkpoint in generatedLine.GetVertices()) {
+		foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
 			bool correct = false;
 			
-			foreach(Vector3 point in userLine.GetVertices()) {
+			foreach(Vector2 point in userLine.GetVertices2()) {
 				
-				float _distance = Vector3.Distance(point, checkpoint);
+				float _distance = Vector2.Distance(point, checkpoint);
 				
 				if (_distance < _acceptedError) {
 					correct = true;
