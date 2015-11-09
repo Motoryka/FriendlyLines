@@ -42,6 +42,11 @@ namespace LineManagement.LineRendererLines
             _lrSortingLayer = "";
         }
 
+		public void CollapseToPoint(Vector2 v)
+		{
+			throw new NotImplementedException();
+		}
+
         // Use this for initialization
         void Start()
         {

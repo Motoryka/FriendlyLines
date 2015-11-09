@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace LineManagement.GLLines
 {
@@ -17,13 +18,17 @@ namespace LineManagement.GLLines
         Color _color;
         Color _newColor;
         Material _mat;
+		bool isCollapsing = false;
+		Vector2 collapseTargetPoint;
+		List<float> vertexAccellerations;
+		List<float> previousVelocities;
 
         bool shouldRecompute = true;
         bool parentSet = false;
 
         Transform _parent;
 
-        float _circleDensity = 16;
+        float _circleDensity = 16f;
 
         public Line()
         {
@@ -36,7 +41,7 @@ namespace LineManagement.GLLines
             
             _color = Color.red;
             _thickness = 1f;
-            _defaultZ = 0;
+            _defaultZ = 0f;
 
             recomputeTriangles();
         }
@@ -52,6 +57,21 @@ namespace LineManagement.GLLines
                 Debug.LogError("Index out of range exception in SetVertice: " + e.Message);
             }
         }
+
+		public void CollapseToPoint(Vector2 v, float collapseTime)
+		{
+			isCollapsing = true;
+			collapseTargetPoint = v;
+
+			vertexAccellerations = new List<float>();
+			previousVelocities = new List<float>();
+			foreach (Vector2 vertex in _triangleVertices)
+			{
+				float a = 2f*(v - vertex) / (Mathf.Pow(collapseTime,2f));
+				vertexAccellerations.Add(a);
+				previousVelocities.Add (0f);
+			}
+		}
 
         void recomputeTriangles()
         {
@@ -237,7 +257,20 @@ namespace LineManagement.GLLines
             UpdateColor();
             UpdateVertices();
 
+
+			if(isCollapsing)
+			{
+				_collapseVertices();
+			}
         }
+
+		void _collapseVertices()
+		{
+			for (int i = 0; i< _triangleVertices.Count ; ++i)
+			{
+				Vector2 direction = 
+			}
+		}
 
         void UpdateThickness()
         {

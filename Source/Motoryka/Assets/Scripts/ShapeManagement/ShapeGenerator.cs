@@ -506,7 +506,7 @@ public class ShapeGenerator : MonoBehaviour
         curvedLine.SetSize(this.size);
 
         var startLine = this.lf.Create(q0);
-        startLine.SetColor(this.color/*PastelColorFactory.LightRed.Color*/);
+        startLine.SetColor(PastelColorFactory.LightRed.Color);
         startLine.SetSize(this.size);
 
         ShapeElement shape = new ShapeElement(curvedLine, startLine);
