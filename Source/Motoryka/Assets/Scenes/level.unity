@@ -239,6 +239,7 @@ GameObject:
   - 114: {fileID: 1330420325}
   - 114: {fileID: 1330420326}
   - 95: {fileID: 1330420327}
+  - 212: {fileID: 1330420328}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -271,6 +272,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputHandler: {fileID: 0}
+  lineDrawer: {fileID: 0}
+  collapsingTime: .300000012
 --- !u!114 &1330420326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,8 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe58cafe246fa041840c24fe656ea7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: .450354934, g: .610294104, b: 0, a: 1}
-  size: 1
+  drawStartPoint: 0
 --- !u!95 &1330420327
 Animator:
   serializedVersion: 3
@@ -301,6 +303,32 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!212 &1330420328
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1330420323}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 6ed3a3217c8e06b4c8f361eafe527fbe, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1357435659
 GameObject:
   m_ObjectHideFlags: 0
