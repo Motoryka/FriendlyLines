@@ -87,12 +87,12 @@ public class GameManager : Singleton<GameManager>, IInitable {
         _currentLevel++;
 
         if (CurrentLevel <= _config.NrOfLevels)
-            fader.LoadSceneFadingAfterTime(sceneName, new WaitForSeconds(1f));
+            fader.LoadSceneFadingAfterTime(sceneName, new WaitForSeconds(5f));
         else
         {
-            fader.LoadSceneFadingAfterTime(finishSceneName, new WaitForSeconds(1f));
+            fader.LoadSceneFadingAfterTime(finishSceneName, new WaitForSeconds(5f));
 
-            fader.FinishGame(titleSceneName, new WaitForSeconds(5f));
+            fader.FinishGame(titleSceneName, new WaitForSeconds(10f));
         }
     }
 
