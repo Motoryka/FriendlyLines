@@ -301,7 +301,7 @@ namespace LineManagement.GLLines
 
         void UpdateThickness()
         {
-            if ((_newThickness != null) && _thickness != _newThickness)
+            if (_thickness != _newThickness)
             {
                 _thickness = _newThickness;
                 recomputeTriangles();
@@ -310,7 +310,7 @@ namespace LineManagement.GLLines
 
         void UpdateColor()
         {
-            if ((_newColor != null) && _color != _newColor)
+            if (_color != _newColor)
             {
                 _color = _newColor;
             }

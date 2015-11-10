@@ -65,7 +65,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
         }
         else
         {
-            shape = sGen.CreateShape(prevVertices);
+
+            shape = prevVertices;//sGen.CreateShape(prevVertices);
         }
 
         drewThisRound = false;
@@ -106,9 +107,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
 	public bool IsStartCorrect(Vector3 where) 
 	{
-		if (where != null)
-			return analizer.IsStartCorrect (where, shape.Shape);
-		return false;
+		return analizer.IsStartCorrect (where, shape.Shape);
 	}
 
     public void OnStopDraw()

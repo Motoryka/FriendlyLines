@@ -137,6 +137,7 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
         {
             _finishing = true;
             PostFinish();
+            shape.DontPreserve();
             GameManager.Instance.SendMessage("FinishedLevel");
         }
     }
@@ -146,6 +147,7 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
         if (!_finishing && !_restarting)
         {
             _restarting = true;
+            shape.Preserve();
             GameManager.Instance.SendMessage("RestartLevel", shape);
         }
     }
