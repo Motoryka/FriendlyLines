@@ -422,6 +422,10 @@ namespace LineManagement.GLLines
             _newThickness = size / 2;
         }
 
+		public float GetSize() {
+			return _newThickness;
+		}
+
         public void AddVertex(Vector2 pos)
         {
             _vertices.Add(pos);

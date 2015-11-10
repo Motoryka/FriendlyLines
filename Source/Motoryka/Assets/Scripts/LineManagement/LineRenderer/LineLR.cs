@@ -112,6 +112,9 @@ namespace LineManagement.LineRendererLines
         {
             _size = size;
         }
+		public float GetSize() {
+			return _size;
+		}
 
         public int VertexCount
         {

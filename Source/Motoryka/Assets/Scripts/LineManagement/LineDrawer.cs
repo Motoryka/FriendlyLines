@@ -97,6 +97,10 @@ namespace LineManagement
             this.size = size;
         }
 
+		public float GetSize() {
+			return this.size;
+		}
+
         public void SetFrequency(float f)
         {
             this.frequency = f;

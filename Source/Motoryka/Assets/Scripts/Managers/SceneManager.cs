@@ -87,6 +87,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     protected override void PostFinish()
     {
+		Debug.Log ("Wynik: " + analizer.GetResult (shape.Shape, userLine) + " %");
         userLine.Delete();
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("finished");
@@ -113,7 +114,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
     public void OnStopDraw()
     {
         if (drewThisRound)
-        {
+		{
+			Debug.Log ("Wynik: " + analizer.GetResult (shape.Shape, userLine) + " %");
             if (IsFinished())
             {
                 CurrentPhase = LevelPhase.Finished;
