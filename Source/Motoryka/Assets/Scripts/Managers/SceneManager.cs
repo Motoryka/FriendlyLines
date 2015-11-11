@@ -78,6 +78,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         Debug.Log("Prefinish");
 
+        Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLine) + " %");
+
         lineDrawer.StopDrawing();
 
         shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);
@@ -95,7 +97,6 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     protected override void PostFinish()
     {
-		Debug.Log ("Wynik: " + analizer.GetResult (shape.Shape, userLine) + " %");
         userLine.Delete();
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("finished");

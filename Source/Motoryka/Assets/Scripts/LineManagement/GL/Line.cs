@@ -30,7 +30,7 @@ namespace LineManagement.GLLines
 
         Transform _parent;
 
-        float _circleDensity = 16f;
+        float _circleDensity = 24f;
 
         public Line()
         {
