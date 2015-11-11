@@ -83,6 +83,14 @@ public class SceneManager : BaseLvlManager<SceneManager>
         shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);
         shape.StartPoint.CollapseToPoint(Vector2.zero, collapsingTime);
         userLine.CollapseToPoint(Vector2.zero, collapsingTime);
+
+        StartCoroutine(FinishAfterTime(collapsingTime));
+    }
+
+    IEnumerator FinishAfterTime(float t)
+    {
+        yield return new WaitForSeconds(t);
+        CurrentPhase = LevelPhase.Finished;
     }
 
     protected override void PostFinish()
@@ -93,6 +101,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
         animator.SetTrigger("finished");
         Debug.Log("Animation trigger is set");
     }
+
+
 
     public void RegisterUserLine(ILine line)
     {
@@ -118,7 +128,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
 			Debug.Log ("Wynik: " + analizer.GetResult (shape.Shape, userLine) + " %");
             if (IsFinished())
             {
-                CurrentPhase = LevelPhase.Finished;
+                CurrentPhase = LevelPhase.Prefinished;
             }
             else
             {
@@ -131,7 +141,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         if (inputHandler.lineDrawer.IsDrawing && IsFinished())
         {
-            CurrentPhase = LevelPhase.Finished;
+            CurrentPhase = LevelPhase.Prefinished;
         }
     }
 
