@@ -20,8 +20,6 @@ public class PathAnalyser : IAnalyser {
 	};
 	
 	private AccuracyLevel level = AccuracyLevel.Medium;
-	private float _acceptedError = 0.4f;
-	private float _accuracy = 2f;
 	private float _finalPointsError = 0.5f;
 	
 	public PathAnalyser () {
@@ -66,7 +64,7 @@ public class PathAnalyser : IAnalyser {
 	}
 	
 	private bool AreFinalPointsCorrect (ILine generatedLine, ILine userLine) {
-		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
+		/*Vector2[] listG = generatedLine.GetVertices2().ToArray ();
 		Vector2[] listU = userLine.GetVertices2().ToArray ();
 		
 		if (listG.Length == 0 || listU.Length == 0)
@@ -76,9 +74,14 @@ public class PathAnalyser : IAnalyser {
 		    Vector2.Distance(listG[listG.Length-1], listU[listU.Length-1]) < _finalPointsError) {
 			
 			return true;
-		}
-		
-		return false;
+		}*/
+		int size = userLine.GetVertices2 ().Count;
+
+		if (size == 0)
+			return false;
+
+		float distance = Vector2.Distance (userLine.GetVertices2 () [0], userLine.GetVertices2 () [size - 1]);
+		return distance < generatedLine.GetSize()*2;
 	}
 	
 	public float GetResult (ILine generatedLine, ILine userLine) {
@@ -89,7 +92,9 @@ public class PathAnalyser : IAnalyser {
 		return (covUser+covGen)/2;
 	}
 	
-	//jaki procent linii narysowanej lezy na tej wygenerowanej
+	/*
+	 * Jaki procent linii narysowanej lezy na tej wygenerowanej.
+	 */
 	private float GetUserLineCovering(ILine userLine, ILine generatedLine) {
 		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
 		int correctPoints = 0;
@@ -112,7 +117,9 @@ public class PathAnalyser : IAnalyser {
 		return 0;
 	}
 	
-	//jaki procent wygenerowanych wierzcholkow zostal pokryty
+	/*
+	 * Jaki procent wygenerowanych wierzcholkow zostal pokryty.
+	 */
 	private float GetGenLineCovering (ILine generatedLine, ILine userLine) {
 		int correctCheckpoints = 0;
 		int wrongCheckpoints = 0;
