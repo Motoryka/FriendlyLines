@@ -22,7 +22,7 @@ AnimationClip:
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
-      - time: .166666672
+      - time: .200000003
         value: {x: 1.5, y: 1.5, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
@@ -38,21 +38,23 @@ AnimationClip:
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
-      - time: .166666672
+      - time: .200000003
         value: {x: 1.5, y: 1.5, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
-    path: rozgwiazda_1
+    path: AnimationSprite1
   m_FloatCurves: []
   m_PPtrCurves:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: 0ddac27dd9d5b9042827019592304736, type: 3}
+    - time: .200000003
+      value: {fileID: 21300000, guid: 0ddac27dd9d5b9042827019592304736, type: 3}
     attribute: m_Sprite
-    path: rozgwiazda_1
+    path: AnimationSprite1
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -62,7 +64,7 @@ AnimationClip:
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
     genericBindings:
-    - path: 4030494474
+    - path: 4169057064
       attribute: 0
       script: {fileID: 0}
       classID: 212
@@ -74,7 +76,7 @@ AnimationClip:
       classID: 4
       customType: 0
       isPPtrCurve: 0
-    - path: 4030494474
+    - path: 4169057064
       attribute: 3
       script: {fileID: 0}
       classID: 4
@@ -82,10 +84,11 @@ AnimationClip:
       isPPtrCurve: 0
     pptrCurveMapping:
     - {fileID: 21300000, guid: 0ddac27dd9d5b9042827019592304736, type: 3}
+    - {fileID: 21300000, guid: 0ddac27dd9d5b9042827019592304736, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_StartTime: 0
-    m_StopTime: .166666672
+    m_StopTime: .216666669
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -108,7 +111,7 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .166666672
+      - time: .200000003
         value: 1.5
         inSlope: 0
         outSlope: 0
@@ -127,7 +130,7 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .166666672
+      - time: .200000003
         value: 1.5
         inSlope: 0
         outSlope: 0
@@ -146,7 +149,7 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .166666672
+      - time: .200000003
         value: 1
         inSlope: 0
         outSlope: 0
@@ -165,7 +168,7 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .166666672
+      - time: .200000003
         value: 1.5
         inSlope: 0
         outSlope: 0
@@ -173,7 +176,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
     attribute: m_LocalScale.x
-    path: rozgwiazda_1
+    path: AnimationSprite1
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -184,7 +187,7 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .166666672
+      - time: .200000003
         value: 1.5
         inSlope: 0
         outSlope: 0
@@ -192,7 +195,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
     attribute: m_LocalScale.y
-    path: rozgwiazda_1
+    path: AnimationSprite1
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -203,7 +206,7 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .166666672
+      - time: .200000003
         value: 1
         inSlope: 0
         outSlope: 0
@@ -211,7 +214,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
     attribute: m_LocalScale.z
-    path: rozgwiazda_1
+    path: AnimationSprite1
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves: []

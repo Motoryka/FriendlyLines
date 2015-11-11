@@ -86,8 +86,11 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     protected override void PostFinish()
     {
-        userLine.Delete();
         Animator animator = GetComponent<Animator>();
+        string sciezka = Application.dataPath;
+        sciezka += "/boredFishController.controller";
+        //animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(sciezka);
+//        animator.runtimeAnimatorController = (RuntimeAnimatorController)RuntimeAnimatorController.Instantiate(Resources.Load("boredFishController")); // Resources.Load(sciezka) as RuntimeAnimatorController;
         animator.SetTrigger("finished");
         Debug.Log("Animation trigger is set");
     }
