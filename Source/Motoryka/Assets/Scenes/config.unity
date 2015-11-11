@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1916187912}
-  uiLevelManagerPrefab: {fileID: 140822, guid: 44e06d36243562849a7349c59efb701e, type: 2}
+  uiLevelManagerPrefab: {fileID: 101628, guid: f918b2144802063489737387ce2701e5, type: 2}
 --- !u!4 &533681796
 Transform:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: .0196078438}
+  m_BackGroundColor: {r: .472534597, g: .614365876, b: .698529422, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0

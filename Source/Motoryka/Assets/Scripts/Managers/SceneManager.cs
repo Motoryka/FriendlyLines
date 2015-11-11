@@ -65,7 +65,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
         }
         else
         {
-            shape = sGen.CreateShape(prevVertices);
+
+            shape = prevVertices;//sGen.CreateShape(prevVertices);
         }
 
         drewThisRound = false;
@@ -77,23 +78,36 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         Debug.Log("Prefinish");
 
+        Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLine) + " %");
+
         lineDrawer.StopDrawing();
 
         shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);
         shape.StartPoint.CollapseToPoint(Vector2.zero, collapsingTime);
         userLine.CollapseToPoint(Vector2.zero, collapsingTime);
+
+        StartCoroutine(FinishAfterTime(collapsingTime));
+    }
+
+    IEnumerator FinishAfterTime(float t)
+    {
+        yield return new WaitForSeconds(t);
+        CurrentPhase = LevelPhase.Finished;
     }
 
     protected override void PostFinish()
     {
+        userLine.Delete();
         Animator animator = GetComponent<Animator>();
         string sciezka = Application.dataPath;
         sciezka += "/boredFishController.controller";
         //animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(sciezka);
-//        animator.runtimeAnimatorController = (RuntimeAnimatorController)RuntimeAnimatorController.Instantiate(Resources.Load("boredFishController")); // Resources.Load(sciezka) as RuntimeAnimatorController;
+//        animator.runtimeAnimatorController = (RuntimeAnimatorController)RuntimeAnimatorController.Instantiat(Resources.Load("boredFishController")); // Resources.Load(sciezka) as RuntimeAnimatorController;
         animator.SetTrigger("finished");
         Debug.Log("Animation trigger is set");
     }
+
+
 
     public void RegisterUserLine(ILine line)
     {
@@ -109,18 +123,17 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
 	public bool IsStartCorrect(Vector3 where) 
 	{
-		if (where != null)
-			return analizer.IsStartCorrect (where, shape.Shape);
-		return false;
+		return analizer.IsStartCorrect (where, shape.Shape);
 	}
 
     public void OnStopDraw()
     {
         if (drewThisRound)
-        {
+		{
+			Debug.Log ("Wynik: " + analizer.GetResult (shape.Shape, userLine) + " %");
             if (IsFinished())
             {
-                CurrentPhase = LevelPhase.Finished;
+                CurrentPhase = LevelPhase.Prefinished;
             }
             else
             {
@@ -133,7 +146,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         if (inputHandler.lineDrawer.IsDrawing && IsFinished())
         {
-            CurrentPhase = LevelPhase.Finished;
+            CurrentPhase = LevelPhase.Prefinished;
         }
     }
 

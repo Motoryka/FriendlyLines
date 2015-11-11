@@ -12,6 +12,7 @@ namespace LineManagement
         Color Color { get; }
         void SetColor(Color color);
         void SetSize(float size);
+		float GetSize();
         void AddVertex(Vector2 pos);
         void AddVertex(Vector3 pos);
         List<Vector3> GetVertices();

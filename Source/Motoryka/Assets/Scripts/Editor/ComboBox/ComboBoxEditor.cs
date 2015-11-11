@@ -43,10 +43,10 @@ public class ComboBoxEditor : Editor {
         {
             EditorGUI.indentLevel += 1;
             string newOption;
-            Rect r;
+
             for (int i = 1; i < options.Count+1; ++i )
             {
-                r = EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(i + ": ", prefixLabelOption);
                 newOption = EditorGUILayout.TextField(options[i-1]);
 
@@ -65,7 +65,7 @@ public class ComboBoxEditor : Editor {
                 EditorGUILayout.EndHorizontal();
             }
 
-            r = EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField((options.Count + 1) + ": ", prefixLabelOption);
             newOption = EditorGUILayout.TextField("");
             EditorGUILayout.EndHorizontal();

@@ -11,62 +11,60 @@ public enum AccuracyLevel {
 }
 
 public class PathAnalyser : IAnalyser {
-		
+	
 	private Dictionary<AccuracyLevel, float> levelMap = new Dictionary<AccuracyLevel, float> () 
 	{
 		{AccuracyLevel.Easy, 2},
 		{AccuracyLevel.Medium, 1.5f},
 		{AccuracyLevel.Hard, 1}
 	};
-
+	
 	private AccuracyLevel level = AccuracyLevel.Medium;
-	private float _acceptedError = 0.4f;
-	private float _accuracy = 2f;
 	private float _finalPointsError = 0.5f;
-
+	
 	public PathAnalyser () {
 	}
-
+	
 	public PathAnalyser (AccuracyLevel level) {
 		this.level = level;
 	}
-
+	
 	public bool IsFinished(ILine generatedLine, ILine userLine) {
-
+		
 		if (userLine == null || generatedLine == null)
 			return false;
-
+		
 		bool isChecked = false;
-
+		
 		foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
-
+			
 			foreach(Vector2 point in userLine.GetVertices2()) {
-
+				
 				float _distance = Vector2.Distance(point, checkpoint);
-
-				if (_distance < _acceptedError*levelMap[level]) {
+				
+				if (_distance < levelMap[level]*generatedLine.GetSize()) {
 					isChecked = true;
 					break;
 				}
 			}
-
+			
 			if (!isChecked) {
 				return false;
 			}
 			isChecked = false;
 		}
-
+		
 		int size = generatedLine.GetVertices2 ().Count;
-
+		
 		if (size > 0 && generatedLine.GetVertices2 () [0] == generatedLine.GetVertices2 () [size-1]) {
 			return AreFinalPointsCorrect(generatedLine, userLine);
 		}
-
+		
 		return true;
 	}
-
+	
 	private bool AreFinalPointsCorrect (ILine generatedLine, ILine userLine) {
-		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
+		/*Vector2[] listG = generatedLine.GetVertices2().ToArray ();
 		Vector2[] listU = userLine.GetVertices2().ToArray ();
 		
 		if (listG.Length == 0 || listU.Length == 0)
@@ -76,65 +74,52 @@ public class PathAnalyser : IAnalyser {
 		    Vector2.Distance(listG[listG.Length-1], listU[listU.Length-1]) < _finalPointsError) {
 			
 			return true;
-		}
-		
-		return false;
+		}*/
+		int size = userLine.GetVertices2 ().Count;
+
+		if (size == 0)
+			return false;
+
+		float distance = Vector2.Distance (userLine.GetVertices2 () [0], userLine.GetVertices2 () [size - 1]);
+		return distance < generatedLine.GetSize()*2;
 	}
 	
 	public float GetResult (ILine generatedLine, ILine userLine) {
-		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
-
-		float covUser = GetUserLineCovering (userLine, listG);
-
-		float covGen = GetGenLineCovering (generatedLine, userLine);
+		float covUser = GetUserLineCovering (userLine, generatedLine);
 		
-		Debug.Log (covUser + " ...:" + covGen + " == " + (covUser+covGen)/2 + "%");
+		float covGen = GetGenLineCovering (generatedLine, userLine);
+
 		return (covUser+covGen)/2;
 	}
 	
-	//jaki procent linii narysowanej lezy na tej wygenerowanej
-	private float GetUserLineCovering(ILine userLine, Vector2[] listG) {
+	/*
+	 * Jaki procent linii narysowanej lezy na tej wygenerowanej.
+	 */
+	private float GetUserLineCovering(ILine userLine, ILine generatedLine) {
+		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
 		int correctPoints = 0;
 		int wrongPoints = 0;
 		
 		foreach(Vector2 point in userLine.GetVertices2()) {
-			float min = 100;
+			float min = GetMinDistance (listG, point);
 			
-			for (int i = 0; i < listG.Length -1; i++) {
-				//(x2 - x1)(y - y1) = (y2 - y1)(x - x1)
-				Vector2 p1 = listG[i];
-				Vector2 p2 = listG[i+1];
-				
-				float left = (p2.x - p1.x)*(point.y - p1.y);
-				float right= (p2.y - p1.y)*(point.x - p1.x);
-				
-				float distA = Vector2.Distance(p1, point);
-				float distB = Vector2.Distance(p2, point);
-				float distC = Vector2.Distance(p1, p2);
-
-				float distCheck = Mathf.Abs((distA + distB) - distC);
-				
-				float score = Mathf.Abs(left - right);
-				if (min > score && distCheck < _acceptedError) {
-					min = score;
-				}
-			}
-			
-			if (min < _accuracy*levelMap[level]) {
+			if (min < generatedLine.GetSize()/2*levelMap[level]) {
 				correctPoints++;
 			}else {
 				wrongPoints++;
 			}
 		}
-
+		
 		if (correctPoints + wrongPoints != 0) {
 			return ((correctPoints*100) / (correctPoints + wrongPoints));
 		}
 		
 		return 0;
 	}
-
-	//jaki procent wygenerowanych wierzcholkow zostal pokryty
+	
+	/*
+	 * Jaki procent wygenerowanych wierzcholkow zostal pokryty.
+	 */
 	private float GetGenLineCovering (ILine generatedLine, ILine userLine) {
 		int correctCheckpoints = 0;
 		int wrongCheckpoints = 0;
@@ -146,7 +131,7 @@ public class PathAnalyser : IAnalyser {
 				
 				float _distance = Vector2.Distance(point, checkpoint);
 				
-				if (_distance < _acceptedError) {
+				if (_distance < generatedLine.GetSize()*levelMap[level]) {
 					correct = true;
 					break;
 				}
@@ -165,14 +150,69 @@ public class PathAnalyser : IAnalyser {
 		
 		return 0;
 	}
-
 	
+	/**
+	 * Get minimum distance from point to line.
+	 */
+	private float GetMinDistance (Vector2[] listG, Vector2 point) {
+		float min = 100;
+		
+		for (int i = 0; i < listG.Length - 1; i++) {
+			//(x2 - x1)(y - y1) = (y2 - y1)(x - x1)
+			//u  = ((x2 - x1)(x - x1) + (y2 - y1)(y - y1)) / (x2 - x1)^2 + (y2 - y1)^2
+			
+			Vector2 p1 = listG [i];
+			Vector2 p2 = listG [i + 1];
+			
+			float U = ((p2.x - p1.x)*(point.x - p1.x) + (p2.y - p1.y)*(point.y - p1.y))/ 
+				(Mathf.Pow((p2.x - p1.x), 2) + Mathf.Pow(p2.y - p1.y, 2));
+			
+			//P3 - punkt przeciecia prostej
+			//x3 = x1 + u(x2 - x1)
+			//y3 = y1 + u(y2 - y1)
+			float x3 = p1.x + U*(p2.x - p1.x);
+			float y3 = p1.y + U*(p2.y - p1.y);
+			
+			Vector2 p3 = new Vector2(x3, y3);
+			
+			float score = 0;
+			
+			if (U <= 0) {
+				score = Vector2.Distance(p1, point);
+			}else if (U > 0 && U < 1) {
+				score = Vector2.Distance(p3, point);
+			}else {
+				score = Vector2.Distance(p2, point);
+			}
+			
+			if (min > score) {
+				min = score;
+			}
+		}
+		
+		//Debug.Log (min);
+		return min;
+	}
+	
+	/**
+	 * Whether start point is correct - used for lines.
+	 */
 	public bool IsStartCorrect(Vector3 point, ILine generatedLine) {
 		Vector2 vec = new Vector2 (point.x, point.y);
 		if (Vector2.Distance (vec, generatedLine.GetVertices2()[0]) < _finalPointsError) {
 			return true;
 		}
-
+		
 		return false;
+	}
+	
+	/**
+	 * Whether start point is correct - used for circles.
+	 */
+	public bool IsStartCorrect2(Vector3 point, ILine generatedLine) {		
+		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
+		Vector2 vec = new Vector2 (point.x, point.y);
+		
+		return GetMinDistance (listG, vec) < generatedLine.GetSize();
 	}
 }

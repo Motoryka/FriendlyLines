@@ -32,8 +32,10 @@ public class ConfigCreator : MonoBehaviour {
         foreach(LevelConfig l in config.Levels)
         {
             GameObject o = Instantiate<GameObject>(uiLevelManagerPrefab);
-            o.transform.SetParent(canvas.transform);
+            o.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>(), false);
+            //o.transform.SetParent(canvas.transform);
             o.transform.localPosition = nextPoint * i;
+            //o.GetComponent<RectTransform>().localPosition = nextPoint * i;
             /*
             if (i == 0)
                 o.transform.localPosition = activePoint;
@@ -67,7 +69,7 @@ public class ConfigCreator : MonoBehaviour {
         {
             foreach (var mng in _levelManagers)
             {
-                mng.MoveToPoint(mng.transform.localPosition + previousPoint);
+                mng.MoveToPoint(mng.StayingPoint + previousPoint);
             }
             activeLevelManager++;
         /*
@@ -84,7 +86,7 @@ public class ConfigCreator : MonoBehaviour {
 
             foreach (var mng in _levelManagers)
             {
-                mng.MoveToPoint(mng.transform.localPosition + nextPoint);
+                mng.MoveToPoint(mng.StayingPoint + nextPoint);
             }
             activeLevelManager--;
             /*

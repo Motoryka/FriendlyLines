@@ -30,7 +30,7 @@ namespace LineManagement.GLLines
 
         Transform _parent;
 
-        float _circleDensity = 16f;
+        float _circleDensity = 24f;
 
         public Line()
         {
@@ -301,7 +301,7 @@ namespace LineManagement.GLLines
 
         void UpdateThickness()
         {
-            if ((_newThickness != null) && _thickness != _newThickness)
+            if (_thickness != _newThickness)
             {
                 _thickness = _newThickness;
                 recomputeTriangles();
@@ -310,7 +310,7 @@ namespace LineManagement.GLLines
 
         void UpdateColor()
         {
-            if ((_newColor != null) && _color != _newColor)
+            if (_color != _newColor)
             {
                 _color = _newColor;
             }
@@ -421,6 +421,10 @@ namespace LineManagement.GLLines
         {
             _newThickness = size / 2;
         }
+
+		public float GetSize() {
+			return _newThickness;
+		}
 
         public void AddVertex(Vector2 pos)
         {

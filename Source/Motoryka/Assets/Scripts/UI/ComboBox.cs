@@ -125,7 +125,7 @@ public class ComboBox : MonoBehaviour {
             RectTransform item = Instantiate(_itemPrefab).GetComponent<RectTransform>();
             float height;
 
-            item.parent = _panel;
+            item.SetParent(_panel);
             item.anchorMin = new Vector2(0f, 1f);
             item.anchorMax = new Vector2(1f, 1f);
 
