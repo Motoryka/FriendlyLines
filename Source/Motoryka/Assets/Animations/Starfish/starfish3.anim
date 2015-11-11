@@ -18,12 +18,12 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: {x: 1.5, y: 1.5, z: 1}
+        value: {x: 1, y: 1, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       - time: .200000003
-        value: {x: 1.5, y: 1.5, z: 1}
+        value: {x: 1, y: 1, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -34,12 +34,7 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: {x: 1.5, y: 1.5, z: 1}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-      - time: .200000003
-        value: {x: 1.5, y: 1.5, z: 1}
+        value: {x: 1, y: 1, z: 1}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -50,9 +45,9 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 0ddac27dd9d5b9042827019592304736, type: 3}
+      value: {fileID: 21300000, guid: 2f215fbd78b3626448dc42491265ec79, type: 3}
     - time: .200000003
-      value: {fileID: 21300000, guid: 0ddac27dd9d5b9042827019592304736, type: 3}
+      value: {fileID: 21300000, guid: 2f215fbd78b3626448dc42491265ec79, type: 3}
     attribute: m_Sprite
     path: AnimationSprite1
     classID: 212
@@ -83,8 +78,8 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 0ddac27dd9d5b9042827019592304736, type: 3}
-    - {fileID: 21300000, guid: 0ddac27dd9d5b9042827019592304736, type: 3}
+    - {fileID: 21300000, guid: 2f215fbd78b3626448dc42491265ec79, type: 3}
+    - {fileID: 21300000, guid: 2f215fbd78b3626448dc42491265ec79, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_StartTime: 0
@@ -92,7 +87,7 @@ AnimationClip:
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
@@ -107,12 +102,12 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: 1.5
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 10
       - time: .200000003
-        value: 1.5
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 10
@@ -126,12 +121,12 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: 1.5
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 10
       - time: .200000003
-        value: 1.5
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 10
@@ -164,12 +159,7 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: 1.5
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 10
-      - time: .200000003
-        value: 1.5
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 10
@@ -183,12 +173,7 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: 1.5
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 10
-      - time: .200000003
-        value: 1.5
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 10
@@ -202,11 +187,6 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 10
-      - time: .200000003
         value: 1
         inSlope: 0
         outSlope: 0
