@@ -11,6 +11,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
     ShapeGenerator sGen;
     ILine userLine;
     PathAnalyser analizer;
+    
+    public List<RuntimeAnimatorController> animations;
 
     public InputHandler inputHandler;
 
@@ -99,10 +101,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
 		Debug.Log ("Wynik: " + analizer.GetResult (shape.Shape, userLine) + " %");
         userLine.Delete();
         Animator animator = GetComponent<Animator>();
-        string sciezka = Application.dataPath;
-        sciezka += "/boredFishController.controller";
-        //animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(sciezka);
-//        animator.runtimeAnimatorController = (RuntimeAnimatorController)RuntimeAnimatorController.Instantiat(Resources.Load("boredFishController")); // Resources.Load(sciezka) as RuntimeAnimatorController;
+        animator.runtimeAnimatorController = animations[Random.Range(0, animations.Count)];
         animator.SetTrigger("finished");
         Debug.Log("Animation trigger is set");
     }

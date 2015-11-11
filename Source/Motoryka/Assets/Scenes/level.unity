@@ -492,6 +492,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5afb42b0a889834ebe811395b069877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animations:
+  - {fileID: 9100000, guid: d96b43663db4d3d44a7a61a8274408e0, type: 2}
+  - {fileID: 9100000, guid: 9dccde304bafb36458e850ce8260a816, type: 2}
+  - {fileID: 9100000, guid: 7515440be6d35434fb332bd9a40cec67, type: 2}
+  - {fileID: 9100000, guid: 6b59d3e90fa3fd0479a0bb77322b6467, type: 2}
   inputHandler: {fileID: 0}
   lineDrawer: {fileID: 0}
   collapsingTime: .300000012
@@ -516,7 +521,7 @@ Animator:
   m_GameObject: {fileID: 1330420323}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7515440be6d35434fb332bd9a40cec67, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
