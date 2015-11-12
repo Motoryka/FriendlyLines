@@ -213,7 +213,7 @@ public class ShapeGenerator : MonoBehaviour
 	        startLine.SetSize(this.size);
 		}
 
-        ShapeElement shape = new ShapeElement(line, startLine);
+        ShapeElement shape = new ShapeElement(line, startLine, Shape.HorizontalLine);
 
         return shape;
     }
@@ -239,7 +239,7 @@ public class ShapeGenerator : MonoBehaviour
 			startLine.SetSize(this.size);
 		}
 
-        ShapeElement shape = new ShapeElement(line, startLine);
+        ShapeElement shape = new ShapeElement(line, startLine, Shape.VerticalLine);
 
         return shape;
     }
@@ -262,7 +262,7 @@ public class ShapeGenerator : MonoBehaviour
 			startLine.SetSize(this.size);
 		}
 
-        ShapeElement shape = new ShapeElement(line, startLine);
+        ShapeElement shape = new ShapeElement(line, startLine, Shape.StraightLine);
 
         return shape;
     }
@@ -292,7 +292,7 @@ public class ShapeGenerator : MonoBehaviour
 			startLine.SetSize(this.size);
 		}
 
-        ShapeElement shape = new ShapeElement(line, startLine);
+        ShapeElement shape = new ShapeElement(line, startLine, Shape.DiagonalLine);
 
         return shape;
     }
@@ -324,7 +324,7 @@ public class ShapeGenerator : MonoBehaviour
 			startLine.SetSize(this.size);
 		}
 
-        ShapeElement shape = new ShapeElement(circle, startLine);
+        ShapeElement shape = new ShapeElement(circle, startLine, Shape.Circle);
 
         return shape;
     }
@@ -369,7 +369,7 @@ public class ShapeGenerator : MonoBehaviour
 			startLine.SetSize(this.size);
 		}
 
-        ShapeElement shape = new ShapeElement(ellipse, startLine);
+        ShapeElement shape = new ShapeElement(ellipse, startLine, Shape.Ellipse);
 
         return shape;
     }
@@ -432,7 +432,7 @@ public class ShapeGenerator : MonoBehaviour
 			startLine.SetSize(this.size);
 		}
 
-        ShapeElement shape = new ShapeElement(triangle, startLine);
+        ShapeElement shape = new ShapeElement(triangle, startLine, Shape.Triangle);
 
         return shape;
     }
@@ -465,7 +465,7 @@ public class ShapeGenerator : MonoBehaviour
 		}
         //this.DisplayVertex(A, Color.red);
 
-        ShapeElement shape = new ShapeElement(square, startLine);
+        ShapeElement shape = new ShapeElement(square, startLine, Shape.Square);
 
         return shape;
     }
@@ -497,7 +497,7 @@ public class ShapeGenerator : MonoBehaviour
 			startLine.SetSize(this.size);
 		}
 
-        ShapeElement shape = new ShapeElement(rectangle, startLine);
+        ShapeElement shape = new ShapeElement(rectangle, startLine, Shape.Rectangle);
 
         return shape;
     }
@@ -544,7 +544,7 @@ public class ShapeGenerator : MonoBehaviour
 			startLine.SetSize(this.size);
 		}
 
-        ShapeElement shape = new ShapeElement(curvedLine, startLine);
+        ShapeElement shape = new ShapeElement(curvedLine, startLine, Shape.CurvedLine);
 
         return shape;
     }

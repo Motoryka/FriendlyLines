@@ -117,7 +117,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
 	public bool IsStartCorrect(Vector3 where) 
 	{
-		return analizer.IsStartCorrect (where, shape.Shape);
+		return analizer.IsStartCorrect (where, shape);
 	}
 
     public void OnStopDraw()
