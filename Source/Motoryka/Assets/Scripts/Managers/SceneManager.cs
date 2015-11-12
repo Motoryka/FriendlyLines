@@ -79,10 +79,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
     protected override void PreFinish()
     {
         Debug.Log("Prefinish");
-
         Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLine) + " %");
-
-        lineDrawer.StopDrawing();
+		lineDrawer.StopDrawing();
 
         shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);
         shape.StartPoint.CollapseToPoint(Vector2.zero, collapsingTime);
@@ -122,7 +120,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
 	public bool IsStartCorrect(Vector3 where) 
 	{
-		return analizer.IsStartCorrect (where, shape.Shape);
+		return analizer.IsStartCorrect (where, shape);
 	}
 
     public void OnStopDraw()

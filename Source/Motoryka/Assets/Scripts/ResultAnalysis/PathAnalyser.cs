@@ -14,15 +14,39 @@ public class PathAnalyser : IAnalyser {
 	
 	private Dictionary<AccuracyLevel, float> levelMap = new Dictionary<AccuracyLevel, float> () 
 	{
-		{AccuracyLevel.Easy, 2},
-		{AccuracyLevel.Medium, 1.5f},
-		{AccuracyLevel.Hard, 1}
+		{AccuracyLevel.Easy, 2.5f},
+		{AccuracyLevel.Medium, 2f},
+		{AccuracyLevel.Hard, 1.5f}
 	};
-	
+	//Czy punkt startowy sie wyswietla
+	public bool IsStartDisplayed = true;
+
 	private AccuracyLevel level = AccuracyLevel.Medium;
 	private float _finalPointsError = 0.5f;
-	
+	private delegate bool IsStartCorrectFunc(Vector2 point, ILine line);
+
+	private Dictionary<Shape, IsStartCorrectFunc> shapeMap;
+
 	public PathAnalyser () {
+
+		shapeMap = new Dictionary<Shape, IsStartCorrectFunc>
+		{
+			{ Shape.StraightLine, IsStartEqPoint },
+			{ Shape.HorizontalLine, IsStartEqPoint },
+			{ Shape.VerticalLine, IsStartEqPoint },
+			{ Shape.DiagonalLine, IsStartEqPoint },
+			{ Shape.CurvedLine, IsStartEqPoint },
+			{ Shape.Triangle, IsStartEqVertexes },
+			{ Shape.Circle, IsStartEqShape },
+			{ Shape.Ellipse, IsStartEqShape },
+			{ Shape.Square, IsStartEqVertexes },
+			{ Shape.Rectangle, IsStartEqVertexes }
+
+		};
+	}
+
+	public void SetIsStartDisplayed(bool val) {
+		this.IsStartDisplayed = val;
 	}
 	
 	public PathAnalyser (AccuracyLevel level) {
@@ -36,7 +60,9 @@ public class PathAnalyser : IAnalyser {
 		
 		bool isChecked = false;
 		
-		foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
+		List<Vector2> listG = FillVertexes (generatedLine.GetVertices2().ToArray ());
+		
+		foreach (Vector2 checkpoint in listG) {
 			
 			foreach(Vector2 point in userLine.GetVertices2()) {
 				
@@ -54,11 +80,11 @@ public class PathAnalyser : IAnalyser {
 			isChecked = false;
 		}
 		
-		int size = generatedLine.GetVertices2 ().Count;
+		/*int size = generatedLine.GetVertices2 ().Count;
 		
 		if (size > 0 && generatedLine.GetVertices2 () [0] == generatedLine.GetVertices2 () [size-1]) {
 			return AreFinalPointsCorrect(generatedLine, userLine);
-		}
+		}*/
 		
 		return true;
 	}
@@ -89,6 +115,7 @@ public class PathAnalyser : IAnalyser {
 		
 		float covGen = GetGenLineCovering (generatedLine, userLine);
 
+		Debug.Log ("user: " + covUser + " gen: " + covGen);
 		return (covUser+covGen)/2;
 	}
 	
@@ -99,17 +126,16 @@ public class PathAnalyser : IAnalyser {
 		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
 		int correctPoints = 0;
 		int wrongPoints = 0;
-		
+
 		foreach(Vector2 point in userLine.GetVertices2()) {
 			float min = GetMinDistance (listG, point);
-			
 			if (min < generatedLine.GetSize()/2*levelMap[level]) {
 				correctPoints++;
 			}else {
 				wrongPoints++;
 			}
 		}
-		
+
 		if (correctPoints + wrongPoints != 0) {
 			return ((correctPoints*100) / (correctPoints + wrongPoints));
 		}
@@ -121,10 +147,11 @@ public class PathAnalyser : IAnalyser {
 	 * Jaki procent wygenerowanych wierzcholkow zostal pokryty.
 	 */
 	private float GetGenLineCovering (ILine generatedLine, ILine userLine) {
+		List<Vector2> listG = FillVertexes (generatedLine.GetVertices2().ToArray ());
 		int correctCheckpoints = 0;
 		int wrongCheckpoints = 0;
-		
-		foreach (Vector2 checkpoint in generatedLine.GetVertices2()) {
+
+		foreach (Vector2 checkpoint in listG) {
 			bool correct = false;
 			
 			foreach(Vector2 point in userLine.GetVertices2()) {
@@ -150,7 +177,44 @@ public class PathAnalyser : IAnalyser {
 		
 		return 0;
 	}
-	
+
+	/**
+	 * Uzupelnianie brakujacych wierzcholkow - gdy wygenerowane wierzcholki leza daleko od siebie.
+	 */
+	private List<Vector2> FillVertexes (Vector2[] listG) {
+		List<Vector2> result = new List<Vector2> ();
+
+		for (int i = 0; i < listG.Length; i++) {
+
+			result.Add(listG[i]);
+
+			if (i < listG.Length - 1) {
+				result.AddRange (Fill (listG[i], listG[i+1]));
+			}
+		}
+
+		return result;
+	}
+
+	private List<Vector2> Fill (Vector2 first, Vector2 second) {
+		List<Vector2> result = new List<Vector2> ();
+
+		if (Vector2.Distance (first, second) < 0.1f) {
+			return result;
+		}
+
+		Vector2 extraVector = new Vector2 (
+			(first.x + second.x) / 2, 
+			(first.y + second.y) / 2
+		);
+		result.Add (extraVector);
+
+		result.AddRange (Fill(first, extraVector));
+		result.AddRange (Fill(extraVector, second));
+
+		return result;
+	}
+
 	/**
 	 * Get minimum distance from point to line.
 	 */
@@ -189,30 +253,51 @@ public class PathAnalyser : IAnalyser {
 				min = score;
 			}
 		}
-		
-		//Debug.Log (min);
+
 		return min;
 	}
 	
 	/**
-	 * Whether start point is correct - used for lines.
+	 * Whether start point is correct.
 	 */
-	public bool IsStartCorrect(Vector3 point, ILine generatedLine) {
+	public bool IsStartCorrect(Vector3 point, ShapeElement shape) {
 		Vector2 vec = new Vector2 (point.x, point.y);
-		if (Vector2.Distance (vec, generatedLine.GetVertices2()[0]) < _finalPointsError) {
+
+		if (IsStartDisplayed)
+			return IsStartEqPoint (vec, shape.Shape);
+
+		return shapeMap[shape.Type](vec, shape.Shape);
+	}
+
+	/**
+	 * Whether start point is correct - for lines.
+	 */
+	private bool IsStartEqPoint(Vector2 point, ILine line) {
+		if (Vector2.Distance (point, line.GetVertices2()[0]) < line.GetSize()*levelMap[level]) {
 			return true;
 		}
 		
 		return false;
 	}
-	
+
 	/**
-	 * Whether start point is correct - used for circles.
+	 * Whether start point is correct - for triangles, rectangles.
 	 */
-	public bool IsStartCorrect2(Vector3 point, ILine generatedLine) {		
-		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
-		Vector2 vec = new Vector2 (point.x, point.y);
+	private bool IsStartEqVertexes(Vector2 point, ILine line) {
+		foreach (Vector2 vertex in line.GetVertices2()) {
+			if (Vector2.Distance (point, vertex) < line.GetSize()*levelMap[level]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Whether start point is correct - for circles, ellipses.
+	 */
+	private bool IsStartEqShape(Vector2 point, ILine line) {
+		Vector2[] listG = line.GetVertices2().ToArray ();
 		
-		return GetMinDistance (listG, vec) < generatedLine.GetSize();
+		return GetMinDistance (listG, point) < line.GetSize()*levelMap[level];
 	}
 }
