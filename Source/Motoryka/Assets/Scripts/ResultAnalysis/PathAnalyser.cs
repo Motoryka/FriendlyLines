@@ -53,9 +53,9 @@ public class PathAnalyser : IAnalyser {
 		this.level = level;
 	}
 	
-	public bool IsFinished(ILine generatedLine, ILine userLine) {
+	public bool IsFinished(ILine generatedLine, List<ILine> userLines) {
 		
-		if (userLine == null || generatedLine == null)
+		if (userLines == null || generatedLine == null || userLines.Count == 0)
 			return false;
 		
 		bool isChecked = false;
@@ -64,14 +64,11 @@ public class PathAnalyser : IAnalyser {
 		
 		foreach (Vector2 checkpoint in listG) {
 			
-			foreach(Vector2 point in userLine.GetVertices2()) {
+			foreach (ILine line in userLines) {
+				isChecked = IsPointCovered (checkpoint, line);
 				
-				float _distance = Vector2.Distance(point, checkpoint);
-				
-				if (_distance < levelMap[level]*generatedLine.GetSize()) {
-					isChecked = true;
+				if (isChecked) 
 					break;
-				}
 			}
 			
 			if (!isChecked) {
@@ -80,40 +77,32 @@ public class PathAnalyser : IAnalyser {
 			isChecked = false;
 		}
 		
-		/*int size = generatedLine.GetVertices2 ().Count;
-		
-		if (size > 0 && generatedLine.GetVertices2 () [0] == generatedLine.GetVertices2 () [size-1]) {
-			return AreFinalPointsCorrect(generatedLine, userLine);
-		}*/
-		
 		return true;
 	}
-	
-	private bool AreFinalPointsCorrect (ILine generatedLine, ILine userLine) {
-		/*Vector2[] listG = generatedLine.GetVertices2().ToArray ();
-		Vector2[] listU = userLine.GetVertices2().ToArray ();
-		
-		if (listG.Length == 0 || listU.Length == 0)
-			return false;
-		
-		if (Vector2.Distance(listG[0], listU[0]) < _finalPointsError &&
-		    Vector2.Distance(listG[listG.Length-1], listU[listU.Length-1]) < _finalPointsError) {
-			
-			return true;
-		}*/
-		int size = userLine.GetVertices2 ().Count;
 
-		if (size == 0)
-			return false;
-
-		float distance = Vector2.Distance (userLine.GetVertices2 () [0], userLine.GetVertices2 () [size - 1]);
-		return distance < generatedLine.GetSize()*2;
+	/**
+	 * Whether the vertex - checkpoint - is covered by user line.
+	 */
+	private bool IsPointCovered (Vector2 checkpoint, ILine userLine)
+	{
+		bool isChecked = false;
+		foreach (Vector2 point in userLine.GetVertices2 ()) {
+			float _distance = Vector2.Distance (point, checkpoint);
+			if (_distance < levelMap [level] * userLine.GetSize ()) {
+				isChecked = true;
+				break;
+			}
+		}
+		return isChecked;
 	}
-	
-	public float GetResult (ILine generatedLine, ILine userLine) {
-		float covUser = GetUserLineCovering (userLine, generatedLine);
+
+	/**
+	 * Returns a result of one level.
+	 */
+	public float GetResult (ILine generatedLine, List<ILine> userLines) {
+		float covUser = GetUserLineCovering (generatedLine, userLines);
 		
-		float covGen = GetGenLineCovering (generatedLine, userLine);
+		float covGen = GetGenLineCovering (generatedLine, userLines);
 
 		Debug.Log ("user: " + covUser + " gen: " + covGen);
 		return (covUser+covGen)/2;
@@ -122,17 +111,19 @@ public class PathAnalyser : IAnalyser {
 	/*
 	 * Jaki procent linii narysowanej lezy na tej wygenerowanej.
 	 */
-	private float GetUserLineCovering(ILine userLine, ILine generatedLine) {
+	private float GetUserLineCovering(ILine generatedLine, List<ILine> userLines) {
 		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
 		int correctPoints = 0;
 		int wrongPoints = 0;
 
-		foreach(Vector2 point in userLine.GetVertices2()) {
-			float min = GetMinDistance (listG, point);
-			if (min < generatedLine.GetSize()/2*levelMap[level]) {
-				correctPoints++;
-			}else {
-				wrongPoints++;
+		foreach (ILine line in userLines) {
+			foreach (Vector2 point in line.GetVertices2()) {
+				float min = GetMinDistance (listG, point);
+				if (min < generatedLine.GetSize () / 2 * levelMap [level]) {
+					correctPoints++;
+				} else {
+					wrongPoints++;
+				}
 			}
 		}
 
@@ -146,7 +137,7 @@ public class PathAnalyser : IAnalyser {
 	/*
 	 * Jaki procent wygenerowanych wierzcholkow zostal pokryty.
 	 */
-	private float GetGenLineCovering (ILine generatedLine, ILine userLine) {
+	private float GetGenLineCovering (ILine generatedLine, List<ILine> userLines) {
 		List<Vector2> listG = FillVertexes (generatedLine.GetVertices2().ToArray ());
 		int correctCheckpoints = 0;
 		int wrongCheckpoints = 0;
@@ -154,12 +145,10 @@ public class PathAnalyser : IAnalyser {
 		foreach (Vector2 checkpoint in listG) {
 			bool correct = false;
 			
-			foreach(Vector2 point in userLine.GetVertices2()) {
+			foreach (ILine line in userLines) {
+				correct = IsPointCovered(checkpoint, line);
 				
-				float _distance = Vector2.Distance(point, checkpoint);
-				
-				if (_distance < generatedLine.GetSize()*levelMap[level]) {
-					correct = true;
+				if (correct) {
 					break;
 				}
 			}
