@@ -3,6 +3,7 @@ using System.Collections;
 using LineManagement;
 using LineManagement.GLLines;
 using System.Collections.Generic;
+using System.IO;
 
 public class GameManager : Singleton<GameManager>, IInitable {
     public Fader fader;
@@ -36,6 +37,18 @@ public class GameManager : Singleton<GameManager>, IInitable {
     {
         /* We want this to persist through game life */
         DontDestroyOnLoad(this);
+
+		try
+		{
+			if(!Directory.Exists(Application.persistentDataPath + "/configs"))
+			{
+				Directory.CreateDirectory(Application.persistentDataPath + "/configs");
+			}
+		}
+		catch(IOException e)
+		{
+			Debug.Log(e.Message);
+		}
 
 		Config conf = ConfigFactory.CreateMediumLevel();
 		ConfigLoader.SerializeConfig(conf, "config");

@@ -59,9 +59,26 @@ public class ConfigCreator : MonoBehaviour {
 
     public void AddLevel()
     {
-        var level = new LevelConfig { levelNumber = config.NrOfLevels + 1, shape = Shape.VerticalLine, shapeStroke = LineStroke.VeryThick, brushStroke = LineStroke.VeryThick, shapeColor = Color.blue, brushColor = Color.cyan, difficulty = 2 };
+        var level = new LevelConfig { levelNumber = ++config.NrOfLevels, shape = Shape.VerticalLine, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = Color.blue, brushColor = Color.cyan, difficulty = 2 };
         config.Levels.Add(level);
     }
+
+	public void RemoveLevel()
+	{
+		if(config.NrOfLevels > 1)
+		{
+			config.Levels.RemoveAt(activeLevelManager-1);
+			config.NrOfLevels--;
+			if (activeLevelManager < _levelManagers.Count -1)
+			{
+				activeLevelManager++;
+			}
+			else
+			{
+				activeLevelManager--;
+			}
+		}
+	}
 
     public void SetActiveLevelNext()
     {
