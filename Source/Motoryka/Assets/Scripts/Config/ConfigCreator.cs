@@ -11,7 +11,7 @@ public class ConfigCreator : MonoBehaviour {
     int activeLevelManager;
 
     Vector3 previousPoint = new Vector3(-Screen.width, 0f, 0f);
-    Vector3 activePoint = Vector3.zero;
+    //Vector3 activePoint = Vector3.zero;
     Vector3 nextPoint = new Vector3(Screen.width, 0f, 0f);
 
 	public T GetUIElement<T>(string name)

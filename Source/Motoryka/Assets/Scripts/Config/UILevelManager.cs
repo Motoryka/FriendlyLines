@@ -17,7 +17,6 @@ public class UILevelManager : MonoBehaviour {
     LevelConfig cfg;
 
     ConfigCreator creator;
-    float movingVelocity = 1000f;
 
     public float smoothTime = 0.2F;
     private Vector3 velocity = Vector3.zero;

@@ -23,7 +23,7 @@ public class PathAnalyser : IAnalyser {
 
 	private AccuracyLevel level = AccuracyLevel.Medium;
 	private float _finalPointsError = 0.5f;
-	private delegate bool IsStartCorrectFunc(Vector2 point, ILine line);
+	private delegate bool IsStartCorrectFunc(Vector2 point, ILine line, bool endingVertex = false);
 
 	private Dictionary<Shape, IsStartCorrectFunc> shapeMap;
 
@@ -249,8 +249,14 @@ public class PathAnalyser : IAnalyser {
 	/**
 	 * Whether start point is correct.
 	 */
-	public bool IsStartCorrect(Vector3 point, ShapeElement shape) {
-		Vector2 vec = new Vector2 (point.x, point.y);
+	public bool IsStartCorrect(Vector3 point, ShapeElement shape, List<ILine> userLines) 
+    {
+        Vector2 vec = new Vector2(point.x, point.y);
+
+        if(userLines.Count > 0)
+        {
+            return IsStartEqPoint(vec, userLines[userLines.Count-1], true);
+        }
 
 		if (IsStartDisplayed)
 			return IsStartEqPoint (vec, shape.Shape);
@@ -261,10 +267,27 @@ public class PathAnalyser : IAnalyser {
 	/**
 	 * Whether start point is correct - for lines.
 	 */
-	private bool IsStartEqPoint(Vector2 point, ILine line) {
-		if (Vector2.Distance (point, line.GetVertices2()[0]) < line.GetSize()*levelMap[level]) {
-			return true;
-		}
+	private bool IsStartEqPoint(Vector2 point, ILine line, bool endingPoint = false) {
+        Debug.Log("HERE");
+        Vector2 examinedVertex;
+        List<Vector2> vertices = line.GetVertices2();
+
+        if (!endingPoint)
+        {
+            examinedVertex = vertices[0];
+            Debug.Log("HERE2");
+        }
+        else
+        {
+            examinedVertex = vertices[vertices.Count - 1];
+            Debug.Log("HERE3");
+        }
+
+        if (Vector2.Distance(point, examinedVertex) < line.GetSize() * levelMap[level])
+        {
+            Debug.Log("HERE4");
+            return true;
+        }
 		
 		return false;
 	}
@@ -272,7 +295,7 @@ public class PathAnalyser : IAnalyser {
 	/**
 	 * Whether start point is correct - for triangles, rectangles.
 	 */
-	private bool IsStartEqVertexes(Vector2 point, ILine line) {
+	private bool IsStartEqVertexes(Vector2 point, ILine line, bool endingVertex = false) {
 		foreach (Vector2 vertex in line.GetVertices2()) {
 			if (Vector2.Distance (point, vertex) < line.GetSize()*levelMap[level]) {
 				return true;
@@ -284,7 +307,8 @@ public class PathAnalyser : IAnalyser {
 	/**
 	 * Whether start point is correct - for circles, ellipses.
 	 */
-	private bool IsStartEqShape(Vector2 point, ILine line) {
+    private bool IsStartEqShape(Vector2 point, ILine line, bool endingVertex = false)
+    {
 		Vector2[] listG = line.GetVertices2().ToArray ();
 		
 		return GetMinDistance (listG, point) < line.GetSize()*levelMap[level];

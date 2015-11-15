@@ -9,7 +9,7 @@ using LineManagement.GLLines;
 public class SceneManager : BaseLvlManager<SceneManager>
 {
     ShapeGenerator sGen;
-    ILine userLine;
+    List<ILine> userLines;
     PathAnalyser analizer;
     
     public List<RuntimeAnimatorController> animations;
@@ -22,6 +22,10 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     bool drewThisRound = false;
 
+    float idleSeconds = 2f;
+
+    IEnumerator RestartingCoroutine;
+
     public override void Init()
     {
         if (sGen != null)
@@ -31,6 +35,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
             sGen = gameObject.AddComponent<ShapeGenerator>();
         }
         analizer = new PathAnalyser();
+
+        userLines = new List<ILine>() ;
     }
 
     // Use this for initialization
@@ -79,12 +85,12 @@ public class SceneManager : BaseLvlManager<SceneManager>
     protected override void PreFinish()
     {
         Debug.Log("Prefinish");
-        Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLine) + " %");
+        Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLines) + " %");
 		lineDrawer.StopDrawing();
 
         shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);
         shape.StartPoint.CollapseToPoint(Vector2.zero, collapsingTime);
-        userLine.CollapseToPoint(Vector2.zero, collapsingTime);
+        userLines.ForEach( line => line.CollapseToPoint(Vector2.zero, collapsingTime) );
 
         StartCoroutine(FinishAfterTime(collapsingTime));
     }
@@ -97,7 +103,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     protected override void PostFinish()
     {
-        userLine.Delete();
+        userLines.ForEach( line => line.Delete() );
         Animator animator = GetComponent<Animator>();
         animator.runtimeAnimatorController = animations[Random.Range(0, animations.Count)];
         animator.SetTrigger("finished");
@@ -108,33 +114,36 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     public void RegisterUserLine(ILine line)
     {
-        userLine = line;
+        userLines.Add(line);
     }
 
     public bool IsFinished()
     {
-        if (userLine != null)
-            return analizer.IsFinished(shape.Shape, userLine);
+        if (userLines.Count > 0)
+            return analizer.IsFinished(shape.Shape, userLines);
         return false;
     }
 
 	public bool IsStartCorrect(Vector3 where) 
 	{
-		return analizer.IsStartCorrect (where, shape);
+		return analizer.IsStartCorrect (where, shape, userLines);
 	}
 
     public void OnStopDraw()
     {
         if (drewThisRound)
 		{
-			Debug.Log ("Wynik: " + analizer.GetResult (shape.Shape, userLine) + " %");
+            Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLines) + " %");
             if (IsFinished())
             {
-                CurrentPhase = LevelPhase.Prefinished;
+                //CurrentPhase = LevelPhase.Prefinished;
+                StartCoroutine(PreFinishAfterTime(1f));
             }
             else
             {
-                RestartLevel();
+                //RestartLevel();
+                RestartingCoroutine = RestartAfterIdleTime(3f);
+                StartCoroutine(RestartingCoroutine);
             }
         }
     }
@@ -143,7 +152,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         if (inputHandler.lineDrawer.IsDrawing && IsFinished())
         {
-            CurrentPhase = LevelPhase.Prefinished;
+            StartCoroutine(PreFinishAfterTime(1f));
         }
     }
 
@@ -151,6 +160,21 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         drewThisRound = true;
         RegisterUserLine(inputHandler.lineDrawer.CurrentLine);
+        if(RestartingCoroutine != null)
+        {
+            StopCoroutine(RestartingCoroutine);
+        }
     }
 
+    IEnumerator PreFinishAfterTime(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        CurrentPhase = LevelPhase.Prefinished;
+    }
+
+    IEnumerator RestartAfterIdleTime(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        RestartLevel();
+    }
 }
