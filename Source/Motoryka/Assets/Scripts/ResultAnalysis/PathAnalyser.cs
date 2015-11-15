@@ -85,8 +85,10 @@ public class PathAnalyser : IAnalyser {
 	 */
 	private bool IsPointCovered (Vector2 checkpoint, ILine userLine)
 	{
+		List<Vector2> listU = FillVertexes (userLine.GetVertices2 ().ToArray());
+
 		bool isChecked = false;
-		foreach (Vector2 point in userLine.GetVertices2 ()) {
+		foreach (Vector2 point in listU) {
 			float _distance = Vector2.Distance (point, checkpoint);
 			if (_distance < levelMap [level] * userLine.GetSize ()) {
 				isChecked = true;
