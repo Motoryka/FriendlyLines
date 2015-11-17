@@ -22,7 +22,6 @@ public class PathAnalyser : IAnalyser {
 	public bool IsStartDisplayed = true;
 
 	private AccuracyLevel level = AccuracyLevel.Medium;
-	private float _finalPointsError = 0.5f;
 	private delegate bool IsStartCorrectFunc(Vector2 point, ILine line, bool endingVertex = false);
 
 	private Dictionary<Shape, IsStartCorrectFunc> shapeMap;
@@ -45,12 +44,16 @@ public class PathAnalyser : IAnalyser {
 		};
 	}
 
+	public PathAnalyser (AccuracyLevel level) {
+		this.level = level;
+	}
+
 	public void SetIsStartDisplayed(bool val) {
 		this.IsStartDisplayed = val;
 	}
-	
-	public PathAnalyser (AccuracyLevel level) {
-		this.level = level;
+
+	public void SetAccuracyLevel(AccuracyLevel lvl) {
+		this.level = lvl;
 	}
 	
 	public bool IsFinished(ILine generatedLine, List<ILine> userLines) {
@@ -61,7 +64,7 @@ public class PathAnalyser : IAnalyser {
 		bool isChecked = false;
 		
 		List<Vector2> listG = FillVertexes (generatedLine.GetVertices2().ToArray ());
-		
+
 		foreach (Vector2 checkpoint in listG) {
 			
 			foreach (ILine line in userLines) {
@@ -76,6 +79,8 @@ public class PathAnalyser : IAnalyser {
 			}
 			isChecked = false;
 		}
+
+		if (GetUserLineCovering (generatedLine, userLines) < 50) return false;
 		
 		return true;
 	}
@@ -85,17 +90,20 @@ public class PathAnalyser : IAnalyser {
 	 */
 	private bool IsPointCovered (Vector2 checkpoint, ILine userLine)
 	{
-		List<Vector2> listU = FillVertexes (userLine.GetVertices2 ().ToArray());
+		//List<Vector2> listU = FillVertexes (userLine.GetVertices2 ().ToArray());
+		float _distance = GetMinDistance (userLine.GetVertices2 ().ToArray (), checkpoint);
 
-		bool isChecked = false;
-		foreach (Vector2 point in listU) {
+		if (_distance < levelMap [level] * userLine.GetSize ()) {
+			return true;
+		}
+		/*foreach (Vector2 point in userLine.GetVertices2()) {
 			float _distance = Vector2.Distance (point, checkpoint);
 			if (_distance < levelMap [level] * userLine.GetSize ()) {
 				isChecked = true;
 				break;
 			}
-		}
-		return isChecked;
+		}*/
+		return false;
 	}
 
 	/**
@@ -198,10 +206,30 @@ public class PathAnalyser : IAnalyser {
 			(first.x + second.x) / 2, 
 			(first.y + second.y) / 2
 		);
-		result.Add (extraVector);
 
-		result.AddRange (Fill(first, extraVector));
-		result.AddRange (Fill(extraVector, second));
+		while(Vector2.Distance(extraVector, first) > 0.1f) {
+
+			result.Add (extraVector);
+
+			extraVector.Set(
+					(first.x + extraVector.x) / 2, 
+					(first.y + extraVector.y) / 2
+			);
+
+		}
+
+		while(Vector2.Distance(extraVector, second) > 0.1f) {
+			
+			result.Add (extraVector);
+			
+			extraVector.Set(
+				(second.x + extraVector.x) / 2, 
+				(second.y + extraVector.y) / 2
+				);
+			
+		}
+		//result.AddRange (Fill(first, extraVector));
+		//result.AddRange (Fill(extraVector, second));
 
 		return result;
 	}
