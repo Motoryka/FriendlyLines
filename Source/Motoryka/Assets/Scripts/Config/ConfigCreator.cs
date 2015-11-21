@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 
 public class ConfigCreator : MonoBehaviour {
     public GameObject canvas;
@@ -23,7 +25,7 @@ public class ConfigCreator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        config = ConfigFactory.CreateEasyLevel();
+        config = GameManager.Instance.GameConfig;
 
         _levelManagers = new List<UILevelManager>();
         int i = 0;
@@ -115,7 +117,49 @@ public class ConfigCreator : MonoBehaviour {
 
     public void SaveConfig()
     {
-        GameManager.Instance.fader.LoadSceneFading("title");
+		ConfigLoader.SerializeConfig(config, config.Id.ToString());
+        GameManager.Instance.fader.LoadSceneFading("configChoice");
     }
     
+	public void SaveAsNewConfig()
+	{
+		config.Id = SetUniqueId();
+		ConfigLoader.SerializeConfig(config, config.Id.ToString());
+		GameManager.Instance.fader.LoadSceneFading("configChoice");
+	}
+
+	private int SetUniqueId()
+	{
+		List<int> ids = new List<int>();
+		string[] configFiles = Directory.GetFiles(Application.persistentDataPath + "/configs/");
+		foreach(var file in configFiles)
+		{
+			int id = 0;
+			XmlTextReader reader = new XmlTextReader(file);
+			while(reader.Read ())
+			{
+				reader.MoveToContent();
+				if(reader.NodeType == XmlNodeType.Element && reader.Name == "Id")
+				{
+					reader.Read();
+					int.TryParse(reader.Value, out id);
+					ids.Add(id);
+					break;
+				}
+			}
+			reader.Close();
+		}
+
+		ids.Sort((a,b) => a.CompareTo(b));
+		int idsCount = 0;
+		int minId = 0;
+		while(idsCount < ids.Count){
+			minId++;
+			if(ids.IndexOf(minId) == -1)
+				return minId;
+			minId = ids.IndexOf(idsCount);
+			idsCount++;
+		}
+		return ++minId;
+	}
 }

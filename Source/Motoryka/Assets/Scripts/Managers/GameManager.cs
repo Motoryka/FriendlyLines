@@ -32,6 +32,15 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
 	ShapeElement _previousShapeVertices = null;
 
+	public Config GameConfig {
+		get{
+			return _config;
+		}
+		set{
+			this._config = value;
+		}
+	}
+
 	// Use this for initialization
     public void Initialize()
     {
@@ -50,9 +59,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
 			Debug.Log(e.Message);
 		}
 
-		Config conf = ConfigFactory.CreateMediumLevel();
-		ConfigLoader.SerializeConfig(conf, "config");
-        _config = ConfigLoader.DeserializeConfig("config");
+		_config = ConfigFactory.CreateMediumLevel();
         
         fader = GetComponent<Fader>();
 

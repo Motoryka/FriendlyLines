@@ -91,8 +91,13 @@ public class UILevelManager : MonoBehaviour {
 
     public void SaveConfig()
     {
-        creator.SendMessage("SaveConfig");
+		creator.SendMessage("SaveConfig");
     }
+
+	public void SaveAsNewConfig()
+	{
+		creator.SendMessage("SaveAsNewConfig");
+	}
 
     public void MoveToPoint(Vector3 point)
     {
