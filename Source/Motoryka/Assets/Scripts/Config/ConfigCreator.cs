@@ -45,7 +45,7 @@ public class ConfigCreator : MonoBehaviour {
                 o.transform.localPosition = nextPoint;*/
             UILevelManager mng = o.GetComponent<UILevelManager>();
 
-            mng.Init(this, l, config.NrOfLevels);
+            mng.Init(this, l);
 
             _levelManagers.Add(mng);
             i++;
