@@ -13,6 +13,8 @@ public class Config
 	public int NrOfLevels { get; set; }
 	public List<LevelConfig> Levels { get; set; }
 
+    public float WaitingTime { get; set; }
+
     public Config()
     {
         CreationDate = DateTime.Now;

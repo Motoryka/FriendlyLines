@@ -137,7 +137,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
             if (IsFinished())
             {
                 //CurrentPhase = LevelPhase.Prefinished;
-                StartCoroutine(PreFinishAfterTime(1f));
+                StartCoroutine(PreFinishAfterTime(GameManager.Instance.GameConfig.WaitingTime));
             }
             else
             {
