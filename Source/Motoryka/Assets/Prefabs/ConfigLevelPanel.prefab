@@ -1567,10 +1567,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleLbl: {fileID: 11417410}
-  ShapeWidthSlider: {fileID: 0}
-  BrushWidthSlider: {fileID: 11430588}
-  StartPointToggle: {fileID: 0}
+  LineStrokeSlider: {fileID: 11430588}
   StayingPoint: {x: 0, y: 0, z: 0}
+  ShapeDropdown: {fileID: 11498508}
+  LineColorDropdown: {fileID: 11448714}
+  ShapeColorDropdown: {fileID: 11440598}
   smoothTime: .200000003
 --- !u!114 &11430478
 MonoBehaviour:
@@ -4637,9 +4638,9 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: .000156253576}
-  m_AnchorMax: {x: 1, y: .825468779}
-  m_AnchoredPosition: {x: 0, y: -9.53674316e-07}
-  m_SizeDelta: {x: 0, y: -1.90734863e-06}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -.000503540039, y: .0536346436}
+  m_SizeDelta: {x: -3.05175781e-05, y: .0937652588}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22486582
 RectTransform:

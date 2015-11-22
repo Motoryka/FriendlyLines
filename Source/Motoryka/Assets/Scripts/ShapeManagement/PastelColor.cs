@@ -73,6 +73,8 @@ public class PastelColorFactory
         return pastelColor;
     }
 
+    public static List<PastelColor> ColorList { get { return colorList; } }
+
     public static string GetColorName(Color c)
     {
         foreach(PastelColor pc in colorList)
@@ -83,6 +85,7 @@ public class PastelColorFactory
 
         return "Nieznany";
     }
+
 
     public static PastelColor GetColor(string name)
     {

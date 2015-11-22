@@ -59,7 +59,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
 			Debug.Log(e.Message);
 		}
 
-		_config = ConfigFactory.CreateMediumLevel();
+        _config = ConfigFactory.CreateEasyLevel();
         
         fader = GetComponent<Fader>();
 

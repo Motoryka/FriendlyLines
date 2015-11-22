@@ -5,8 +5,13 @@ using System.IO;
 using System.Xml;
 
 public class ConfigCreator : MonoBehaviour {
+    public delegate void LevelAddHandler(int atIndex);
+    public event LevelAddHandler LevelAdded;
+
+
     public GameObject canvas;
     public GameObject uiLevelManagerPrefab;
+    public UIConfigManager configManager;
 
     Config config;
     List<UILevelManager> _levelManagers;
@@ -25,33 +30,23 @@ public class ConfigCreator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        config = GameManager.Instance.GameConfig;
+        activeLevelManager = 0;
+        var gconfig = GameManager.Instance.GameConfig;
+
+        config = gconfig.Copy();
 
         _levelManagers = new List<UILevelManager>();
         int i = 0;
 
+        configManager.Init(config);
 
         foreach(LevelConfig l in config.Levels)
         {
-            GameObject o = Instantiate<GameObject>(uiLevelManagerPrefab);
-            o.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>(), false);
-            //o.transform.SetParent(canvas.transform);
-            o.transform.localPosition = nextPoint * i;
-            //o.GetComponent<RectTransform>().localPosition = nextPoint * i;
-            /*
-            if (i == 0)
-                o.transform.localPosition = activePoint;
-            else
-                o.transform.localPosition = nextPoint;*/
-            UILevelManager mng = o.GetComponent<UILevelManager>();
-
-            mng.Init(this, l);
-
-            _levelManagers.Add(mng);
+            _levelManagers.Add( InstantiateLevelManager(l, i) );
             i++;
         }
 
-        activeLevelManager = 0;
+
 	}
 	
 	// Update is called once per frame
@@ -59,10 +54,46 @@ public class ConfigCreator : MonoBehaviour {
 	
 	}
 
-    public void AddLevel()
+    UILevelManager InstantiateLevelManager(LevelConfig l, int i)
     {
-        var level = new LevelConfig { levelNumber = ++config.NrOfLevels, shape = Shape.VerticalLine, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = Color.blue, brushColor = Color.cyan, difficulty = 2 };
-        config.Levels.Add(level);
+        GameObject o = Instantiate<GameObject>(uiLevelManagerPrefab);
+        o.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>(), false);
+
+        SetPosition(o, i);
+
+        UILevelManager mng = o.GetComponent<UILevelManager>();
+
+        mng.Init(this, l, i, config.Levels.Count - 1);
+
+        return mng;
+    }
+
+    public void SetPosition(GameObject o, int i)
+    {
+        o.transform.localPosition = nextPoint * (i - activeLevelManager);
+        o.GetComponent<UILevelManager>().StayingPoint = nextPoint * (i - activeLevelManager);
+    }
+
+    public void AddLevel(int pos)
+    {
+        var level = new LevelConfig { levelNumber = pos+1, shape = Shape.VerticalLine, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = Color.blue, brushColor = Color.cyan, difficulty = 2 };
+        
+        config.Levels.Insert(pos, level);
+
+        OnLevelAdded(pos);
+
+        _levelManagers.Insert(pos, InstantiateLevelManager(level, pos) );
+
+        if (pos <= activeLevelManager)
+            activeLevelManager++;
+
+        for (int i = pos + 1; i < _levelManagers.Count; ++i)
+        {
+            Debug.Log("setting pos for " + i);
+            SetPosition(_levelManagers[i].gameObject, i);
+            config.Levels[i].levelNumber = i + 1;
+            _levelManagers[i].UpdateTitle();
+        }
     }
 
 	public void RemoveLevel()
@@ -117,7 +148,9 @@ public class ConfigCreator : MonoBehaviour {
 
     public void SaveConfig()
     {
+        Debug.Log("SaveConfig");
 		ConfigLoader.SerializeConfig(config, config.Id.ToString());
+        GameManager.Instance.GameConfig = config;
         GameManager.Instance.fader.LoadSceneFading("configChoice");
     }
     
@@ -125,8 +158,14 @@ public class ConfigCreator : MonoBehaviour {
 	{
 		config.Id = SetUniqueId();
 		ConfigLoader.SerializeConfig(config, config.Id.ToString());
+        GameManager.Instance.GameConfig = config;
 		GameManager.Instance.fader.LoadSceneFading("configChoice");
 	}
+
+    public void Cancel()
+    {
+        GameManager.Instance.fader.LoadSceneFading("configChoice");
+    }
 
 	private int SetUniqueId()
 	{
@@ -159,4 +198,10 @@ public class ConfigCreator : MonoBehaviour {
 		}
 		return ++minId;
 	}
+
+    void OnLevelAdded(int atIndex)
+    {
+        if (LevelAdded != null)
+            LevelAdded(atIndex); 
+    }
 }
