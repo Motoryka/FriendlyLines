@@ -18,6 +18,8 @@ public class UILevelManager : MonoBehaviour {
     public Button AddPrevLevelBtn;
     public Button AddNextLevelBtn;
 
+    public Button DeleteBtn;
+
     LevelConfig cfg;
 
     ConfigCreator creator;
@@ -46,6 +48,7 @@ public class UILevelManager : MonoBehaviour {
         this.maxindex = maxindex;
 
         creator.LevelAdded += new ConfigCreator.LevelAddHandler(LevelInserted);
+        creator.LevelDeleted += LevelDeleted;
 
         UpdateTitle();
 
@@ -108,7 +111,7 @@ public class UILevelManager : MonoBehaviour {
         AddNextLevelBtn.onClick.AddListener(() => creator.SendMessage("AddLevel", myindex+1) );
         AddPrevLevelBtn.onClick.AddListener(() => creator.SendMessage("AddLevel", myindex));
 
-        updatePrevNextBtns();
+        updateBtns();
     }
 
     public void UpdateTitle()
@@ -192,12 +195,27 @@ public class UILevelManager : MonoBehaviour {
             myindex++;
         }
 
-        updatePrevNextBtns();
+        updateBtns();
     }
 
-    void updatePrevNextBtns()
+    public void LevelDeleted(int atIndex)
     {
         
+        maxindex--;
+
+        if (atIndex < myindex)
+            myindex--;
+
+        Debug.Log("My idnex:" + myindex + " " + maxindex);
+
+        updateBtns();
+    }
+    void updateBtns()
+    {
+        if (maxindex > 0)
+            DeleteBtn.interactable = true;
+        else
+            DeleteBtn.interactable = false;
 
         if (myindex == 0)
             PreviousLevelBtn.interactable = false;
@@ -208,5 +226,15 @@ public class UILevelManager : MonoBehaviour {
             NextLevelBtn.interactable = false;
         else
             NextLevelBtn.interactable = true;
+    }
+
+    public void DeleteThis()
+    {
+        creator.LevelAdded -= new ConfigCreator.LevelAddHandler(LevelInserted);
+        creator.LevelDeleted -= LevelDeleted;
+
+        creator.SendMessage("RemoveLevel", myindex);
+
+        Destroy(gameObject);
     }
 }

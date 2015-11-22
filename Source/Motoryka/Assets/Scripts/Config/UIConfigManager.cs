@@ -38,6 +38,7 @@ public class UIConfigManager : MonoBehaviour {
         LevelsLabel.text = config.Levels.Count.ToString();
 
         creator.LevelAdded += new ConfigCreator.LevelAddHandler(OnAddLevel);
+        creator.LevelDeleted += new ConfigCreator.LevelDeleteHandler(OnRemoveLevel);
 
         this.config = config;
     }
@@ -71,6 +72,11 @@ public class UIConfigManager : MonoBehaviour {
     }
 
     void OnAddLevel(int pos)
+    {
+        LevelsLabel.text = config.Levels.Count.ToString();
+    }
+
+    void OnRemoveLevel(int pos)
     {
         LevelsLabel.text = config.Levels.Count.ToString();
     }

@@ -8,6 +8,9 @@ public class ConfigCreator : MonoBehaviour {
     public delegate void LevelAddHandler(int atIndex);
     public event LevelAddHandler LevelAdded;
 
+    public delegate void LevelDeleteHandler(int atIndex);
+    public event LevelDeleteHandler LevelDeleted;
+
 
     public GameObject canvas;
     public GameObject uiLevelManagerPrefab;
@@ -71,6 +74,11 @@ public class ConfigCreator : MonoBehaviour {
     public void SetPosition(GameObject o, int i)
     {
         o.transform.localPosition = nextPoint * (i - activeLevelManager);
+        SetStayingPosition(o.GetComponent<UILevelManager>(), i);
+    }
+
+    void SetStayingPosition(UILevelManager o, int i)
+    {
         o.GetComponent<UILevelManager>().StayingPoint = nextPoint * (i - activeLevelManager);
     }
 
@@ -112,21 +120,30 @@ public class ConfigCreator : MonoBehaviour {
         }
     }
 
-	public void RemoveLevel()
+	public void RemoveLevel(int pos)
 	{
 		if(config.NrOfLevels > 1)
 		{
-			config.Levels.RemoveAt(activeLevelManager-1);
+            config.Levels.RemoveAt(pos);
+            _levelManagers.RemoveAt(pos);
 			config.NrOfLevels--;
-			if (activeLevelManager < _levelManagers.Count -1)
-			{
-				activeLevelManager++;
-			}
-			else
+			if (activeLevelManager >= _levelManagers.Count)
 			{
 				activeLevelManager--;
 			}
+
+            for(int i = 0; i < _levelManagers.Count; ++i)
+            {
+                Debug.Log("Pos: " + pos+ " Cur i : " + i + " active: " + activeLevelManager);
+                SetStayingPosition(_levelManagers[i], i);
+                config.Levels[i].levelNumber = i + 1;
+                _levelManagers[i].UpdateTitle();
+            }
+
+            OnLevelRemoved(pos);
 		}
+
+
 	}
 
     public void SetActiveLevelNext()
@@ -219,5 +236,11 @@ public class ConfigCreator : MonoBehaviour {
     {
         if (LevelAdded != null)
             LevelAdded(atIndex); 
+    }
+
+    void OnLevelRemoved(int atIndex)
+    {
+        if (LevelDeleted != null)
+            LevelDeleted(atIndex);
     }
 }
