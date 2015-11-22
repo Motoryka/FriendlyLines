@@ -10,7 +10,13 @@ public enum AccuracyLevel {
 	Hard
 }
 
-public class PathAnalyser : IAnalyser {
+public struct LevelResult {
+    public int levelNumber;
+    public int result;
+}
+
+public class PathAnalyser : MonoBehaviour, IAnalyser
+{
 	
 	private Dictionary<AccuracyLevel, float> levelMap = new Dictionary<AccuracyLevel, float> () 
 	{
@@ -20,6 +26,8 @@ public class PathAnalyser : IAnalyser {
 	};
 	//Czy punkt startowy sie wyswietla
 	public bool IsStartDisplayed = true;
+
+    public List<LevelResult> ResultsList;
 
 	private AccuracyLevel level = AccuracyLevel.Medium;
 	private delegate bool IsStartCorrectFunc(Vector2 point, ILine line, bool endingVertex = false);
@@ -42,6 +50,8 @@ public class PathAnalyser : IAnalyser {
 			{ Shape.Rectangle, IsStartEqVertexes }
 
 		};
+
+        this.ResultsList = new List<LevelResult>();
 	}
 
 	public PathAnalyser (AccuracyLevel level) {

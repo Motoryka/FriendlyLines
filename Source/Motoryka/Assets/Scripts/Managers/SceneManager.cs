@@ -59,10 +59,10 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
         ShapeElement prevVertices = GameManager.Instance.GetPreviousShapeVertices();
 
-        this.sGen.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeColor;
+        this.sGen.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeColor.Color;
         this.sGen.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeStroke;
 
-        this.lineDrawer.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushColor;
+        this.lineDrawer.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushColor.Color;
         this.lineDrawer.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushStroke;
 
 		this.sGen.drawStartPoint = GameManager.Instance._config.DrawStartPoint;
@@ -84,8 +84,10 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     protected override void PreFinish()
     {
+        var result = analizer.GetResult(shape.Shape, userLines);
         Debug.Log("Prefinish");
-        Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLines) + " %");
+        Debug.Log("Wynik: " + result + " %");
+        analizer.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = (int)result });
 		lineDrawer.StopDrawing();
 
         shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);

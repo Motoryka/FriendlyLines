@@ -44,6 +44,31 @@ public static class LineStroke
 
     static Dictionary<float, int> _ftoi = new Dictionary<float, int> { { VeryThin, 0 }, { Thin, 1 }, { Medium, 2 }, { Thick, 3 }, { VeryThick, 4 } };
     static Dictionary<int, float> _itof = new Dictionary<int, float> { { 0, VeryThin }, { 1, Thin }, { 2, Medium }, { 3, Thick }, { 4, VeryThick } };
+
+	public static string FloatToStroke(float f)
+	{
+		switch((int)(f*100))
+		{
+		case 60: 
+			return "Bardzo cienka";
+			break;
+		case 80: 
+			return "Cienka";
+			break;
+		case 100: 
+			return "Średnia";
+			break;
+		case 120: 
+			return "Gruba";
+			break;
+		case 140: 
+			return "Bardzo gruba";
+			break;
+		default:
+			return "Nieznana";
+			break;
+		}
+	}
 }
 
 public class ShapeGenerator : MonoBehaviour

@@ -49,12 +49,12 @@ public class UILevelManager : MonoBehaviour {
 
     private void SetBrushColor(GameObject sender, string newValue, int index)
     {
-        cfg.brushColor = PastelColorFactory.GetColor(newValue).Color;
+        cfg.brushColor = PastelColorFactory.GetColor(newValue);
     }
 
     private void SetShapeColor(GameObject sender, string newValue, int index)
     {
-        cfg.shapeColor = PastelColorFactory.GetColor(newValue).Color;
+        cfg.shapeColor = PastelColorFactory.GetColor(newValue);
     }
 
     private void SetShape(GameObject sender, string newValue, int index)
