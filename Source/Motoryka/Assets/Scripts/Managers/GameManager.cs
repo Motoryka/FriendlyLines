@@ -29,6 +29,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
     string sceneName = "level";
     string finishSceneName = "end";
     string titleSceneName = "title";
+    string configSceneName = "config";
 
 	ShapeElement _previousShapeVertices = null;
 
@@ -136,5 +137,15 @@ public class GameManager : Singleton<GameManager>, IInitable {
         {
             return _currentLevel;
         }
+    }
+
+    public void StartGame()
+    {
+        fader.LoadSceneFading(sceneName);
+    }
+
+    public void GoToConfig()
+    {
+        fader.LoadSceneFading(configSceneName);
     }
 }

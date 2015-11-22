@@ -7,7 +7,7 @@ public class Loader : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-	    if(gameManagerPrefab)
+	    if(gameManagerPrefab && !GameManager.IsInstantiated )
         {
             GameObject.Instantiate(gameManagerPrefab);
         }
