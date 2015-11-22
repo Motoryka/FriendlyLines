@@ -6,11 +6,10 @@ using UnityEngine.UI;
 public class UILevelManager : MonoBehaviour {
 
     public Text titleLbl;
-    public ComboBox ShapeTypeCB;
+
     public Slider ShapeWidthSlider;
     public Slider BrushWidthSlider;
-    public ComboBox ShapeColorCB;
-    public ComboBox BrushColorCB;
+
     public Toggle StartPointToggle;
     public Vector3 StayingPoint;
 
@@ -38,17 +37,12 @@ public class UILevelManager : MonoBehaviour {
 
         titleLbl.text = "Edytujesz poziom " + cfg.levelNumber + ".";
 
-        ShapeTypeCB.SetChoice((int)cfg.shape);
+
         ShapeWidthSlider.value = (float)LineStroke.FloatToInt(lcfg.shapeStroke);
         BrushWidthSlider.value = (float)LineStroke.FloatToInt(cfg.brushStroke);
-        ShapeColorCB.SetChoice(PastelColorFactory.GetColorName(cfg.shapeColor));
-        BrushColorCB.SetChoice(PastelColorFactory.GetColorName(cfg.brushColor));
+        
         StartPointToggle.isOn = true;
         StartPointToggle.enabled = false;
-
-        ShapeTypeCB.OnOptionChange += SetShape;
-        ShapeColorCB.OnOptionChange += SetShapeColor;
-        BrushColorCB.OnOptionChange += SetBrushColor;
 
         StayingPoint = transform.localPosition;
     }
