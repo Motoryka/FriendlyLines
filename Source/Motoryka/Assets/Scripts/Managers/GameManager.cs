@@ -3,6 +3,7 @@ using System.Collections;
 using LineManagement;
 using LineManagement.GLLines;
 using System.Collections.Generic;
+using System.IO;
 
 public class GameManager : Singleton<GameManager>, IInitable {
     public Fader fader;
@@ -31,15 +32,34 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
 	ShapeElement _previousShapeVertices = null;
 
+	public Config GameConfig {
+		get{
+			return _config;
+		}
+		set{
+			this._config = value;
+		}
+	}
+
 	// Use this for initialization
     public void Initialize()
     {
         /* We want this to persist through game life */
         DontDestroyOnLoad(this);
 
-		Config conf = ConfigFactory.CreateMediumLevel();
-		ConfigLoader.SerializeConfig(conf, "config");
-        _config = ConfigLoader.DeserializeConfig("config");
+		try
+		{
+			if(!Directory.Exists(Application.persistentDataPath + "/configs"))
+			{
+				Directory.CreateDirectory(Application.persistentDataPath + "/configs");
+			}
+		}
+		catch(IOException e)
+		{
+			Debug.Log(e.Message);
+		}
+
+		_config = ConfigFactory.CreateMediumLevel();
         
         fader = GetComponent<Fader>();
 

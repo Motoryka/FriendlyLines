@@ -21,9 +21,9 @@ public enum Shape
 
 public static class LineStroke
 {
-    public const float VeryThin = 0.4f;
+    public const float VeryThin = 0.6f;
 
-    public const float Thin = 0.7f;
+    public const float Thin = 0.8f;
 
     public const float Medium = 1.0f;
 

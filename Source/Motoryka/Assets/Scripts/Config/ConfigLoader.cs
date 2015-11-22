@@ -10,7 +10,7 @@ public class ConfigLoader {
 	{
 		XmlSerializer serializer = new XmlSerializer(typeof(Config));
 
-		using (TextWriter writer = new StreamWriter (Application.persistentDataPath + "/" + filename + ".xml"))
+		using (TextWriter writer = new StreamWriter (Application.persistentDataPath + "/configs/" + filename + ".xml"))
 		{
 			serializer.Serialize(writer, details);
 		}
@@ -24,7 +24,7 @@ public class ConfigLoader {
         StreamReader reader;
         try
         {
-			reader = new StreamReader(Application.persistentDataPath + "/" + filename + ".xml");
+			reader = new StreamReader(Application.persistentDataPath + "/configs/" + filename + ".xml");
         }
         catch (FileNotFoundException e)
         {

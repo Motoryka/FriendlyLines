@@ -10,7 +10,7 @@ public class ConfigFactory
 	public static Config CreateEasyLevel()
 	{
 		Config config = new Config { 
-			Id = Random.Range(0, 1000), 
+			Id = 1, 
 			Name = "Easy Level",
 			CreationDate = DateTime.Now, 
 			DrawStartPoint = true,
@@ -27,7 +27,7 @@ public class ConfigFactory
 	public static Config CreateMediumLevel()
 	{
 		Config config = new Config { 
-			Id = Random.Range(0, 1000), 
+			Id = 2, 
 			Name = "Medium Level",
 			CreationDate = DateTime.Now,
 			DrawStartPoint = true,
@@ -50,7 +50,7 @@ public class ConfigFactory
 	public static Config CreateHardLevel()
 	{
 		Config config = new Config { 
-			Id = Random.Range(0, 1000), 
+			Id = 3, 
 			Name = "Hard Level",
 			CreationDate = DateTime.Now,
 			DrawStartPoint = false,
