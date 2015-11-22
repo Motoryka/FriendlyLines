@@ -6,18 +6,16 @@ using UnityEngine.UI;
 public class UILevelManager : MonoBehaviour {
 
     public Text titleLbl;
-    public ComboBox ShapeTypeCB;
+
     public Slider ShapeWidthSlider;
     public Slider BrushWidthSlider;
-    public ComboBox ShapeColorCB;
-    public ComboBox BrushColorCB;
+
     public Toggle StartPointToggle;
     public Vector3 StayingPoint;
 
     LevelConfig cfg;
 
     ConfigCreator creator;
-    float movingVelocity = 1000f;
 
     public float smoothTime = 0.2F;
     private Vector3 velocity = Vector3.zero;
@@ -39,17 +37,12 @@ public class UILevelManager : MonoBehaviour {
 
         titleLbl.text = "Edytujesz poziom " + cfg.levelNumber + ".";
 
-        ShapeTypeCB.SetChoice((int)cfg.shape);
+
         ShapeWidthSlider.value = (float)LineStroke.FloatToInt(lcfg.shapeStroke);
         BrushWidthSlider.value = (float)LineStroke.FloatToInt(cfg.brushStroke);
-        ShapeColorCB.SetChoice(PastelColorFactory.GetColorName(cfg.shapeColor));
-        BrushColorCB.SetChoice(PastelColorFactory.GetColorName(cfg.brushColor));
+        
         StartPointToggle.isOn = true;
         StartPointToggle.enabled = false;
-
-        ShapeTypeCB.OnOptionChange += SetShape;
-        ShapeColorCB.OnOptionChange += SetShapeColor;
-        BrushColorCB.OnOptionChange += SetBrushColor;
 
         StayingPoint = transform.localPosition;
     }
@@ -91,8 +84,13 @@ public class UILevelManager : MonoBehaviour {
 
     public void SaveConfig()
     {
-        creator.SendMessage("SaveConfig");
+		creator.SendMessage("SaveConfig");
     }
+
+	public void SaveAsNewConfig()
+	{
+		creator.SendMessage("SaveAsNewConfig");
+	}
 
     public void MoveToPoint(Vector3 point)
     {

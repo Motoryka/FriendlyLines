@@ -18,7 +18,8 @@ public class InputHandler : MonoBehaviour {
     public delegate void InputHandling();
 
     InputHandling handleInput;
-    bool _isLine = false;
+    //bool _isLine = false;
+    bool drawingEnabled = true;
 
 	// Use this for initialization
 	void Start () {
@@ -119,7 +120,7 @@ public class InputHandler : MonoBehaviour {
     {
         Debug.Log("Input: starting drawing");
 
-		if (!_isLine && SceneManager.Instance.IsStartCorrect(where))
+		if (drawingEnabled && SceneManager.Instance.IsStartCorrect(where))
         {
             Debug.Log("Input: starting drawing");
             lineDrawer.StartDrawing();
@@ -130,12 +131,10 @@ public class InputHandler : MonoBehaviour {
 
     void StopDrawing()
     {
-        if (!_isLine && lineDrawer.IsDrawing)
+        if (drawingEnabled && lineDrawer.IsDrawing)
         {
             Debug.Log("Input: stopping drawing");
             lineDrawer.StopDrawing();
-
-            _isLine = true;
         }
     }
 
