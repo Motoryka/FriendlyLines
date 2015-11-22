@@ -45,7 +45,7 @@ public class ConfigCreator : MonoBehaviour {
                 o.transform.localPosition = nextPoint;*/
             UILevelManager mng = o.GetComponent<UILevelManager>();
 
-            mng.Init(this, l);
+            mng.Init(this, l, config.NrOfLevels);
 
             _levelManagers.Add(mng);
             i++;
@@ -151,14 +151,11 @@ public class ConfigCreator : MonoBehaviour {
 		}
 
 		ids.Sort((a,b) => a.CompareTo(b));
-		int idsCount = 0;
 		int minId = 0;
-		while(idsCount < ids.Count){
+		while(true){
 			minId++;
 			if(ids.IndexOf(minId) == -1)
 				return minId;
-			minId = ids.IndexOf(idsCount);
-			idsCount++;
 		}
 		return ++minId;
 	}
