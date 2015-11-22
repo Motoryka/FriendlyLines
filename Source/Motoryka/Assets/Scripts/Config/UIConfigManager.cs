@@ -7,6 +7,7 @@ public class UIConfigManager : MonoBehaviour {
     public Toggle ShowStartPointToggle;
     public InputField ConfigNameInputField;
     public Dropdown DrawTimeoutDropdown;
+    public Text LevelsLabel;
 
     Config config;
 
@@ -33,6 +34,10 @@ public class UIConfigManager : MonoBehaviour {
         DrawTimeoutDropdown.onValueChanged.AddListener(i => UpdateDrawTimeout(i));
         ConfigNameInputField.onValueChange.AddListener(s => UpdateName(s));
         ShowStartPointToggle.onValueChanged.AddListener(b => UpdateShowStartPoint(b));
+
+        LevelsLabel.text = config.Levels.Count.ToString();
+
+        creator.LevelAdded += new ConfigCreator.LevelAddHandler(OnAddLevel);
 
         this.config = config;
     }
@@ -63,5 +68,10 @@ public class UIConfigManager : MonoBehaviour {
     void UpdateShowStartPoint(bool value)
     {
         config.DrawStartPoint = value;
+    }
+
+    void OnAddLevel(int pos)
+    {
+        LevelsLabel.text = config.Levels.Count.ToString();
     }
 }

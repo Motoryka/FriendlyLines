@@ -80,6 +80,8 @@ public class ConfigCreator : MonoBehaviour {
         
         config.Levels.Insert(pos, level);
 
+        config.NrOfLevels++;
+
         OnLevelAdded(pos);
 
         _levelManagers.Insert(pos, InstantiateLevelManager(level, pos) );
