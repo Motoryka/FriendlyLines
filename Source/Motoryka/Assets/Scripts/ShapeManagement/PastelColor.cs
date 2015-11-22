@@ -44,7 +44,7 @@ public class PastelColorFactory
         DarkGray = AddColorToList("Ciemny szary", new Color(0.4f, 0.4f, 0.4f));
     }
 
-    public PastelColor RandomColor { get { return colorList[Random.Range(0, colorList.Count - 1)]; } }
+    public static PastelColor RandomColor { get { return colorList[Random.Range(0, colorList.Count - 1)]; } }
 
     public static PastelColor LightRed { get; internal set; }
     public static PastelColor LightGreen { get; internal set; }

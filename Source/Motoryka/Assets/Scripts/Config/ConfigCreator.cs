@@ -76,7 +76,7 @@ public class ConfigCreator : MonoBehaviour {
 
     public void AddLevel(int pos)
     {
-        var level = new LevelConfig { levelNumber = pos+1, shape = Shape.VerticalLine, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = Color.blue, brushColor = Color.cyan, difficulty = 2 };
+        var level = new LevelConfig { levelNumber = pos + 1, shape = Shape.VerticalLine, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = PastelColorFactory.LightYellow.Color, brushColor = PastelColorFactory.Orange.Color, difficulty = 2 };
         
         config.Levels.Insert(pos, level);
 
@@ -84,12 +84,26 @@ public class ConfigCreator : MonoBehaviour {
 
         _levelManagers.Insert(pos, InstantiateLevelManager(level, pos) );
 
-        if (pos <= activeLevelManager)
-            activeLevelManager++;
+        int from = 0;
+        int to = 0;
 
-        for (int i = pos + 1; i < _levelManagers.Count; ++i)
+        if (pos <= activeLevelManager)
         {
-            Debug.Log("setting pos for " + i);
+            activeLevelManager++;
+            from = 0;
+            to = activeLevelManager;
+
+            config.Levels[activeLevelManager].levelNumber = activeLevelManager + 1;
+            _levelManagers[activeLevelManager].UpdateTitle();
+        }
+        else
+        {
+            from = pos + 1;
+            to = _levelManagers.Count;
+        }
+
+        for (int i = from; i < to; ++i)
+        {
             SetPosition(_levelManagers[i].gameObject, i);
             config.Levels[i].levelNumber = i + 1;
             _levelManagers[i].UpdateTitle();
