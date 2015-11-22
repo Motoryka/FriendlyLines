@@ -22,8 +22,8 @@ public class GameManager : Singleton<GameManager>, IInitable {
         }
     }
 
-    int _currentLevel = 1;
-    public Config _config;
+    int _currentLevel;
+    public Config _config = null;
     bool initialized = false;
 
     string sceneName = "level";
@@ -60,18 +60,16 @@ public class GameManager : Singleton<GameManager>, IInitable {
 			Debug.Log(e.Message);
 		}
 
-		_config = ConfigFactory.CreateMediumLevel();
+        _currentLevel = 1;
+
+        if(_config == null)
+		    _config = ConfigFactory.CreateEasyLevel();
         
         fader = GetComponent<Fader>();
 
         if(fader == null)
         {
             fader = gameObject.AddComponent<Fader>();
-        }
-
-        if (_config == null)
-        {
-            _config = ConfigFactory.CreateHardLevel();
         }
 
         Debug.Log("Game started");
@@ -147,5 +145,10 @@ public class GameManager : Singleton<GameManager>, IInitable {
     public void GoToConfig()
     {
         fader.LoadSceneFading(configSceneName);
+    }
+
+    public void RestartGame()
+    {
+        Initialize();
     }
 }
