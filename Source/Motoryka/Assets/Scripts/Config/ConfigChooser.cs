@@ -189,4 +189,10 @@ public class ConfigChooser : MonoBehaviour {
 			i++;
 		}
 	}
+
+	public void AddConfig(){
+		Config config = ConfigFactory.CreateEasyLevel();
+		GameManager.Instance.GameConfig = config;
+		GameManager.Instance.fader.LoadSceneFading("config");
+	}
 }

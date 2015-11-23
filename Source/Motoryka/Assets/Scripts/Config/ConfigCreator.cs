@@ -5,8 +5,16 @@ using System.IO;
 using System.Xml;
 
 public class ConfigCreator : MonoBehaviour {
+    public delegate void LevelAddHandler(int atIndex);
+    public event LevelAddHandler LevelAdded;
+
+    public delegate void LevelDeleteHandler(int atIndex);
+    public event LevelDeleteHandler LevelDeleted;
+
+
     public GameObject canvas;
     public GameObject uiLevelManagerPrefab;
+    public UIConfigManager configManager;
 
     Config config;
     List<UILevelManager> _levelManagers;
@@ -25,33 +33,23 @@ public class ConfigCreator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        config = GameManager.Instance.GameConfig;
+        activeLevelManager = 0;
+        var gconfig = GameManager.Instance.GameConfig;
+
+        config = gconfig.Copy();
 
         _levelManagers = new List<UILevelManager>();
         int i = 0;
 
+        configManager.Init(config);
 
         foreach(LevelConfig l in config.Levels)
         {
-            GameObject o = Instantiate<GameObject>(uiLevelManagerPrefab);
-            o.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>(), false);
-            //o.transform.SetParent(canvas.transform);
-            o.transform.localPosition = nextPoint * i;
-            //o.GetComponent<RectTransform>().localPosition = nextPoint * i;
-            /*
-            if (i == 0)
-                o.transform.localPosition = activePoint;
-            else
-                o.transform.localPosition = nextPoint;*/
-            UILevelManager mng = o.GetComponent<UILevelManager>();
-
-            mng.Init(this, l);
-
-            _levelManagers.Add(mng);
+            _levelManagers.Add( InstantiateLevelManager(l, i) );
             i++;
         }
 
-        activeLevelManager = 0;
+
 	}
 	
 	// Update is called once per frame
@@ -59,27 +57,93 @@ public class ConfigCreator : MonoBehaviour {
 	
 	}
 
-    public void AddLevel()
+    UILevelManager InstantiateLevelManager(LevelConfig l, int i)
     {
-        var level = new LevelConfig { levelNumber = ++config.NrOfLevels, shape = Shape.VerticalLine, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = Color.blue, brushColor = Color.cyan, difficulty = 2 };
-        config.Levels.Add(level);
+        GameObject o = Instantiate<GameObject>(uiLevelManagerPrefab);
+        o.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>(), false);
+
+        SetPosition(o, i);
+
+        UILevelManager mng = o.GetComponent<UILevelManager>();
+
+        mng.Init(this, l, i, config.Levels.Count - 1);
+
+        return mng;
     }
 
-	public void RemoveLevel()
+    public void SetPosition(GameObject o, int i)
+    {
+        o.transform.localPosition = nextPoint * (i - activeLevelManager);
+        SetStayingPosition(o.GetComponent<UILevelManager>(), i);
+    }
+
+    void SetStayingPosition(UILevelManager o, int i)
+    {
+        o.GetComponent<UILevelManager>().StayingPoint = nextPoint * (i - activeLevelManager);
+    }
+
+    public void AddLevel(int pos)
+    {
+        var level = new LevelConfig { levelNumber = pos + 1, shape = Shape.VerticalLine, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = PastelColorFactory.LightYellow, brushColor = PastelColorFactory.Orange, difficulty = 2 };
+        
+        config.Levels.Insert(pos, level);
+
+        config.NrOfLevels++;
+
+        OnLevelAdded(pos);
+
+        _levelManagers.Insert(pos, InstantiateLevelManager(level, pos) );
+
+        int from = 0;
+        int to = 0;
+
+        if (pos <= activeLevelManager)
+        {
+            activeLevelManager++;
+            from = 0;
+            to = activeLevelManager;
+
+            config.Levels[activeLevelManager].levelNumber = activeLevelManager + 1;
+            _levelManagers[activeLevelManager].UpdateTitle();
+        }
+        else
+        {
+            from = pos + 1;
+            to = _levelManagers.Count;
+        }
+
+        for (int i = from; i < to; ++i)
+        {
+            SetPosition(_levelManagers[i].gameObject, i);
+            config.Levels[i].levelNumber = i + 1;
+            _levelManagers[i].UpdateTitle();
+        }
+    }
+
+	public void RemoveLevel(int pos)
 	{
 		if(config.NrOfLevels > 1)
 		{
-			config.Levels.RemoveAt(activeLevelManager-1);
+            config.Levels.RemoveAt(pos);
+            _levelManagers.RemoveAt(pos);
 			config.NrOfLevels--;
-			if (activeLevelManager < _levelManagers.Count -1)
-			{
-				activeLevelManager++;
-			}
-			else
+			if (activeLevelManager >= _levelManagers.Count)
 			{
 				activeLevelManager--;
 			}
+
+            for(int i = 0; i < _levelManagers.Count; ++i)
+            {
+                Debug.Log("Pos: " + pos+ " Cur i : " + i + " active: " + activeLevelManager);
+                SetStayingPosition(_levelManagers[i], i);
+                config.Levels[i].levelNumber = i + 1;
+                _levelManagers[i].UpdateTitle();
+            }
+
+            OnLevelRemoved(pos);
 		}
+
+
 	}
 
     public void SetActiveLevelNext()
@@ -117,7 +181,9 @@ public class ConfigCreator : MonoBehaviour {
 
     public void SaveConfig()
     {
+        Debug.Log("SaveConfig");
 		ConfigLoader.SerializeConfig(config, config.Id.ToString());
+        GameManager.Instance.GameConfig = config;
         GameManager.Instance.fader.LoadSceneFading("configChoice");
     }
     
@@ -125,8 +191,14 @@ public class ConfigCreator : MonoBehaviour {
 	{
 		config.Id = SetUniqueId();
 		ConfigLoader.SerializeConfig(config, config.Id.ToString());
+        GameManager.Instance.GameConfig = config;
 		GameManager.Instance.fader.LoadSceneFading("configChoice");
 	}
+
+    public void Cancel()
+    {
+        GameManager.Instance.fader.LoadSceneFading("configChoice");
+    }
 
 	private int SetUniqueId()
 	{
@@ -159,4 +231,16 @@ public class ConfigCreator : MonoBehaviour {
 		}
 		return ++minId;
 	}
+
+    void OnLevelAdded(int atIndex)
+    {
+        if (LevelAdded != null)
+            LevelAdded(atIndex); 
+    }
+
+    void OnLevelRemoved(int atIndex)
+    {
+        if (LevelDeleted != null)
+            LevelDeleted(atIndex);
+    }
 }
