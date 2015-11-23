@@ -10,7 +10,13 @@ public enum AccuracyLevel {
 	Hard
 }
 
-public class PathAnalyser : IAnalyser {
+public struct LevelResult {
+    public int levelNumber;
+    public int result;
+}
+
+public class PathAnalyser : MonoBehaviour, IAnalyser
+{
 	
 	private Dictionary<AccuracyLevel, float> levelMap = new Dictionary<AccuracyLevel, float> () 
 	{
