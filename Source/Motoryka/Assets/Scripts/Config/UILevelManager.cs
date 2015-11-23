@@ -6,16 +6,26 @@ using UnityEngine.UI;
 public class UILevelManager : MonoBehaviour {
 
     public Text titleLbl;
-
-    public Slider ShapeWidthSlider;
-    public Slider BrushWidthSlider;
-
-    public Toggle StartPointToggle;
+    public Slider LineStrokeSlider;
     public Vector3 StayingPoint;
+    public Dropdown ShapeDropdown;
+    public Dropdown LineColorDropdown;
+    public Dropdown ShapeColorDropdown;
+
+    public Button PreviousLevelBtn;
+    public Button NextLevelBtn;
+
+    public Button AddPrevLevelBtn;
+    public Button AddNextLevelBtn;
+
+    public Button DeleteBtn;
 
     LevelConfig cfg;
 
     ConfigCreator creator;
+
+    int myindex;
+    int maxindex;
 
     public float smoothTime = 0.2F;
     private Vector3 velocity = Vector3.zero;
@@ -30,21 +40,98 @@ public class UILevelManager : MonoBehaviour {
         transform.localPosition = Vector3.SmoothDamp(transform.localPosition, StayingPoint, ref velocity, smoothTime);
 	}
 
-    public void Init(ConfigCreator ccreator, LevelConfig lcfg)
+    public void Init(ConfigCreator ccreator, LevelConfig lcfg, int levelindex, int maxindex)
     {
         creator = ccreator;
         cfg = lcfg;
+        myindex = levelindex;
+        this.maxindex = maxindex;
 
-        titleLbl.text = "Edytujesz poziom " + cfg.levelNumber + ".";
+        creator.LevelAdded += new ConfigCreator.LevelAddHandler(LevelInserted);
+        creator.LevelDeleted += LevelDeleted;
 
+        UpdateTitle();
 
-        ShapeWidthSlider.value = (float)LineStroke.FloatToInt(lcfg.shapeStroke);
-        BrushWidthSlider.value = (float)LineStroke.FloatToInt(cfg.brushStroke);
-        
-        StartPointToggle.isOn = true;
-        StartPointToggle.enabled = false;
+        LineStrokeSlider.value = (float)LineStroke.FloatToInt(lcfg.shapeStroke);
+        LineStrokeSlider.onValueChanged.AddListener(f => SetStroke(f));
+
+        ShapeDropdown.options.Clear();
+        foreach (string option in ShapeConverter.GetShapeStringArray())
+            ShapeDropdown.options.Add(new Dropdown.OptionData(option));
+        ShapeDropdown.onValueChanged.AddListener(i => UpdateShape(i));
+
+        int index = 0;
+        foreach (var option in ShapeDropdown.options)
+        {
+            if (option.text == ShapeConverter.shapeToString(lcfg.shape))
+            {
+                ShapeDropdown.value = index;
+                break;
+            }
+
+            index++;
+        }
+
+        LineColorDropdown.options.Clear();
+        foreach (PastelColor option in PastelColorFactory.ColorList)
+            LineColorDropdown.options.Add(new Dropdown.OptionData(option.Name));
+        LineColorDropdown.onValueChanged.AddListener(i => UpdateLineColor(i));
+
+        index = 0;
+        foreach (var option in LineColorDropdown.options)
+        {
+            if (option.text == PastelColorFactory.GetColorName(lcfg.brushColor))
+            {
+                LineColorDropdown.value = index;
+                break;
+            }
+
+            index++;
+        }
+
+        ShapeColorDropdown.options.Clear();
+        foreach (PastelColor option in PastelColorFactory.ColorList)
+            ShapeColorDropdown.options.Add(new Dropdown.OptionData(option.Name));
+        ShapeColorDropdown.onValueChanged.AddListener(i => UpdateShapeColor(i));
+
+        index = 0;
+        foreach (var option in ShapeColorDropdown.options)
+        {
+            if (option.text == PastelColorFactory.GetColorName(lcfg.shapeColor))
+            {
+                ShapeColorDropdown.value = index;
+                break;
+            }
+
+            index++;
+        }
 
         StayingPoint = transform.localPosition;
+
+        AddNextLevelBtn.onClick.AddListener(() => creator.SendMessage("AddLevel", myindex+1) );
+        AddPrevLevelBtn.onClick.AddListener(() => creator.SendMessage("AddLevel", myindex));
+
+        updateBtns();
+    }
+
+    public void UpdateTitle()
+    {
+        titleLbl.text = "Edytujesz poziom " + cfg.levelNumber + ".";
+    }
+
+    private void UpdateLineColor(int i)
+    {
+        cfg.brushColor = PastelColorFactory.GetColor(LineColorDropdown.options[i].text).Color;
+    }
+
+    private void UpdateShapeColor(int i)
+    {
+        cfg.shapeColor = PastelColorFactory.GetColor(ShapeColorDropdown.options[i].text).Color;
+    }
+
+    private void UpdateShape(int i)
+    {
+        cfg.shape = ShapeConverter.stringToShape(ShapeDropdown.options[i].text);
     }
 
     private void SetBrushColor(GameObject sender, string newValue, int index)
@@ -62,15 +149,12 @@ public class UILevelManager : MonoBehaviour {
         cfg.shape = (Shape)index;
     }
 
-    public void SetShapeStroke()
+    void SetStroke(float value)
     {
-        cfg.shapeStroke = LineStroke.IntToFloat((int)ShapeWidthSlider.value);
+        cfg.brushStroke = value;
+        cfg.shapeStroke = value;
     }
 
-    public void SetBrushStroke()
-    {
-        cfg.brushStroke = LineStroke.IntToFloat((int)BrushWidthSlider.value);
-    }
 
     public void SetActiveLevelNext()
     {
@@ -81,16 +165,6 @@ public class UILevelManager : MonoBehaviour {
     {
         creator.SendMessage("SetActiveLevelPrevious");
     }
-
-    public void SaveConfig()
-    {
-		creator.SendMessage("SaveConfig");
-    }
-
-	public void SaveAsNewConfig()
-	{
-		creator.SendMessage("SaveAsNewConfig");
-	}
 
     public void MoveToPoint(Vector3 point)
     {
@@ -111,5 +185,56 @@ public class UILevelManager : MonoBehaviour {
             
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    public void LevelInserted(int atIndex)
+    {
+        maxindex++;
+        if (atIndex <= myindex)
+        {
+            myindex++;
+        }
+
+        updateBtns();
+    }
+
+    public void LevelDeleted(int atIndex)
+    {
+        
+        maxindex--;
+
+        if (atIndex < myindex)
+            myindex--;
+
+        Debug.Log("My idnex:" + myindex + " " + maxindex);
+
+        updateBtns();
+    }
+    void updateBtns()
+    {
+        if (maxindex > 0)
+            DeleteBtn.interactable = true;
+        else
+            DeleteBtn.interactable = false;
+
+        if (myindex == 0)
+            PreviousLevelBtn.interactable = false;
+        else
+            PreviousLevelBtn.interactable = true;
+
+        if (myindex == maxindex)
+            NextLevelBtn.interactable = false;
+        else
+            NextLevelBtn.interactable = true;
+    }
+
+    public void DeleteThis()
+    {
+        creator.LevelAdded -= new ConfigCreator.LevelAddHandler(LevelInserted);
+        creator.LevelDeleted -= LevelDeleted;
+
+        creator.SendMessage("RemoveLevel", myindex);
+
+        Destroy(gameObject);
     }
 }

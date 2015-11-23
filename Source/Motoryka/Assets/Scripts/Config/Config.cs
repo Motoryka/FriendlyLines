@@ -20,4 +20,23 @@ public class Config
         CreationDate = DateTime.Now;
         Levels = new List<LevelConfig>();
     }
+
+    public Config Copy()
+    {
+        var config = new Config();
+
+        config.Id = Id;
+        config.Name = Name;
+        config.CreationDate = CreationDate;
+        config.DrawStartPoint = DrawStartPoint;
+        config.NrOfLevels = NrOfLevels;
+        config.Levels = new List<LevelConfig>();
+
+        foreach (LevelConfig lc in Levels)
+        {
+            config.Levels.Add(lc.Copy());
+        }
+
+        return config;
+    }
 }

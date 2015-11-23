@@ -19,6 +19,50 @@ public enum Shape
     Rectangle
 }
 
+public static class ShapeConverter
+{
+    static Dictionary<Shape, string> shapeString = new Dictionary<Shape, string>
+    {
+        {Shape.StraightLine, "Linia prosta"},
+        {Shape.HorizontalLine, "Linia pozioma"},
+        {Shape.VerticalLine, "Linia pionowa"},
+        {Shape.DiagonalLine, "Linia ukośna"},
+        {Shape.CurvedLine, "Linia krzywa"},
+        {Shape.Triangle, "Trójkąt"},
+        {Shape.Circle, "Okrąg"},
+        {Shape.Ellipse, "Elipsa"},
+        {Shape.Square, "Kwadrat"},
+        {Shape.Rectangle, "Prostokąt"}
+    };
+
+    static Dictionary<string, Shape> stringShape;
+
+    static ShapeConverter()
+    {
+        stringShape = new Dictionary<string, Shape>();
+        foreach(Shape s in shapeString.Keys)
+        {
+            stringShape.Add(shapeString[s], s);
+        }
+    }
+
+    public static Shape stringToShape(string s)
+    {
+        return stringShape[s];
+    }
+
+    public static string shapeToString(Shape s)
+    {
+        return shapeString[s];
+    }
+
+
+    public static IEnumerable GetShapeStringArray()
+    {
+        return stringShape.Keys;
+    }
+}
+
 public static class LineStroke
 {
     public const float VeryThin = 0.6f;
@@ -95,7 +139,7 @@ public class ShapeGenerator : MonoBehaviour
     public Color pointColor { get; set; }
     public Color color { get; set; }
     public float size { get; set; }
-	public bool drawStartPoint = false;
+    public bool drawStartPoint = false;
 
     private List<List<Vector2>> BezierCurves;
     private List<Colors> colors;
@@ -172,7 +216,7 @@ public class ShapeGenerator : MonoBehaviour
         //    new Colors (new Color(0.9f, 1,1), 		new Color(0.2f, 0.2f, 1)), //white
         //    new Colors (new Color(0.5f, 0.5f, 0.5f), new Color(1,0.7f, 0.2f)), //gray
         //    new Colors (new Color(0.5f, 0.5f, 0), 	new Color(0.5f, 0.9f, 0.2f))//olive
-		//};
+        //};
     }
 
     public ShapeElement CreateShape(Shape shape)
@@ -233,10 +277,11 @@ public class ShapeGenerator : MonoBehaviour
         line.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-		if(drawStartPoint){
-	        startLine.SetColor(PastelColorFactory.Red.Color);
-	        startLine.SetSize(this.size);
-		}
+        if (drawStartPoint)
+        {
+            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetSize(this.size);
+        }
 
         ShapeElement shape = new ShapeElement(line, startLine, Shape.HorizontalLine);
 
@@ -259,10 +304,11 @@ public class ShapeGenerator : MonoBehaviour
         line.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-		if(drawStartPoint){
-			startLine.SetColor(PastelColorFactory.Red.Color);
-			startLine.SetSize(this.size);
-		}
+        if (drawStartPoint)
+        {
+            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetSize(this.size);
+        }
 
         ShapeElement shape = new ShapeElement(line, startLine, Shape.VerticalLine);
 
@@ -282,10 +328,11 @@ public class ShapeGenerator : MonoBehaviour
         line.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-		if(drawStartPoint){
-			startLine.SetColor(PastelColorFactory.Red.Color);
-			startLine.SetSize(this.size);
-		}
+        if (drawStartPoint)
+        {
+            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetSize(this.size);
+        }
 
         ShapeElement shape = new ShapeElement(line, startLine, Shape.StraightLine);
 
@@ -312,10 +359,11 @@ public class ShapeGenerator : MonoBehaviour
         line.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-		if(drawStartPoint){
-			startLine.SetColor(PastelColorFactory.Red.Color);
-			startLine.SetSize(this.size);
-		}
+        if (drawStartPoint)
+        {
+            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetSize(this.size);
+        }
 
         ShapeElement shape = new ShapeElement(line, startLine, Shape.DiagonalLine);
 
@@ -344,10 +392,11 @@ public class ShapeGenerator : MonoBehaviour
         circle.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-		if(drawStartPoint){
-			startLine.SetColor(PastelColorFactory.Red.Color);
-			startLine.SetSize(this.size);
-		}
+        if (drawStartPoint)
+        {
+            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetSize(this.size);
+        }
 
         ShapeElement shape = new ShapeElement(circle, startLine, Shape.Circle);
 
@@ -389,10 +438,11 @@ public class ShapeGenerator : MonoBehaviour
         ellipse.SetSize(this.size);
 
         var startLine = this.lf.Create(startPoint);
-		if(drawStartPoint){
-			startLine.SetColor(PastelColorFactory.Red.Color);
-			startLine.SetSize(this.size);
-		}
+        if (drawStartPoint)
+        {
+            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetSize(this.size);
+        }
 
         ShapeElement shape = new ShapeElement(ellipse, startLine, Shape.Ellipse);
 
@@ -452,10 +502,11 @@ public class ShapeGenerator : MonoBehaviour
         triangle.SetSize(this.size);
 
         var startLine = this.lf.Create(A);
-		if(drawStartPoint){
-			startLine.SetColor(PastelColorFactory.Red.Color);
-			startLine.SetSize(this.size);
-		}
+        if (drawStartPoint)
+        {
+            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetSize(this.size);
+        }
 
         ShapeElement shape = new ShapeElement(triangle, startLine, Shape.Triangle);
 
@@ -484,10 +535,11 @@ public class ShapeGenerator : MonoBehaviour
         square.SetSize(this.size);
 
         var startLine = this.lf.Create(A);
-		if(drawStartPoint){
-			startLine.SetColor(PastelColorFactory.Red.Color);
-			startLine.SetSize(this.size);
-		}
+        if (drawStartPoint)
+        {
+            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetSize(this.size);
+        }
         //this.DisplayVertex(A, Color.red);
 
         ShapeElement shape = new ShapeElement(square, startLine, Shape.Square);
@@ -517,10 +569,11 @@ public class ShapeGenerator : MonoBehaviour
         //this.DisplayVertex(A, Color.red);
 
         var startLine = this.lf.Create(A);
-		if(drawStartPoint){
-			startLine.SetColor(PastelColorFactory.Red.Color);
-			startLine.SetSize(this.size);
-		}
+        if (drawStartPoint)
+        {
+            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetSize(this.size);
+        }
 
         ShapeElement shape = new ShapeElement(rectangle, startLine, Shape.Rectangle);
 
@@ -564,10 +617,11 @@ public class ShapeGenerator : MonoBehaviour
         curvedLine.SetSize(this.size);
 
         var startLine = this.lf.Create(q0);
-		if(drawStartPoint){
-			startLine.SetColor(PastelColorFactory.Red.Color);
-			startLine.SetSize(this.size);
-		}
+        if (drawStartPoint)
+        {
+            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetSize(this.size);
+        }
 
         ShapeElement shape = new ShapeElement(curvedLine, startLine, Shape.CurvedLine);
 
