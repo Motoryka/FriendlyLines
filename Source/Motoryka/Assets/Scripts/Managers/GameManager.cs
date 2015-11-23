@@ -11,6 +11,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
     public AudioSource titleMusic;
     public AudioSource levelFinishedSound;
     public AudioSource gameFinishedSound;
+    public AudioSource restartSound;
 
     public string CurrentScene
     {
@@ -92,6 +93,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
         titleMusic = sounds[1];
         gameFinishedSound = sounds[2];
         levelFinishedSound = sounds[3];
+        restartSound = sounds[4];
 
         Debug.Log("Game started");
         initialized = true;
@@ -123,17 +125,17 @@ public class GameManager : Singleton<GameManager>, IInitable {
     {
         Debug.Log("Level " + CurrentLevel + " finished.");
         _previousShapeVertices = null;
+        
+        levelFinishedSound.Play();
 
         _currentLevel++;
 
         if (CurrentLevel <= _config.NrOfLevels)
         {
-            levelFinishedSound.Play();
             fader.LoadSceneFadingAfterTime(sceneName, new WaitForSeconds(4f));
         }
         else
         {
-            gameFinishedSound.Play();
             fader.LoadSceneFadingAfterTime(finishSceneName, new WaitForSeconds(4f));
 
 			fader.LoadSceneFadingAfterTime(resultSceneName, new WaitForSeconds(7f));
@@ -147,6 +149,8 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public void RestartLevel(ShapeElement currentShape)
     {
+        restartSound.Play();
+
 		_previousShapeVertices = currentShape;
 
         Debug.Log("Level " + CurrentLevel + " restarted.");

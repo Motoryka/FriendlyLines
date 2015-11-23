@@ -24,6 +24,8 @@ public class ResultScene : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        GameManager.Instance.gameFinishedSound.Play();
+
         if (analyser != null)
             analyser = GetComponent<PathAnalyser>();
         else
