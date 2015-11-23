@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TitleScript : BaseLvlManager<TitleScript> {
+public class TitleManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -13,5 +13,13 @@ public class TitleScript : BaseLvlManager<TitleScript> {
 	
 	}
 
-    
+    public void StartGame()
+    {
+        GameManager.Instance.StartGame();
+    }
+
+    public void GoToConfig()
+    {
+        GameManager.Instance.GoToConfig();
+    }
 }

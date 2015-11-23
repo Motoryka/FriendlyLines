@@ -88,6 +88,6 @@ public class Fader : MonoBehaviour {
         isFading = false;
 
         if (destroy)
-            Destroy(this.gameObject);
+            GameManager.Instance.RestartGame();
     }
 }

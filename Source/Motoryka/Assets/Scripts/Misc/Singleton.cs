@@ -12,6 +12,13 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, IInitable
     private static T _instance;
 
     //private static object _lock = new object();
+    public static bool IsInstantiated
+    {
+        get
+        {
+            return (_instance != null);
+        }
+    }
 
     public static T Instance
     {
