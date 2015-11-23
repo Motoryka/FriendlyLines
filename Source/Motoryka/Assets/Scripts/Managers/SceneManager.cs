@@ -179,4 +179,20 @@ public class SceneManager : BaseLvlManager<SceneManager>
         yield return new WaitForSeconds(seconds);
         RestartLevel();
     }
+
+    public void BackGame()
+    {
+        GameManager.Instance.SendMessage("BackGame");
+    }
+
+    public void NextLevel()
+    {
+        lineDrawer.StopDrawing();
+        var result = 0f;
+        Debug.Log("Wynik: " + result + " %");
+        GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = (int)result });
+        
+
+        GameManager.Instance.NextLevel();
+    }
 }

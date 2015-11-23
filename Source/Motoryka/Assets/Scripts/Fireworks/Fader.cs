@@ -38,10 +38,9 @@ public class Fader : MonoBehaviour {
             Debug.LogError("No texture to fade.");
         }
 
-        Debug.Log("Fading to scene " + startingScene);
+        Debug.Log("Fading to scene " + startingScene + " in time: " + time);
         StartCoroutine(LoadFading(startingScene, time, true));
     }
-
 
     private IEnumerator LoadFading(string scene, WaitForSeconds time, bool destroy = false)
     {

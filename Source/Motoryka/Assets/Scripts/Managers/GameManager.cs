@@ -108,20 +108,25 @@ public class GameManager : Singleton<GameManager>, IInitable {
         return _previousShapeVertices;
     }
 
-    public void FinishedLevel()
+    public void FinishedLevel(bool skipWaiting = false)
     {
         Debug.Log("Level " + CurrentLevel + " finished.");
         _previousShapeVertices = null;
 
         _currentLevel++;
 
+        float time = 4f;
+
+        if (skipWaiting)
+            time = 0f;
+
         if (CurrentLevel <= _config.NrOfLevels)
-            fader.LoadSceneFadingAfterTime(sceneName, new WaitForSeconds(4f));
+            fader.LoadSceneFadingAfterTime(sceneName, new WaitForSeconds(time));
         else
         {
-            fader.LoadSceneFadingAfterTime(finishSceneName, new WaitForSeconds(4f));
+            fader.LoadSceneFadingAfterTime(finishSceneName, new WaitForSeconds(time));
 
-			fader.LoadSceneFadingAfterTime(resultSceneName, new WaitForSeconds(7f));
+            fader.LoadSceneFadingAfterTime(resultSceneName, new WaitForSeconds(time + 3f));
         }
     }
 
@@ -137,6 +142,16 @@ public class GameManager : Singleton<GameManager>, IInitable {
         Debug.Log("Level " + CurrentLevel + " restarted.");
 
         fader.LoadSceneFadingAfterTime(sceneName, new WaitForSeconds(1f));
+    }
+
+    public void BackGame()
+    {
+        fader.FinishGame(titleSceneName, null);
+    }
+
+    public void NextLevel()
+    {
+        FinishedLevel(true);
     }
 
     public int CurrentLevel

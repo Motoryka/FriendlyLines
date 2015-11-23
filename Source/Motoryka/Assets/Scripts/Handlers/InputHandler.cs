@@ -142,4 +142,19 @@ public class InputHandler : MonoBehaviour {
     {
         return SceneManager.Instance.IsFinished();
     }
+
+
+    public void BackGame()
+    {
+        Debug.Log("Game back");
+
+        SceneManager.Instance.SendMessage("BackGame");
+    }
+
+    public void NextLevel()
+    {
+        Debug.Log("Next Level");
+
+        SceneManager.Instance.SendMessage("NextLevel");
+    }
 }
