@@ -122,8 +122,9 @@ public class UIConfigManager : MonoBehaviour {
 				BlackImage.SetActive(false);
 			}
 		}
-	}
+
 #endif
+    }
 
 	private bool DoesConfigNameExist(string name)
 	{
