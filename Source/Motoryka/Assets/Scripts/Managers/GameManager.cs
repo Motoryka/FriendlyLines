@@ -29,6 +29,9 @@ public class GameManager : Singleton<GameManager>, IInitable {
     string sceneName = "level";
     string finishSceneName = "end";
     string titleSceneName = "title";
+	string resultSceneName = "result";
+
+	public List<LevelResult> ResultsList;
 
 	ShapeElement _previousShapeVertices = null;
 
@@ -73,6 +76,8 @@ public class GameManager : Singleton<GameManager>, IInitable {
             _config = ConfigFactory.CreateHardLevel();
         }
 
+		this.ResultsList = new List<LevelResult>();
+
         Debug.Log("Game started");
         initialized = true;
     }
@@ -112,7 +117,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
         {
             fader.LoadSceneFadingAfterTime(finishSceneName, new WaitForSeconds(4f));
 
-            fader.FinishGame(titleSceneName, new WaitForSeconds(8));
+			fader.LoadSceneFadingAfterTime(resultSceneName, new WaitForSeconds(7f));
         }
     }
 

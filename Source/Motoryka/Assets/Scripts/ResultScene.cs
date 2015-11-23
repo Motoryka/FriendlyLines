@@ -19,7 +19,7 @@ public class ResultScene : MonoBehaviour {
 
     public void EndButtonClick()
     {
-        GameManager.Instance.fader.LoadSceneFading("title");
+		GameManager.Instance.fader.FinishGame("title", new WaitForSeconds(0f));
     }
 
 	// Use this for initialization
@@ -37,7 +37,7 @@ public class ResultScene : MonoBehaviour {
         LevelChooserDropdown.GetComponent<Dropdown>().value = 0;
 
         this.finalResult = 0;
-        foreach (var res in analyser.ResultsList)
+        foreach (var res in GameManager.Instance.ResultsList)
         {
             this.finalResult += res.result;
         }
@@ -59,7 +59,7 @@ public class ResultScene : MonoBehaviour {
 		LineStrokeText.GetComponent<Text>().text = LineStroke.FloatToStroke(currentLevel.brushStroke);
         LineColorText.GetComponent<Text>().text = currentLevel.brushColor.Name;
         ShapeColorText.GetComponent<Text>().text = currentLevel.shapeColor.Name;
-		LevelResultText.GetComponent<Text>().text = analyser.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.ToString() + "%";
+		LevelResultText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.ToString() + "%";
 		StartPointToggle.GetComponent<Toggle>().isOn = GameManager.Instance.GameConfig.DrawStartPoint;
         //DrawTimeoutText.GetComponent<Text>().text = 
         ResultText.GetComponent<Text>().text = this.finalResult.ToString() + "%";

@@ -87,7 +87,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
         var result = analizer.GetResult(shape.Shape, userLines);
         Debug.Log("Prefinish");
         Debug.Log("Wynik: " + result + " %");
-        analizer.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = (int)result });
+        GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = (int)result });
 		lineDrawer.StopDrawing();
 
         shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);

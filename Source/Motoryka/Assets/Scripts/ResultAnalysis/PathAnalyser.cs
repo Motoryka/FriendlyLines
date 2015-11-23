@@ -27,8 +27,6 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 	//Czy punkt startowy sie wyswietla
 	public bool IsStartDisplayed = true;
 
-    public List<LevelResult> ResultsList;
-
 	private AccuracyLevel level = AccuracyLevel.Medium;
 	private delegate bool IsStartCorrectFunc(Vector2 point, ILine line, bool endingVertex = false);
 
@@ -50,8 +48,6 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 			{ Shape.Rectangle, IsStartEqVertexes }
 
 		};
-
-        this.ResultsList = new List<LevelResult>();
 	}
 
 	public PathAnalyser (AccuracyLevel level) {
