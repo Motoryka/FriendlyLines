@@ -67,7 +67,7 @@ public class Fader : MonoBehaviour {
         if (fadingTexture)
             fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, 1f);
 
-        yield return new WaitForSeconds(delay/2);
+        yield return new WaitForSeconds(delay / 2);
 
         Application.LoadLevel(scene);
 
