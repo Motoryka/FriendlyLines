@@ -108,7 +108,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
         return _previousShapeVertices;
     }
 
-    public void FinishedLevel(bool skipWaiting = false)
+    private void _finishedLevel(bool skipWaiting = false)
     {
         Debug.Log("Level " + CurrentLevel + " finished.");
         _previousShapeVertices = null;
@@ -128,6 +128,11 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
             fader.LoadSceneFadingAfterTime(resultSceneName, new WaitForSeconds(time + 3f));
         }
+    }
+
+    public void FinishedLevel()
+    {
+        _finishedLevel();
     }
 
     public void StartedLevel()
@@ -151,7 +156,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public void NextLevel()
     {
-        FinishedLevel(true);
+        _finishedLevel(true);
     }
 
     public int CurrentLevel

@@ -25,9 +25,11 @@ public class SceneManager : BaseLvlManager<SceneManager>
     float idleSeconds = 2f;
 
     IEnumerator RestartingCoroutine;
+    private bool isFinishing;
 
     public override void Init()
     {
+        isFinishing = false;
         if (sGen != null)
             sGen = GetComponent<ShapeGenerator>();
         else
@@ -139,6 +141,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
             if (IsFinished())
             {
                 //CurrentPhase = LevelPhase.Prefinished;
+                isFinishing = true;
                 StartCoroutine(PreFinishAfterTime(GameManager.Instance.GameConfig.WaitingTime));
             }
             else
@@ -187,12 +190,16 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     public void NextLevel()
     {
-        lineDrawer.StopDrawing();
-        var result = 0f;
-        Debug.Log("Wynik: " + result + " %");
-        GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = (int)result });
-        
+        if (!isFinishing)
+        {
+            lineDrawer.StopDrawing();
 
-        GameManager.Instance.NextLevel();
+            var result = 0f;
+            Debug.Log("Wynik: " + result + " %");
+            GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = (int)result });
+
+
+            GameManager.Instance.NextLevel();
+        }
     }
 }
