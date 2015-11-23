@@ -80,7 +80,7 @@ public class UILevelManager : MonoBehaviour {
         index = 0;
         foreach (var option in LineColorDropdown.options)
         {
-            if (option.text == PastelColorFactory.GetColorName(lcfg.brushColor))
+            if (option.text == lcfg.brushColor.Name)
             {
                 LineColorDropdown.value = index;
                 break;
@@ -97,7 +97,7 @@ public class UILevelManager : MonoBehaviour {
         index = 0;
         foreach (var option in ShapeColorDropdown.options)
         {
-            if (option.text == PastelColorFactory.GetColorName(lcfg.shapeColor))
+            if (option.text == lcfg.shapeColor.Name)
             {
                 ShapeColorDropdown.value = index;
                 break;
@@ -121,12 +121,12 @@ public class UILevelManager : MonoBehaviour {
 
     private void UpdateLineColor(int i)
     {
-        cfg.brushColor = PastelColorFactory.GetColor(LineColorDropdown.options[i].text).Color;
+        cfg.brushColor = PastelColorFactory.GetColor(LineColorDropdown.options[i].text);
     }
 
     private void UpdateShapeColor(int i)
     {
-        cfg.shapeColor = PastelColorFactory.GetColor(ShapeColorDropdown.options[i].text).Color;
+        cfg.shapeColor = PastelColorFactory.GetColor(ShapeColorDropdown.options[i].text);
     }
 
     private void UpdateShape(int i)

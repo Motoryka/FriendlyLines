@@ -29,7 +29,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
     string sceneName = "level";
     string finishSceneName = "end";
     string titleSceneName = "title";
-    string configSceneName = "config";
+    string configChoiceSceneName = "configChoice";
 	string resultSceneName = "result";
 
 	public List<LevelResult> ResultsList;
@@ -154,7 +154,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public void GoToConfig()
     {
-        fader.LoadSceneFading(configSceneName);
+		fader.LoadSceneFading(configChoiceSceneName);
     }
 
     public void RestartGame()

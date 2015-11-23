@@ -15,3 +15,5 @@ EditorBuildSettings:
     path: Assets/Scenes/end.unity
   - enabled: 1
     path: Assets/Scenes/configChoice.unity
+  - enabled: 1
+    path: Assets/Scenes/result.unity

@@ -84,7 +84,7 @@ public class ConfigCreator : MonoBehaviour {
 
     public void AddLevel(int pos)
     {
-        var level = new LevelConfig { levelNumber = pos + 1, shape = Shape.VerticalLine, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = PastelColorFactory.LightYellow.Color, brushColor = PastelColorFactory.Orange.Color, difficulty = 2 };
+        var level = new LevelConfig { levelNumber = pos + 1, shape = Shape.VerticalLine, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = PastelColorFactory.LightYellow, brushColor = PastelColorFactory.Orange, difficulty = 2 };
         
         config.Levels.Insert(pos, level);
 

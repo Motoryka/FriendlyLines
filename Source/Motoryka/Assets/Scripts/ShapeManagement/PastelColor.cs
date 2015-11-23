@@ -9,6 +9,9 @@ public class PastelColor
 
     public Color Color { get; set; }
 
+	public PastelColor(){
+	}
+
     public PastelColor(string name, Color color)
     {
         this.Name = name;
