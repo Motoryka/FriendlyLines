@@ -291,7 +291,8 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 
         if(userLines.Count > 0)
         {
-            return IsStartEqPoint(vec, userLines[userLines.Count-1], true);
+			//return IsStartEqPoint(vec, userLines[userLines.Count-1], true);
+			return IsStartEqShapes (point, userLines);
         }
 
 		if (IsStartDisplayed)
@@ -348,5 +349,16 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 		Vector2[] listG = line.GetVertices2().ToArray ();
 		
 		return GetMinDistance (listG, point) < line.GetSize()*levelMap[level];
+	}
+
+	private bool IsStartEqShapes(Vector2 point, List<ILine> userLines) {
+		foreach (ILine uLine in userLines) {
+			bool result = IsStartEqShape (point, uLine);
+			
+			if (result) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

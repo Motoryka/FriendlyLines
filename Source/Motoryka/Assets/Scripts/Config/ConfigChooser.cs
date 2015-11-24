@@ -22,6 +22,7 @@ public class ConfigChooser : MonoBehaviour {
 	public GameObject editButton;
 	private ConfigCreator cc;
 	public static string selectedConfigName;
+	public Transform ContentPanel;
 
 	// Use this for initialization
 	void Start () {
@@ -59,14 +60,14 @@ public class ConfigChooser : MonoBehaviour {
 
 	private void SetSelection()
 	{
-		switch(GameManager.Instance.GameConfig.Id){
-		case 1:
+		switch(GameManager.Instance.GameConfig.Name){
+		case "Easy Level":
 			ChangeButtonColor("EasyLevelButton");
 			break;
-		case 2:
+		case "Medium Level":
 			ChangeButtonColor("MediumLevelButton");
 			break;
-		case 3:
+		case "Hard Level":
 			ChangeButtonColor("HardLevelButton");
 			break;
 		default:
@@ -173,8 +174,10 @@ public class ConfigChooser : MonoBehaviour {
 			GameObject o = Instantiate<GameObject>(configButton);
 			var rect = o.GetComponent<RectTransform>();
 			rect.SetParent(canvas.GetComponent<RectTransform>(), false);
-			Vector3 chooseConfigTextPosition = canvas.GetComponentInChildren<Transform>().Find("ChooseConfigText").position;
-			rect.position = new Vector3(240f, chooseConfigTextPosition.y - 40 + i * (-30f));
+//			Vector3 chooseConfigTextPosition = canvas.GetComponentInChildren<Transform>().Find("ChooseConfigText").position;
+//			rect.position = new Vector3(240f, chooseConfigTextPosition.y - 40 + i * (-30f));
+			o.transform.SetParent(ContentPanel);
+			//rect.SetParent(ContentPanel, false);
 			Text cn = o.GetComponentInChildren<Transform>().Find("configName").gameObject.GetComponent<Text>();
 			cn.text = cf.Name;
 			if(cf.Name == selectedConfigName){

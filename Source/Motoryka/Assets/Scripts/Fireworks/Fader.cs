@@ -38,11 +38,10 @@ public class Fader : MonoBehaviour {
             Debug.LogError("No texture to fade.");
         }
 
-        Debug.Log("Fading to scene " + startingScene);
+        Debug.Log("Fading to scene " + startingScene + " in time: " + time);
         StartCoroutine(LoadFading(startingScene, time, true));
         GameManager.Instance.titleMusic.Play();
     }
-
 
     private IEnumerator LoadFading(string scene, WaitForSeconds time, bool destroy = false)
     {
@@ -68,7 +67,7 @@ public class Fader : MonoBehaviour {
         if (fadingTexture)
             fadingTexture.color = new Color(fadingTexture.color.r, fadingTexture.color.g, fadingTexture.color.b, 1f);
 
-        yield return new WaitForSeconds(delay/2);
+        yield return new WaitForSeconds(delay / 2);
 
         Application.LoadLevel(scene);
 

@@ -166,7 +166,6 @@ public class ConfigCreator : MonoBehaviour {
     {
         if (activeLevelManager > 0)
         {
-
             foreach (var mng in _levelManagers)
             {
                 mng.MoveToPoint(mng.StayingPoint + nextPoint);
