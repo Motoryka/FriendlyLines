@@ -173,8 +173,8 @@ public class ConfigChooser : MonoBehaviour {
 			GameObject o = Instantiate<GameObject>(configButton);
 			var rect = o.GetComponent<RectTransform>();
 			rect.SetParent(canvas.GetComponent<RectTransform>(), false);
-			Vector3 chooseConfigTextPosition = canvas.GetComponentInChildren<Transform>().Find("ChooseConfigText").position;
-			rect.position = new Vector3(240f, chooseConfigTextPosition.y - 40 + i * (-30f));
+//			Vector3 chooseConfigTextPosition = canvas.GetComponentInChildren<Transform>().Find("ChooseConfigText").position;
+//			rect.position = new Vector3(240f, chooseConfigTextPosition.y - 40 + i * (-30f));
 			Text cn = o.GetComponentInChildren<Transform>().Find("configName").gameObject.GetComponent<Text>();
 			cn.text = cf.Name;
 			if(cf.Name == selectedConfigName){
