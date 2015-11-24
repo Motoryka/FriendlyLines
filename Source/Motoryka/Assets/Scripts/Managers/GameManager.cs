@@ -125,9 +125,6 @@ public class GameManager : Singleton<GameManager>, IInitable {
     {
         Debug.Log("Level " + CurrentLevel + " finished.");
         _previousShapeVertices = null;
-        
-        if (!skipping)
-            levelFinishedSound.Play();
 
         _currentLevel++;
 

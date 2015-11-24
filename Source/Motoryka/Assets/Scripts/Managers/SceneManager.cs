@@ -145,6 +145,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
             Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLines) + " %");
             if (IsFinished())
             {
+                if (!isFinishing)
+                    GameManager.Instance.levelFinishedSound.Play();
                 pauseButton.interactable = false;
                 //CurrentPhase = LevelPhase.Prefinished;
                 isFinishing = true;
@@ -163,7 +165,10 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         if (inputHandler.lineDrawer.IsDrawing && IsFinished())
         {
+            if (!isFinishing)
+                GameManager.Instance.levelFinishedSound.Play();
             pauseButton.interactable = false;
+            isFinishing = true;
             StartCoroutine(PreFinishAfterTime(1f));
         }
     }
