@@ -7,6 +7,12 @@ using System.IO;
 
 public class GameManager : Singleton<GameManager>, IInitable {
     public Fader fader;
+    public AudioSource backMusic;
+    public AudioSource titleMusic;
+    public AudioSource levelFinishedSound;
+    public AudioSource gameFinishedSound;
+    public AudioSource restartSound;
+
     public string CurrentScene
     {
         get
@@ -81,6 +87,13 @@ public class GameManager : Singleton<GameManager>, IInitable {
         }
 
 		this.ResultsList = new List<LevelResult>();
+        
+        AudioSource[] sounds = GetComponents<AudioSource>();
+        backMusic = sounds[0];
+        titleMusic = sounds[1];
+        gameFinishedSound = sounds[2];
+        levelFinishedSound = sounds[3];
+        restartSound = sounds[4];
 
         Debug.Log("Game started");
         initialized = true;
@@ -108,7 +121,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
         return _previousShapeVertices;
     }
 
-    private void _finishedLevel(bool skipWaiting = false)
+    private void _finishedLevel(bool skipping = false)
     {
         Debug.Log("Level " + CurrentLevel + " finished.");
         _previousShapeVertices = null;
@@ -117,7 +130,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
         float time = 4f;
 
-        if (skipWaiting)
+        if (skipping)
             time = 0f;
 
         if (CurrentLevel <= _config.NrOfLevels)
@@ -132,6 +145,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public void FinishedLevel()
     {
+
         _finishedLevel();
     }
 
@@ -142,6 +156,8 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public void RestartLevel(ShapeElement currentShape)
     {
+        restartSound.Play();
+
 		_previousShapeVertices = currentShape;
 
         Debug.Log("Level " + CurrentLevel + " restarted.");
@@ -151,11 +167,19 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public void BackGame()
     {
+        if (_previousShapeVertices != null)
+        {
+            _previousShapeVertices.DontPreserve();
+        }
         fader.FinishGame(titleSceneName, null);
     }
 
     public void NextLevel()
     {
+        if (_previousShapeVertices != null)
+        {
+            _previousShapeVertices.DontPreserve();
+        }
         _finishedLevel(true);
     }
 
@@ -169,6 +193,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public void StartGame()
     {
+        titleMusic.Stop();
         fader.LoadSceneFading(sceneName);
     }
 

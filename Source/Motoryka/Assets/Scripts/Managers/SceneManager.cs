@@ -19,6 +19,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
     public LineDrawer lineDrawer;
 
     public float collapsingTime = 0.3f;
+    public Button pauseButton;
 
     bool drewThisRound = false;
 
@@ -26,6 +27,10 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     IEnumerator RestartingCoroutine;
     private bool isFinishing;
+
+    bool isWaitingForRestart = false;
+    float waitingSum = 0;
+    bool isPaused = false;
 
     public override void Init()
     {
@@ -140,14 +145,17 @@ public class SceneManager : BaseLvlManager<SceneManager>
             Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLines) + " %");
             if (IsFinished())
             {
+                if (!isFinishing)
+                    GameManager.Instance.levelFinishedSound.Play();
+                pauseButton.interactable = false;
                 //CurrentPhase = LevelPhase.Prefinished;
                 isFinishing = true;
-                StartCoroutine(PreFinishAfterTime(GameManager.Instance.GameConfig.WaitingTime));
+                StartCoroutine(PreFinishAfterTime(2f));
             }
             else
             {
                 //RestartLevel();
-                RestartingCoroutine = RestartAfterIdleTime(3f);
+                RestartingCoroutine = RestartAfterIdleTime(GameManager.Instance.GameConfig.WaitingTime);
                 StartCoroutine(RestartingCoroutine);
             }
         }
@@ -157,6 +165,10 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         if (inputHandler.lineDrawer.IsDrawing && IsFinished())
         {
+            if (!isFinishing)
+                GameManager.Instance.levelFinishedSound.Play();
+            pauseButton.interactable = false;
+            isFinishing = true;
             StartCoroutine(PreFinishAfterTime(1f));
         }
     }
@@ -179,8 +191,36 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     IEnumerator RestartAfterIdleTime(float seconds)
     {
-        yield return new WaitForSeconds(seconds);
+        waitingSum = 0;
+        int iterations = (int)(seconds / 0.1f);
+
+        for (int i = 0; i < iterations; ++i)
+        {
+            yield return new WaitForSeconds(0.1f);
+            waitingSum += 0.1f;
+        }
+        pauseButton.interactable = false;
         RestartLevel();
+    }
+
+    public void PauseGame()
+    {
+        isPaused = !isPaused;
+        if(isPaused)
+        {
+            if (RestartingCoroutine != null)
+            {
+                StopCoroutine(RestartingCoroutine);
+            }
+        }
+        else
+        {
+            if (waitingSum > 0f)
+            {
+                RestartingCoroutine = RestartAfterIdleTime(GameManager.Instance.GameConfig.WaitingTime - waitingSum +(0.1f));
+                StartCoroutine(RestartingCoroutine);
+            }
+        }
     }
 
     public void BackGame()

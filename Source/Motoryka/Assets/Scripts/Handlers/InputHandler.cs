@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using LineManagement.GLLines;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class InputHandler : MonoBehaviour {
     public LineDrawer lineDrawer;
     public Camera cam;
+
+    public GameObject shadow;
+    public Animator pausePanel;
+
+    public EventSystem EventSystemManager;
 
     public delegate void PressHandler(Vector3 where);
     public PressHandler press;
@@ -20,6 +27,8 @@ public class InputHandler : MonoBehaviour {
     InputHandling handleInput;
     //bool _isLine = false;
     bool drawingEnabled = true;
+
+    bool isPaused = false;
 
 	// Use this for initialization
 	void Start () {
@@ -42,7 +51,8 @@ public class InputHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+        if (isPaused)
+            return;
         if (handleInput != null)
             handleInput();
 
@@ -58,6 +68,9 @@ public class InputHandler : MonoBehaviour {
 
             if (touch.phase == TouchPhase.Began)
             {
+                if (EventSystemManager.IsPointerOverGameObject())
+                    return;
+
                 if (SceneManager.Instance.IsStartCorrect(cam.ScreenToWorldPoint(touch.position)))
                 {
                     press(cam.ScreenToWorldPoint(touch.position));
@@ -82,7 +95,8 @@ public class InputHandler : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("There was a press");
+            if (EventSystemManager.IsPointerOverGameObject())
+                return;
             if (press != null)
             {
                 if (SceneManager.Instance.IsStartCorrect(cam.ScreenToWorldPoint(Input.mousePosition)))
@@ -96,7 +110,6 @@ public class InputHandler : MonoBehaviour {
 
         if (Input.GetMouseButtonUp(0))
         {
-            Debug.Log("There was a release");
             if (lineDrawer.IsDrawing)
                 release();
         }
@@ -143,18 +156,25 @@ public class InputHandler : MonoBehaviour {
         return SceneManager.Instance.IsFinished();
     }
 
+    public void PauseGameClicked()
+    {
+        isPaused = !isPaused;
+        shadow.SetActive(isPaused);
+        pausePanel.SetBool("IsPaused", isPaused);
+        SceneManager.Instance.SendMessage("PauseGame");
+    }
 
-    public void BackGame()
+    public void BackGame(Button sender)
     {
         Debug.Log("Game back");
-
+        sender.interactable = false;
         SceneManager.Instance.SendMessage("BackGame");
     }
 
-    public void NextLevel()
+    public void NextLevel(Button sender)
     {
         Debug.Log("Next Level");
-
+        sender.interactable = false;
         SceneManager.Instance.SendMessage("NextLevel");
     }
 }

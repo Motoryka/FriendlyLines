@@ -7,6 +7,8 @@ public class Fader : MonoBehaviour {
     public float fadingSpeed = 20f;
     public bool isFading = false;
 
+    string finishSceneName = "end";
+
     float _alpha = 0f;
 
     void Start()
@@ -40,6 +42,7 @@ public class Fader : MonoBehaviour {
 
         Debug.Log("Fading to scene " + startingScene + " in time: " + time);
         StartCoroutine(LoadFading(startingScene, time, true));
+        GameManager.Instance.titleMusic.Play();
     }
 
     private IEnumerator LoadFading(string scene, WaitForSeconds time, bool destroy = false)
@@ -69,6 +72,9 @@ public class Fader : MonoBehaviour {
         yield return new WaitForSeconds(delay / 2);
 
         Application.LoadLevel(scene);
+
+        if (scene.Equals(finishSceneName))
+            GameManager.Instance.gameFinishedSound.Play();
 
         yield return new WaitForSeconds(delay / 2);
 
