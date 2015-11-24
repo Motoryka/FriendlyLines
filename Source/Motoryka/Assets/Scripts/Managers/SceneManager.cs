@@ -157,6 +157,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         if (inputHandler.lineDrawer.IsDrawing && IsFinished())
         {
+            GameManager.Instance.levelFinishedSound.Play();
             StartCoroutine(PreFinishAfterTime(1f));
         }
     }
