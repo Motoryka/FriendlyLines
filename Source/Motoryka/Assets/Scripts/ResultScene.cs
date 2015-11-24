@@ -14,7 +14,6 @@ public class ResultScene : MonoBehaviour {
     public GameObject DrawTimeoutText;
     public GameObject ResultText;
 
-    private PathAnalyser analyser;
     private int finalResult;
 
     public void EndButtonClick()
@@ -24,13 +23,6 @@ public class ResultScene : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        if (analyser != null)
-            analyser = GetComponent<PathAnalyser>();
-        else
-        {
-            analyser = gameObject.AddComponent<PathAnalyser>();
-        }
-
         for(int i = 1; i <= GameManager.Instance.GameConfig.NrOfLevels; i++){
             LevelChooserDropdown.GetComponent<Dropdown>().options.Add(new Dropdown.OptionData(i.ToString()));
         }
@@ -61,7 +53,7 @@ public class ResultScene : MonoBehaviour {
         ShapeColorText.GetComponent<Text>().text = currentLevel.shapeColor.Name;
 		LevelResultText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.ToString() + "%";
 		StartPointToggle.GetComponent<Toggle>().isOn = GameManager.Instance.GameConfig.DrawStartPoint;
-        //DrawTimeoutText.GetComponent<Text>().text = 
+		DrawTimeoutText.GetComponent<Text>().text = GameManager.Instance.GameConfig.WaitingTime.ToString();
         ResultText.GetComponent<Text>().text = this.finalResult.ToString() + "%";
     }
 }
