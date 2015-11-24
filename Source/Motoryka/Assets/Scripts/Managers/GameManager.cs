@@ -121,18 +121,19 @@ public class GameManager : Singleton<GameManager>, IInitable {
         return _previousShapeVertices;
     }
 
-    private void _finishedLevel(bool skipWaiting = false)
+    private void _finishedLevel(bool skipping = false)
     {
         Debug.Log("Level " + CurrentLevel + " finished.");
         _previousShapeVertices = null;
         
-        levelFinishedSound.Play();
+        if (!skipping)
+            levelFinishedSound.Play();
 
         _currentLevel++;
 
         float time = 4f;
 
-        if (skipWaiting)
+        if (skipping)
             time = 0f;
 
         if (CurrentLevel <= _config.NrOfLevels)
