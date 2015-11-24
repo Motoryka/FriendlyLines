@@ -40,6 +40,7 @@ public class Fader : MonoBehaviour {
 
         Debug.Log("Fading to scene " + startingScene + " in time: " + time);
         StartCoroutine(LoadFading(startingScene, time, true));
+        GameManager.Instance.titleMusic.Play();
     }
 
     private IEnumerator LoadFading(string scene, WaitForSeconds time, bool destroy = false)

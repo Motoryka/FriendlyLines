@@ -1041,10 +1041,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleLbl: {fileID: 11442232}
-  ShapeWidthSlider: {fileID: 11403038}
-  BrushWidthSlider: {fileID: 11430082}
-  StartPointToggle: {fileID: 11486728}
+  LineStrokeSlider: {fileID: 0}
   StayingPoint: {x: 0, y: 0, z: 0}
+  ShapeDropdown: {fileID: 0}
+  LineColorDropdown: {fileID: 0}
+  ShapeColorDropdown: {fileID: 0}
+  PreviousLevelBtn: {fileID: 0}
+  NextLevelBtn: {fileID: 0}
+  AddPrevLevelBtn: {fileID: 0}
+  AddNextLevelBtn: {fileID: 0}
+  DeleteBtn: {fileID: 0}
   smoothTime: .200000003
 --- !u!114 &11435884
 MonoBehaviour:
@@ -1129,8 +1135,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 044271290bf2cd648a29cfe0ab1ca5b2, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1296,8 +1302,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: d40fa53dc843e544db6a718e44e32a28, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2167,7 +2173,16 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d40fa53dc843e544db6a718e44e32a28,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 125046}

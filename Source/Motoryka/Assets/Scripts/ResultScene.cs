@@ -23,6 +23,8 @@ public class ResultScene : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        GameManager.Instance.gameFinishedSound.Play();
+
         for(int i = 1; i <= GameManager.Instance.GameConfig.NrOfLevels; i++){
             LevelChooserDropdown.GetComponent<Dropdown>().options.Add(new Dropdown.OptionData(i.ToString()));
         }
