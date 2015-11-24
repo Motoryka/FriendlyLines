@@ -132,6 +132,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public void FinishedLevel()
     {
+
         _finishedLevel();
     }
 
@@ -151,11 +152,19 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public void BackGame()
     {
+        if (_previousShapeVertices != null)
+        {
+            _previousShapeVertices.DontPreserve();
+        }
         fader.FinishGame(titleSceneName, null);
     }
 
     public void NextLevel()
     {
+        if (_previousShapeVertices != null)
+        {
+            _previousShapeVertices.DontPreserve();
+        }
         _finishedLevel(true);
     }
 
