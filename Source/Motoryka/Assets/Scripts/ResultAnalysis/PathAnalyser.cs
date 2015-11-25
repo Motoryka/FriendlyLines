@@ -285,9 +285,11 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 	/**
 	 * Whether start point is correct.
 	 */
-	public bool IsStartCorrect(Vector3 point, ShapeElement shape, List<ILine> userLines) 
+    public bool IsStartCorrect(Vector3 point, ShapeElement shape, List<ILine> userLines, bool isStartDisplayed = true) 
     {
         Vector2 vec = new Vector2(point.x, point.y);
+
+        this.IsStartDisplayed = isStartDisplayed;
 
         if(userLines.Count > 0)
         {
