@@ -27,17 +27,17 @@ public class UIConfigManager : MonoBehaviour {
 		}
     }
 
-    public void SaveAsNewConfig()
-    {
-		if(!DoesConfigNameExist(config.Name)){
-			CannotSavePanel.SetActive(true);
-			SetInteractableOfAllSceneObjects(false);
-			BlackImage.SetActive(true);
-		}
-		else{
-			creator.SendMessage("SaveAsNewConfig");
-		}
-    }
+	public void SaveConfigForSure()
+	{
+		creator.SendMessage("SaveAndReplaceConfig");
+	}
+
+	public void CloseCannotSavePanel()
+	{
+		CannotSavePanel.SetActive(false);
+		SetInteractableOfAllSceneObjects(true);
+		BlackImage.SetActive(false);
+	}
 
 	private void SetInteractableOfAllSceneObjects(bool b)
 	{
@@ -85,46 +85,24 @@ public class UIConfigManager : MonoBehaviour {
 		BlackImage.SetActive(false);
 
         this.config = config;
+
+        int waitingSecs = (int)config.WaitingTime;
+        int index = 0;
+        foreach( var option in DrawTimeoutDropdown.options)
+        {
+            if(getSecsFromDrawTimeout(option.text) == waitingSecs)
+            {
+                DrawTimeoutDropdown.value = index;
+                break;
+            }
+
+            index++;
+        }
     }
 	// Use this for initialization
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		CheckInput();
-	}
-
-	private void CheckInput()
-	{
-#if UNITY_ANDROID
-		if(Input.touchCount > 0)
-		{
-			if(CannotSavePanel.activeSelf)
-			{
-				Touch touch = Input.GetTouch(0);
-				if(touch.phase == TouchPhase.Ended){
-					CannotSavePanel.SetActive(false);
-					SetInteractableOfAllSceneObjects(true);
-					BlackImage.SetActive(false);
-				}
-			}
-		}
-#endif 
-#if UNITY_EDITOR || UNITY_STANDALONE
-		if(Input.GetMouseButtonUp(0))
-		{
-			if(CannotSavePanel.activeSelf)
-			{
-				CannotSavePanel.SetActive(false);
-				SetInteractableOfAllSceneObjects(true);
-				BlackImage.SetActive(false);
-			}
-		}
-
-#endif
-    }
 
 	private bool DoesConfigNameExist(string name)
 	{
@@ -156,9 +134,16 @@ public class UIConfigManager : MonoBehaviour {
     {
         
         string value = DrawTimeoutDropdown.options[index].text;
-        float timeout = float.Parse(value.Split('s')[0]);
+        float timeout = getSecsFromDrawTimeout(value);
 
         Debug.Log("Draw timeout change " + timeout);
+
+        config.WaitingTime = timeout;
+    }
+
+    int getSecsFromDrawTimeout(string value)
+    {
+        return int.Parse(value.Split('s')[0]);
     }
 
     void UpdateName(string s)

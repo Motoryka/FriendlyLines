@@ -67,10 +67,10 @@ public class SceneManager : BaseLvlManager<SceneManager>
         ShapeElement prevVertices = GameManager.Instance.GetPreviousShapeVertices();
 
         this.sGen.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeColor.Color;
-        this.sGen.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeStroke;
+        this.sGen.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].lineStroke;
 
         this.lineDrawer.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushColor.Color;
-        this.lineDrawer.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushStroke;
+        this.lineDrawer.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].lineStroke;
 
 		this.sGen.drawStartPoint = GameManager.Instance._config.DrawStartPoint;
 

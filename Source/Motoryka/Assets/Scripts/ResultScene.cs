@@ -48,12 +48,12 @@ public class ResultScene : MonoBehaviour {
         int currentLevelNumber = LevelChooserDropdown.GetComponent<Dropdown>().value + 1;
         LevelConfig currentLevel = GameManager.Instance.GameConfig.Levels.Find(x => x.levelNumber == currentLevelNumber);
 		ShapeText.GetComponent<Text>().text = ShapeElement.GetShapeName(currentLevel.shape);
-		LineStrokeText.GetComponent<Text>().text = LineStroke.FloatToStroke(currentLevel.brushStroke);
+		LineStrokeText.GetComponent<Text>().text = LineStroke.FloatToStroke(currentLevel.lineStroke);
         LineColorText.GetComponent<Text>().text = currentLevel.brushColor.Name;
         ShapeColorText.GetComponent<Text>().text = currentLevel.shapeColor.Name;
 		LevelResultText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.ToString() + "%";
 		StartPointToggle.GetComponent<Toggle>().isOn = GameManager.Instance.GameConfig.DrawStartPoint;
-		DrawTimeoutText.GetComponent<Text>().text = GameManager.Instance.GameConfig.WaitingTime.ToString();
+		DrawTimeoutText.GetComponent<Text>().text = GameManager.Instance.GameConfig.WaitingTime.ToString() + "s";
         ResultText.GetComponent<Text>().text = this.finalResult.ToString() + "%";
     }
 }

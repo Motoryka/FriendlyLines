@@ -172,10 +172,8 @@ public class ConfigChooser : MonoBehaviour {
 		foreach(var cf in this.ConfigFiles)
 		{
 			GameObject o = Instantiate<GameObject>(configButton);
-			var rect = o.GetComponent<RectTransform>();
-			rect.SetParent(canvas.GetComponent<RectTransform>(), false);
-//			Vector3 chooseConfigTextPosition = canvas.GetComponentInChildren<Transform>().Find("ChooseConfigText").position;
-//			rect.position = new Vector3(240f, chooseConfigTextPosition.y - 40 + i * (-30f));
+			//var rect = o.GetComponent<RectTransform>();
+			//rect.SetParent(canvas.GetComponent<RectTransform>(), false);
 			o.transform.SetParent(ContentPanel);
 			//rect.SetParent(ContentPanel, false);
 			Text cn = o.GetComponentInChildren<Transform>().Find("configName").gameObject.GetComponent<Text>();
@@ -194,7 +192,7 @@ public class ConfigChooser : MonoBehaviour {
 	}
 
 	public void AddConfig(){
-		Config config = ConfigFactory.CreateEasyLevel();
+		Config config = ConfigFactory.CreateNewConfig();
 		GameManager.Instance.GameConfig = config;
 		GameManager.Instance.fader.LoadSceneFading("config");
 	}
