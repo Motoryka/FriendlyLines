@@ -14,7 +14,7 @@ public class ResultScene : MonoBehaviour {
     public GameObject DrawTimeoutText;
     public GameObject ResultText;
 
-    private int finalResult;
+    private Result finalResult;
 
     public void EndButtonClick()
     {
@@ -28,12 +28,14 @@ public class ResultScene : MonoBehaviour {
         }
         LevelChooserDropdown.GetComponent<Dropdown>().value = 0;
 
-        this.finalResult = 0;
+        this.finalResult = new Result(0,0);
         foreach (var res in GameManager.Instance.ResultsList)
         {
-            this.finalResult += res.result;
+            this.finalResult.shapeCovering += res.result.shapeCovering;
+            this.finalResult.errorRange += res.result.errorRange;
         }
-        this.finalResult /= GameManager.Instance.GameConfig.NrOfLevels;
+        this.finalResult.shapeCovering /= GameManager.Instance.GameConfig.NrOfLevels;
+        this.finalResult.errorRange /= GameManager.Instance.GameConfig.NrOfLevels;
 
 		OnLevelChange();
 	}
@@ -51,9 +53,9 @@ public class ResultScene : MonoBehaviour {
 		LineStrokeText.GetComponent<Text>().text = LineStroke.FloatToStroke(currentLevel.brushStroke);
         LineColorText.GetComponent<Text>().text = currentLevel.brushColor.Name;
         ShapeColorText.GetComponent<Text>().text = currentLevel.shapeColor.Name;
-		LevelResultText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.ToString() + "%";
+		LevelResultText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.shapeCovering + "%";
 		StartPointToggle.GetComponent<Toggle>().isOn = GameManager.Instance.GameConfig.DrawStartPoint;
 		DrawTimeoutText.GetComponent<Text>().text = GameManager.Instance.GameConfig.WaitingTime.ToString();
-        ResultText.GetComponent<Text>().text = this.finalResult.ToString() + "%";
+        ResultText.GetComponent<Text>().text = this.finalResult.shapeCovering + "%";
     }
 }

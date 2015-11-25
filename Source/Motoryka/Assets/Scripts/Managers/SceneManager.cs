@@ -94,7 +94,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
         var result = analizer.GetResult(shape.Shape, userLines);
         Debug.Log("Prefinish");
         Debug.Log("Wynik: " + result + " %");
-        GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = (int)result });
+        GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = result });
 		lineDrawer.StopDrawing();
 
         shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);
@@ -234,9 +234,9 @@ public class SceneManager : BaseLvlManager<SceneManager>
         {
             lineDrawer.StopDrawing();
 
-            var result = 0f;
-            Debug.Log("Wynik: " + result + " %");
-            GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = (int)result });
+            Result result = new Result(0,0);
+            Debug.Log("Wynik: " + result.shapeCovering + " %");
+            GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = result });
 
 
             GameManager.Instance.NextLevel();

@@ -12,7 +12,7 @@ public enum AccuracyLevel {
 
 public struct LevelResult {
     public int levelNumber;
-    public int result;
+    public Result result;
 }
 
 public class PathAnalyser : MonoBehaviour, IAnalyser
@@ -85,8 +85,6 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 			}
 			isChecked = false;
 		}
-
-		if (GetUserLineCovering (generatedLine, userLines) < 50) return false;
 		
 		return true;
 	}
@@ -94,40 +92,40 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 	/**
 	 * Whether the vertex - checkpoint - is covered by user line.
 	 */
-	private bool IsPointCovered (Vector2 checkpoint, ILine userLine)
+	private bool IsPointCovered (Vector2 checkpoint, ILine userLine, bool result = false)
 	{
-		//List<Vector2> listU = FillVertexes (userLine.GetVertices2 ().ToArray());
+        float accuracy = levelMap[level];
+
+        if (result)
+            accuracy /= 2;
+
 		float _distance = GetMinDistance (userLine.GetVertices2 ().ToArray (), checkpoint);
 
-		if (_distance < levelMap [level] * userLine.GetSize ()) {
+        if (_distance < accuracy * userLine.GetSize())
+        {
 			return true;
 		}
-		/*foreach (Vector2 point in userLine.GetVertices2()) {
-			float _distance = Vector2.Distance (point, checkpoint);
-			if (_distance < levelMap [level] * userLine.GetSize ()) {
-				isChecked = true;
-				break;
-			}
-		}*/
 		return false;
 	}
 
 	/**
 	 * Returns a result of one level.
 	 */
-	public float GetResult (ILine generatedLine, List<ILine> userLines) {
-		float covUser = GetUserLineCovering (generatedLine, userLines);
+    public Result GetResult(ILine generatedLine, List<ILine> userLines)
+    {
+        float covUserError = GetUserLineErrorCovering(generatedLine, userLines);
 		
 		float covGen = GetGenLineCovering (generatedLine, userLines);
 
-		Debug.Log ("user: " + covUser + " gen: " + covGen);
-		return (covUser+covGen)/2;
+        Result result = new Result((int)covGen, (int)covUserError);
+        Debug.Log("err: " + covUserError + " gen: " + covGen);
+        return result;
 	}
 	
 	/*
-	 * Jaki procent linii narysowanej lezy na tej wygenerowanej.
+	 * Jaki procent linii narysowanej lezy poza ta wygenerowana.
 	 */
-	private float GetUserLineCovering(ILine generatedLine, List<ILine> userLines) {
+	private float GetUserLineErrorCovering(ILine generatedLine, List<ILine> userLines) {
 		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
 		int correctPoints = 0;
 		int wrongPoints = 0;
@@ -144,7 +142,7 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 		}
 
 		if (correctPoints + wrongPoints != 0) {
-			return ((correctPoints*100) / (correctPoints + wrongPoints));
+            return ((wrongPoints * 100) / (correctPoints + wrongPoints));
 		}
 		
 		return 0;
@@ -162,7 +160,7 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 			bool correct = false;
 			
 			foreach (ILine line in userLines) {
-				correct = IsPointCovered(checkpoint, line);
+				correct = IsPointCovered(checkpoint, line, true);
 				
 				if (correct) {
 					break;
@@ -201,6 +199,9 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 		return result;
 	}
 
+    /**
+     * Zwraca liste wierzcholkow wygenerowanych pomiedzy podanymi wierzcholkami.
+     */
 	private List<Vector2> Fill (Vector2 first, Vector2 second) {
 		List<Vector2> result = new List<Vector2> ();
 
@@ -293,7 +294,6 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 
         if(userLines.Count > 0)
         {
-			//return IsStartEqPoint(vec, userLines[userLines.Count-1], true);
 			return IsStartEqShapes (point, userLines);
         }
 
@@ -307,24 +307,20 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 	 * Whether start point is correct - for lines.
 	 */
 	private bool IsStartEqPoint(Vector2 point, ILine line, bool endingPoint = false) {
-        Debug.Log("HERE");
         Vector2 examinedVertex;
         List<Vector2> vertices = line.GetVertices2();
 
         if (!endingPoint)
         {
             examinedVertex = vertices[0];
-            Debug.Log("HERE2");
         }
         else
         {
             examinedVertex = vertices[vertices.Count - 1];
-            Debug.Log("HERE3");
         }
 
         if (Vector2.Distance(point, examinedVertex) < line.GetSize() * levelMap[level])
         {
-            Debug.Log("HERE4");
             return true;
         }
 		
@@ -353,7 +349,10 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 		return GetMinDistance (listG, point) < line.GetSize()*levelMap[level];
 	}
 
-	private bool IsStartEqShapes(Vector2 point, List<ILine> userLines) {
+    /**
+     * Whether start point is touching previous lines. 
+     */
+    private bool IsStartEqShapes(Vector2 point, List<ILine> userLines) {
 		foreach (ILine uLine in userLines) {
 			bool result = IsStartEqShape (point, uLine);
 			
