@@ -151,8 +151,8 @@ public class UILevelManager : MonoBehaviour {
 
     void SetStroke(float value)
     {
-        cfg.brushStroke = value;
-        cfg.shapeStroke = value;
+        cfg.brushStroke = LineStroke.IntToFloat((int)value);
+        cfg.shapeStroke = LineStroke.IntToFloat((int)value);
     }
 
 
