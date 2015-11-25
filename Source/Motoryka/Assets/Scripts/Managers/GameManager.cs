@@ -170,6 +170,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
         if (_previousShapeVertices != null)
         {
             _previousShapeVertices.DontPreserve();
+            _previousShapeVertices = null;
         }
         fader.FinishGame(titleSceneName, null);
     }

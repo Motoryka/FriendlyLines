@@ -20,6 +20,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     public float collapsingTime = 0.3f;
     public Button pauseButton;
+	public Text levelNumberText;
 
     bool drewThisRound = false;
 
@@ -67,10 +68,10 @@ public class SceneManager : BaseLvlManager<SceneManager>
         ShapeElement prevVertices = GameManager.Instance.GetPreviousShapeVertices();
 
         this.sGen.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeColor.Color;
-        this.sGen.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].shapeStroke;
+        this.sGen.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].lineStroke;
 
         this.lineDrawer.color = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushColor.Color;
-        this.lineDrawer.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].brushStroke;
+        this.lineDrawer.size = GameManager.Instance._config.Levels[GameManager.Instance.CurrentLevel - 1].lineStroke;
 
 		this.sGen.drawStartPoint = GameManager.Instance._config.DrawStartPoint;
 
@@ -79,10 +80,11 @@ public class SceneManager : BaseLvlManager<SceneManager>
             shape = sGen.CreateShape(GameManager.Instance.GetCurrentShape());
         }
         else
-        {
-
+		{
             shape = prevVertices;//sGen.CreateShape(prevVertices);
         }
+
+		this.levelNumberText.text = "Poziom " + GameManager.Instance.CurrentLevel + " / " + GameManager.Instance._config.NrOfLevels;
 
         drewThisRound = false;
 
