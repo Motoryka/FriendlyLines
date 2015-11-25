@@ -85,6 +85,23 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 			}
 			isChecked = false;
 		}
+
+        foreach (ILine line in userLines)
+        {
+            foreach (Vector2 point in line.GetVertices2())
+            {
+                isChecked = IsPointCovered(point, generatedLine);
+
+                if (!isChecked)
+                    break;
+            }
+
+            if (!isChecked)
+            {
+                return false;
+            }
+            isChecked = false;
+        }
 		
 		return true;
 	}
@@ -345,6 +362,9 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
     private bool IsStartEqShape(Vector2 point, ILine line, bool endingVertex = false)
     {
 		Vector2[] listG = line.GetVertices2().ToArray ();
+
+        if (listG.Length == 1)
+            return Vector2.Distance(listG[0], point) < line.GetSize() * levelMap[level];
 		
 		return GetMinDistance (listG, point) < line.GetSize()*levelMap[level];
 	}
