@@ -115,11 +115,15 @@ public class ConfigCreator : MonoBehaviour {
         for (int i = from; i < to; ++i)
         {
             SetPosition(_levelManagers[i].gameObject, i);
+        }
+
+        for (int i = pos; i < config.Levels.Count;  ++i)
+        {
             config.Levels[i].levelNumber = i + 1;
             _levelManagers[i].UpdateTitle();
         }
 
-        if ( pos <= activeLevelManager )
+        if (pos <= activeLevelManager)
         {
             SetActiveLevelPrevious();
         }
