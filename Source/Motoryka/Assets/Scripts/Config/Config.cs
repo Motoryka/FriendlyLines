@@ -31,6 +31,7 @@ public class Config
         config.DrawStartPoint = DrawStartPoint;
         config.NrOfLevels = NrOfLevels;
         config.Levels = new List<LevelConfig>();
+        config.WaitingTime = WaitingTime;
 
         foreach (LevelConfig lc in Levels)
         {

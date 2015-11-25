@@ -118,6 +118,15 @@ public class ConfigCreator : MonoBehaviour {
             config.Levels[i].levelNumber = i + 1;
             _levelManagers[i].UpdateTitle();
         }
+
+        if ( pos <= activeLevelManager )
+        {
+            SetActiveLevelPrevious();
+        }
+        else
+        {
+            SetActiveLevelNext();
+        }
     }
 
 	public void RemoveLevel(int pos)
