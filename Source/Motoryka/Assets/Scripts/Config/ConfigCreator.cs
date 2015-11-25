@@ -84,7 +84,7 @@ public class ConfigCreator : MonoBehaviour {
 
     public void AddLevel(int pos)
     {
-        var level = new LevelConfig { levelNumber = pos + 1, shape = Shape.VerticalLine, shapeStroke = LineStroke.Medium, brushStroke = LineStroke.Medium, shapeColor = PastelColorFactory.LightYellow, brushColor = PastelColorFactory.Orange, difficulty = 2 };
+		var level = new LevelConfig { levelNumber = pos + 1, shape = Shape.HorizontalLine, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.RandomColor, brushColor = PastelColorFactory.RandomColor };
         
         config.Levels.Insert(pos, level);
 
@@ -142,8 +142,6 @@ public class ConfigCreator : MonoBehaviour {
 
             OnLevelRemoved(pos);
 		}
-
-
 	}
 
     public void SetActiveLevelNext()
@@ -181,16 +179,16 @@ public class ConfigCreator : MonoBehaviour {
     public void SaveConfig()
     {
         Debug.Log("SaveConfig");
+		config.Id = SetUniqueId();
 		ConfigLoader.SerializeConfig(config, config.Id.ToString());
         GameManager.Instance.GameConfig = config;
         GameManager.Instance.fader.LoadSceneFading("configChoice");
     }
-    
-	public void SaveAsNewConfig()
+
+	public void SaveAndReplaceConfig()
 	{
-		config.Id = SetUniqueId();
 		ConfigLoader.SerializeConfig(config, config.Id.ToString());
-        GameManager.Instance.GameConfig = config;
+		GameManager.Instance.GameConfig = config;
 		GameManager.Instance.fader.LoadSceneFading("configChoice");
 	}
 

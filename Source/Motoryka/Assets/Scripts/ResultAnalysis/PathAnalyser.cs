@@ -36,7 +36,6 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 
 		shapeMap = new Dictionary<Shape, IsStartCorrectFunc>
 		{
-			{ Shape.StraightLine, IsStartEqPoint },
 			{ Shape.HorizontalLine, IsStartEqPoint },
 			{ Shape.VerticalLine, IsStartEqPoint },
 			{ Shape.DiagonalLine, IsStartEqPoint },

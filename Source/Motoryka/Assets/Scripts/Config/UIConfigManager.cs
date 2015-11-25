@@ -27,17 +27,17 @@ public class UIConfigManager : MonoBehaviour {
 		}
     }
 
-    public void SaveAsNewConfig()
-    {
-		if(!DoesConfigNameExist(config.Name)){
-			CannotSavePanel.SetActive(true);
-			SetInteractableOfAllSceneObjects(false);
-			BlackImage.SetActive(true);
-		}
-		else{
-			creator.SendMessage("SaveAsNewConfig");
-		}
-    }
+	public void SaveConfigForSure()
+	{
+		creator.SendMessage("SaveAndReplaceConfig");
+	}
+
+	public void CloseCannotSavePanel()
+	{
+		CannotSavePanel.SetActive(false);
+		SetInteractableOfAllSceneObjects(true);
+		BlackImage.SetActive(false);
+	}
 
 	private void SetInteractableOfAllSceneObjects(bool b)
 	{
@@ -90,41 +90,6 @@ public class UIConfigManager : MonoBehaviour {
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		CheckInput();
-	}
-
-	private void CheckInput()
-	{
-#if UNITY_ANDROID
-		if(Input.touchCount > 0)
-		{
-			if(CannotSavePanel.activeSelf)
-			{
-				Touch touch = Input.GetTouch(0);
-				if(touch.phase == TouchPhase.Ended){
-					CannotSavePanel.SetActive(false);
-					SetInteractableOfAllSceneObjects(true);
-					BlackImage.SetActive(false);
-				}
-			}
-		}
-#endif 
-#if UNITY_EDITOR || UNITY_STANDALONE
-		if(Input.GetMouseButtonUp(0))
-		{
-			if(CannotSavePanel.activeSelf)
-			{
-				CannotSavePanel.SetActive(false);
-				SetInteractableOfAllSceneObjects(true);
-				BlackImage.SetActive(false);
-			}
-		}
-
-#endif
-    }
 
 	private bool DoesConfigNameExist(string name)
 	{

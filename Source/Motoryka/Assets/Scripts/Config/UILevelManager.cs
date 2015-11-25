@@ -52,7 +52,7 @@ public class UILevelManager : MonoBehaviour {
 
         UpdateTitle();
 
-        LineStrokeSlider.value = (float)LineStroke.FloatToInt(lcfg.shapeStroke);
+        LineStrokeSlider.value = (float)LineStroke.FloatToInt(lcfg.lineStroke);
         LineStrokeSlider.onValueChanged.AddListener(f => SetStroke(f));
 
         ShapeDropdown.options.Clear();
@@ -73,6 +73,7 @@ public class UILevelManager : MonoBehaviour {
         }
 
         LineColorDropdown.options.Clear();
+		//LineColorDropdown.options.Add (new Dropdown.OptionData("Losowy"));
         foreach (PastelColor option in PastelColorFactory.ColorList)
             LineColorDropdown.options.Add(new Dropdown.OptionData(option.Name));
         LineColorDropdown.onValueChanged.AddListener(i => UpdateLineColor(i));
@@ -90,6 +91,7 @@ public class UILevelManager : MonoBehaviour {
         }
 
         ShapeColorDropdown.options.Clear();
+		//ShapeColorDropdown.options.Add(new Dropdown.OptionData("Losowy"));
         foreach (PastelColor option in PastelColorFactory.ColorList)
             ShapeColorDropdown.options.Add(new Dropdown.OptionData(option.Name));
         ShapeColorDropdown.onValueChanged.AddListener(i => UpdateShapeColor(i));
@@ -121,12 +123,14 @@ public class UILevelManager : MonoBehaviour {
 
     private void UpdateLineColor(int i)
     {
-        cfg.brushColor = PastelColorFactory.GetColor(LineColorDropdown.options[i].text);
+		/*if(LineColorDropdown.options[i].text == "Losowy") cfg.brushColor = PastelColorFactory.RandomColor;
+		else*/ cfg.brushColor = PastelColorFactory.GetColor(LineColorDropdown.options[i].text);
     }
 
     private void UpdateShapeColor(int i)
     {
-        cfg.shapeColor = PastelColorFactory.GetColor(ShapeColorDropdown.options[i].text);
+		/*if(ShapeColorDropdown.options[i].text == "Losowy") cfg.shapeColor = PastelColorFactory.RandomColor;
+		else*/ cfg.shapeColor = PastelColorFactory.GetColor(ShapeColorDropdown.options[i].text);
     }
 
     private void UpdateShape(int i)
@@ -151,8 +155,7 @@ public class UILevelManager : MonoBehaviour {
 
     void SetStroke(float value)
     {
-        cfg.brushStroke = value;
-        cfg.shapeStroke = value;
+        cfg.lineStroke = value;
     }
 
 
