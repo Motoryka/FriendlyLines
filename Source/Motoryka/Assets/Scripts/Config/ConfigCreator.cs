@@ -198,9 +198,10 @@ public class ConfigCreator : MonoBehaviour {
         GameManager.Instance.fader.LoadSceneFading("configChoice");
     }
 
-	public void SaveAndReplaceConfig()
+	public void SaveAndReplaceConfig(int configId)
 	{
-		ConfigLoader.SerializeConfig(config, config.Id.ToString());
+		config.Id = configId;
+		ConfigLoader.SerializeConfig(config, configId.ToString());
 		GameManager.Instance.GameConfig = config;
 		GameManager.Instance.fader.LoadSceneFading("configChoice");
 	}

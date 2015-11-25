@@ -89,9 +89,9 @@ public static class LineStroke
 	{
 		if(f > 0.55f && f < 0.65f) return "Bardzo cienka";
 		if(f > 0.75 && f < 0.85) return "Cienka";
-		if(f > 0.95 && f < 0.105) return "Średnia";
-		if(f > 0.115 && f < 0.125) return "Gruba";
-		if(f > 0.135 && f < 0.145) return "Bardzo gruba";
+		if(f > 0.95 && f < 1.05) return "Średnia";
+		if(f > 1.15 && f < 1.25) return "Gruba";
+		if(f > 1.35 && f < 1.45) return "Bardzo gruba";
 		return "Nieznana";
 	}
 }
@@ -210,7 +210,7 @@ public class ShapeGenerator : MonoBehaviour
         var startLine = this.lf.Create(startPoint);
         if (drawStartPoint)
         {
-            startLine.SetColor(PastelColorFactory.Red.Color);
+            startLine.SetColor(Color.white);
             startLine.SetSize(this.size);
         }
 
@@ -234,7 +234,7 @@ public class ShapeGenerator : MonoBehaviour
         var startLine = this.lf.Create(startPoint);
         if (drawStartPoint)
         {
-            startLine.SetColor(PastelColorFactory.Red.Color);
+			startLine.SetColor(Color.white);
             startLine.SetSize(this.size);
         }
 
@@ -262,7 +262,7 @@ public class ShapeGenerator : MonoBehaviour
         var startLine = this.lf.Create(startPoint);
         if (drawStartPoint)
         {
-            startLine.SetColor(PastelColorFactory.Red.Color);
+			startLine.SetColor(Color.white);
             startLine.SetSize(this.size);
         }
 
@@ -292,7 +292,7 @@ public class ShapeGenerator : MonoBehaviour
         var startLine = this.lf.Create(startPoint);
         if (drawStartPoint)
         {
-            startLine.SetColor(PastelColorFactory.Red.Color);
+			startLine.SetColor(Color.white);
             startLine.SetSize(this.size);
         }
 
@@ -335,7 +335,7 @@ public class ShapeGenerator : MonoBehaviour
         var startLine = this.lf.Create(startPoint);
         if (drawStartPoint)
         {
-            startLine.SetColor(PastelColorFactory.Red.Color);
+			startLine.SetColor(Color.white);
             startLine.SetSize(this.size);
         }
 
@@ -394,7 +394,7 @@ public class ShapeGenerator : MonoBehaviour
         var startLine = this.lf.Create(A);
         if (drawStartPoint)
         {
-            startLine.SetColor(PastelColorFactory.Red.Color);
+			startLine.SetColor(Color.white);
             startLine.SetSize(this.size);
         }
 
@@ -425,7 +425,7 @@ public class ShapeGenerator : MonoBehaviour
         var startLine = this.lf.Create(A);
         if (drawStartPoint)
         {
-            startLine.SetColor(PastelColorFactory.Red.Color);
+			startLine.SetColor(Color.white);
             startLine.SetSize(this.size);
         }
 
@@ -454,7 +454,7 @@ public class ShapeGenerator : MonoBehaviour
         var startLine = this.lf.Create(A);
         if (drawStartPoint)
         {
-            startLine.SetColor(PastelColorFactory.Red.Color);
+			startLine.SetColor(Color.white);
             startLine.SetSize(this.size);
         }
 
@@ -501,7 +501,7 @@ public class ShapeGenerator : MonoBehaviour
         var startLine = this.lf.Create(q0);
         if (drawStartPoint)
         {
-            startLine.SetColor(PastelColorFactory.Red.Color);
+			startLine.SetColor(Color.white);
             startLine.SetSize(this.size);
         }
 

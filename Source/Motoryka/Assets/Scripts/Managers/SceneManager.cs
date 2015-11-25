@@ -20,6 +20,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     public float collapsingTime = 0.3f;
     public Button pauseButton;
+	public Text levelNumberText;
 
     bool drewThisRound = false;
 
@@ -79,10 +80,11 @@ public class SceneManager : BaseLvlManager<SceneManager>
             shape = sGen.CreateShape(GameManager.Instance.GetCurrentShape());
         }
         else
-        {
-
+		{
             shape = prevVertices;//sGen.CreateShape(prevVertices);
         }
+
+		this.levelNumberText.text = "Poziom " + GameManager.Instance.CurrentLevel + " / " + GameManager.Instance._config.NrOfLevels;
 
         drewThisRound = false;
 
