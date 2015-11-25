@@ -65,6 +65,8 @@ public class UILevelManager : MonoBehaviour {
         {
             if (option.text == ShapeConverter.shapeToString(lcfg.shape))
             {
+                // Strange workaround
+                ShapeDropdown.value = index + 1;
                 ShapeDropdown.value = index;
                 break;
             }
@@ -83,6 +85,8 @@ public class UILevelManager : MonoBehaviour {
         {
             if (option.text == lcfg.brushColor.Name)
             {
+                // Strange workaround
+                LineColorDropdown.value = index+1;
                 LineColorDropdown.value = index;
                 break;
             }
@@ -101,6 +105,8 @@ public class UILevelManager : MonoBehaviour {
         {
             if (option.text == lcfg.shapeColor.Name)
             {
+                // Strange workaround
+                ShapeColorDropdown.value = index + 1;
                 ShapeColorDropdown.value = index;
                 break;
             }
@@ -155,7 +161,7 @@ public class UILevelManager : MonoBehaviour {
 
     void SetStroke(float value)
     {
-        cfg.lineStroke = value;
+		cfg.lineStroke = LineStroke.IntToFloat((int)value);
     }
 
 

@@ -85,6 +85,19 @@ public class UIConfigManager : MonoBehaviour {
 		BlackImage.SetActive(false);
 
         this.config = config;
+
+        int waitingSecs = (int)config.WaitingTime;
+        int index = 0;
+        foreach( var option in DrawTimeoutDropdown.options)
+        {
+            if(getSecsFromDrawTimeout(option.text) == waitingSecs)
+            {
+                DrawTimeoutDropdown.value = index;
+                break;
+            }
+
+            index++;
+        }
     }
 	// Use this for initialization
 	void Start () {
@@ -121,9 +134,16 @@ public class UIConfigManager : MonoBehaviour {
     {
         
         string value = DrawTimeoutDropdown.options[index].text;
-        float timeout = float.Parse(value.Split('s')[0]);
+        float timeout = getSecsFromDrawTimeout(value);
 
         Debug.Log("Draw timeout change " + timeout);
+
+        config.WaitingTime = timeout;
+    }
+
+    int getSecsFromDrawTimeout(string value)
+    {
+        return int.Parse(value.Split('s')[0]);
     }
 
     void UpdateName(string s)
