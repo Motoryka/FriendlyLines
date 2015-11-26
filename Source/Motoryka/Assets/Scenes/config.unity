@@ -605,6 +605,35 @@ Prefab:
       propertyPath: CannotSavePanel
       value: 
       objectReference: {fileID: 196020931}
+    - target: {fileID: 11467878, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 8d439ff5dd5da6849b3dcae538edca20,
+        type: 3}
+    - target: {fileID: 11403384, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 8d439ff5dd5da6849b3dcae538edca20,
+        type: 3}
+    - target: {fileID: 11445060, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 8d439ff5dd5da6849b3dcae538edca20,
+        type: 3}
+    - target: {fileID: 11427334, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4844bb19097ad3e42bf92ba609e5c605,
+        type: 3}
+    - target: {fileID: 11427334, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11420408, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0b9cd2db613da1f41920c102053a301a,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
   m_IsPrefabParent: 0
