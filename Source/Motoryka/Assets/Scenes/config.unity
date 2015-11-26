@@ -627,7 +627,7 @@ Prefab:
         type: 3}
     - target: {fileID: 11427334, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
       propertyPath: m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11420408, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
       propertyPath: m_Sprite
