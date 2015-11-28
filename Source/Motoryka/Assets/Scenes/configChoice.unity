@@ -748,7 +748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4469a4ea846c6f44b1f7ce91699196a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configButton: {fileID: 112510, guid: 6a61d15cce423c14c9b0c2e47334a6e7, type: 2}
+  configButton: {fileID: 117536, guid: ca30132ddd3e33d408270d00edcf98a6, type: 2}
   canvas: {fileID: 1704500800}
   editButton: {fileID: 1371339734}
   ContentPanel: {fileID: 1885708220}
