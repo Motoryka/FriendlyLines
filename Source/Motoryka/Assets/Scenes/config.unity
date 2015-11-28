@@ -504,7 +504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1958017647}
-  uiLevelManagerPrefab: {fileID: 144722, guid: 7b1bd935a3e9ed942bdd6f959a752f07, type: 2}
+  uiLevelManagerPrefab: {fileID: 106688, guid: 5f735bd48b2355a4985999e953f913d6, type: 2}
   configManager: {fileID: 168575861}
 --- !u!4 &533681796
 Transform:
@@ -693,7 +693,43 @@ Prefab:
         type: 3}
     - target: {fileID: 11445060, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
       propertyPath: m_FontData.m_FontSize
-      value: 20
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 11467878, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11403384, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_Alignment
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11461534, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 22432152, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421570, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11421570, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 11461534, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11461534, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 11467878, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
