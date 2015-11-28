@@ -705,7 +705,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11461534, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
       propertyPath: m_FontData.m_FontSize
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 22432152, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
       propertyPath: m_SizeDelta.y
@@ -717,7 +717,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11421570, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
       propertyPath: m_FontData.m_MaxSize
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 11461534, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
       propertyPath: m_FontData.m_BestFit
@@ -725,7 +725,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11461534, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
       propertyPath: m_FontData.m_MaxSize
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 11467878, guid: f45518550ea08b14cbfce1cc2c8f8531, type: 2}
       propertyPath: m_FontData.m_FontSize
