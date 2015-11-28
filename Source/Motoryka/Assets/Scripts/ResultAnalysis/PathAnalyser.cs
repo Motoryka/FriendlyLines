@@ -143,13 +143,14 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 	 * Jaki procent linii narysowanej lezy poza ta wygenerowana.
 	 */
 	private float GetUserLineErrorCovering(ILine generatedLine, List<ILine> userLines) {
-		Vector2[] listG = generatedLine.GetVertices2().ToArray ();
+		List<Vector2> listG = FillVertexes (generatedLine.GetVertices2().ToArray ());
 		int correctPoints = 0;
 		int wrongPoints = 0;
 
 		foreach (ILine line in userLines) {
-			foreach (Vector2 point in line.GetVertices2()) {
-				float min = GetMinDistance (listG, point);
+            List<Vector2> listU = FillVertexes(line.GetVertices2().ToArray());
+			foreach (Vector2 point in listU) {
+				float min = GetMinDistance (listG.ToArray(), point);
 				if (min < generatedLine.GetSize () / 2 * levelMap [level]) {
 					correctPoints++;
 				} else {

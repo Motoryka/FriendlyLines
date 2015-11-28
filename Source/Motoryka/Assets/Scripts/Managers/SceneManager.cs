@@ -93,7 +93,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         var result = analizer.GetResult(shape.Shape, userLines);
         Debug.Log("Prefinish");
-        Debug.Log("Wynik: " + result + " %");
+        Debug.Log("Wynik: " + result.shapeCovering + " % " + result.errorRange + " %");
         GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = result });
 		lineDrawer.StopDrawing();
 
@@ -142,7 +142,7 @@ public class SceneManager : BaseLvlManager<SceneManager>
     {
         if (drewThisRound)
 		{
-            Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLines) + " %");
+            Debug.Log("Wynik: " + analizer.GetResult(shape.Shape, userLines).shapeCovering + " %" + analizer.GetResult(shape.Shape, userLines).errorRange + " %");
             if (IsFinished())
             {
                 if (!isFinishing)
