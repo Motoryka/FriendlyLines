@@ -504,7 +504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1958017647}
-  uiLevelManagerPrefab: {fileID: 106688, guid: 5f735bd48b2355a4985999e953f913d6, type: 2}
+  uiLevelManagerPrefab: {fileID: 196796, guid: e31297e06c0a38d438213ecd9f9ea02f, type: 2}
   configManager: {fileID: 168575861}
 --- !u!4 &533681796
 Transform:
