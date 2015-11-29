@@ -10,9 +10,11 @@ public class ResultScene : MonoBehaviour {
     public GameObject LineColorText;
     public GameObject ShapeColorText;
     public GameObject LevelResultText;
+    public GameObject LevelResultIncorrectText;
     public GameObject StartPointToggle;
     public GameObject DrawTimeoutText;
     public GameObject ResultText;
+    public GameObject ResultIncorrectText;
 
     private Result finalResult;
 
@@ -53,9 +55,11 @@ public class ResultScene : MonoBehaviour {
 		LineStrokeText.GetComponent<Text>().text = LineStroke.FloatToStroke(currentLevel.lineStroke);
         LineColorText.GetComponent<Text>().text = currentLevel.brushColor.Name;
         ShapeColorText.GetComponent<Text>().text = currentLevel.shapeColor.Name;
-		LevelResultText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.shapeCovering + "%";
-		StartPointToggle.GetComponent<Toggle>().isOn = GameManager.Instance.GameConfig.DrawStartPoint;
+		LevelResultText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.shapeCovering + " %";
+        LevelResultIncorrectText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.errorRange + " %";
+        StartPointToggle.GetComponent<Toggle>().isOn = GameManager.Instance.GameConfig.DrawStartPoint;
 		DrawTimeoutText.GetComponent<Text>().text = GameManager.Instance.GameConfig.WaitingTime.ToString();
-        ResultText.GetComponent<Text>().text = this.finalResult.shapeCovering + "%";
+        ResultText.GetComponent<Text>().text = this.finalResult.shapeCovering + " %";
+        ResultIncorrectText.GetComponent<Text>().text = this.finalResult.errorRange + " %";
     }
 }
