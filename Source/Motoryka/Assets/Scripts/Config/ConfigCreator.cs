@@ -5,18 +5,17 @@ using System.IO;
 using System.Xml;
 
 public class ConfigCreator : MonoBehaviour {
-    public delegate void LevelAddHandler(int atIndex);
-    public event LevelAddHandler LevelAdded;
+	public delegate void LevelAddHandler(int atIndex);
+	public event LevelAddHandler LevelAdded;
 
     public delegate void LevelDeleteHandler(int atIndex);
     public event LevelDeleteHandler LevelDeleted;
-
 
     public GameObject canvas;
     public GameObject uiLevelManagerPrefab;
     public UIConfigManager configManager;
 
-    Config config;
+    public Config config;
     List<UILevelManager> _levelManagers;
     int activeLevelManager;
 
@@ -121,8 +120,12 @@ public class ConfigCreator : MonoBehaviour {
         for (int i = pos; i < config.Levels.Count;  ++i)
         {
             config.Levels[i].levelNumber = i + 1;
-            _levelManagers[i].UpdateTitle();
         }
+
+		foreach(var lvl in _levelManagers)
+		{
+			lvl.UpdateTitle();
+		}
 
         if (pos <= activeLevelManager)
         {

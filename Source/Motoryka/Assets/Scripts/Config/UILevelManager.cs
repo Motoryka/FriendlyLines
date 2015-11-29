@@ -124,7 +124,7 @@ public class UILevelManager : MonoBehaviour {
 
     public void UpdateTitle()
     {
-        titleLbl.text = "Edytujesz poziom " + cfg.levelNumber + ".";
+        titleLbl.text = "Edytujesz poziom " + cfg.levelNumber + " / " + creator.config.NrOfLevels;
     }
 
     private void UpdateLineColor(int i)
