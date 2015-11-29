@@ -21,6 +21,8 @@ public class ConfigChooser : MonoBehaviour {
 	public GameObject canvas;
 	public GameObject editButton;
 	public GameObject removeButton;
+	public GameObject removePanel;
+	public GameObject blackImage;
 	private ConfigCreator cc;
 	public static string selectedConfigName = "";
 	public Transform ContentPanel;
@@ -28,17 +30,42 @@ public class ConfigChooser : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Init ();
+
+		removePanel = GameObject.Find ("RemovePanel");
+		removePanel.SetActive(false);
+		blackImage = GameObject.Find ("BlackImage");
+		blackImage.SetActive(false);
 	}
 
 	private void Init()
 	{
 		ConfigFiles = new List<ConfigFile>();
 		ConfigButtons = new List<GameObject>();
-		//SetSelection();
+		SetSelection();
 		StoreAllConfigs();
 		CreateConfigButtons();
 		if(selectedConfigName != "") ShowButtons();
 		else HideButtons();
+	}
+
+	private void SetInteractableOfAllSceneObjects(bool b)
+	{
+		GameObject canvas = GameObject.Find ("Canvas");
+		foreach(var button in canvas.GetComponentsInChildren<Button>()){
+			button.interactable = b;
+		}
+		foreach(var input in canvas.GetComponentsInChildren<InputField>()){
+			input.interactable = b;
+		}
+		foreach(var toggle in canvas.GetComponentsInChildren<Toggle>()){
+			toggle.interactable = b;
+		}
+		foreach(var dropdown in canvas.GetComponentsInChildren<Dropdown>()){
+			dropdown.interactable = b;
+		}
+		foreach(var slider in canvas.GetComponentsInChildren<Slider>()){
+			slider.interactable = b;
+		}
 	}
 	
 	// Update is called once per frame
@@ -92,10 +119,9 @@ public class ConfigChooser : MonoBehaviour {
 			var btn = o.transform.GetComponent<Button>();
 			if(btn != null){
 				if(btn.name == buttonName){
-					if(btn.animator != null)
+					if(btn.animator != null){
 						btn.animator.SetBool("isChosen", true);
-					else 
-						btn.image.color = PastelColorFactory.Mint.Color;
+					}
 				}
 			}
 		}
@@ -166,10 +192,9 @@ public class ConfigChooser : MonoBehaviour {
 	public void ChooseSelectedButton(Button button)
 	{
 		RemoveSelectionOnButton();
-		if(button.animator != null)
+		if(button.animator != null){
 			button.animator.SetBool ("isChosen", true);
-		else 
-			button.image.color = PastelColorFactory.Mint.Color;
+		}
 	}
 
 	private void RemoveSelectionOnButton()
@@ -178,12 +203,9 @@ public class ConfigChooser : MonoBehaviour {
 		foreach(var o in objs){
 			var btn = o.transform.GetComponent<Button>();
 			if(btn != null){
-				if(btn.image.color == PastelColorFactory.Mint.Color){
-					btn.image.color = Color.white;
-				}
-				if (btn.animator != null)
+				if (btn.animator != null){
 					btn.animator.SetBool ("isChosen", false);
-
+				}
 			}
 		}
 	}
@@ -218,6 +240,13 @@ public class ConfigChooser : MonoBehaviour {
 
 	public void RemoveConfig()
 	{
+		removePanel.SetActive(true);
+		SetInteractableOfAllSceneObjects(false);
+		blackImage.SetActive(true);
+	}
+
+	public void RemoveForSure()
+	{
 		var configFileToRemove = this.ConfigFiles.Find (x => x.Name == selectedConfigName);
 		string path = configFileToRemove.Path;
 		this.ConfigFiles.Remove (configFileToRemove);
@@ -242,8 +271,19 @@ public class ConfigChooser : MonoBehaviour {
 			if(File.Exists(path)){
 				File.Delete(path);
 				EasyLevelChoose();
-				//SetSelection();
+				SetSelection();
 			}
 		}
+
+		removePanel.SetActive(false);
+		SetInteractableOfAllSceneObjects(true);
+		blackImage.SetActive(false);
+	}
+
+	public void CancelRemoving()
+	{
+		removePanel.SetActive(false);
+		SetInteractableOfAllSceneObjects(true);
+		blackImage.SetActive(false);
 	}
 }

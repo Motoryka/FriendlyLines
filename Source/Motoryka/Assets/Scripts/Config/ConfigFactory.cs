@@ -15,11 +15,15 @@ public class ConfigFactory
 			DrawStartPoint = true,
 			NrOfLevels = 2,
 			WaitingTime = 3f,
-			Levels = new List<LevelConfig> {
-				new LevelConfig { levelNumber = 1, shape = Shape.HorizontalLine, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.RandomColor, brushColor = PastelColorFactory.RandomColor },
-				new LevelConfig { levelNumber = 2, shape = Shape.VerticalLine, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.RandomColor, brushColor = PastelColorFactory.RandomColor }
-			}
+			Levels = new List<LevelConfig>()
 		};
+		var level1 = new LevelConfig { levelNumber = 1, shape = Shape.HorizontalLine, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.RandomColor };
+		level1.brushColor = PastelColorFactory.RandomColorWithExclude(level1.shapeColor);
+		config.Levels.Add (level1);
+		var level2 = new LevelConfig { levelNumber = 2, shape = Shape.VerticalLine, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.RandomColor };
+		level2.brushColor = PastelColorFactory.RandomColorWithExclude(level2.shapeColor);
+		config.Levels.Add (level2);
+
 		return config;
 	}
 
@@ -27,7 +31,7 @@ public class ConfigFactory
 	{
 		Config config = new Config { 
 			Id = -3, 
-			Name = "Easy Level",
+			Name = "Łatwy poziom",
 			CreationDate = DateTime.Now, 
 			DrawStartPoint = true,
 			NrOfLevels = 3,
@@ -45,11 +49,11 @@ public class ConfigFactory
 	{
 		Config config = new Config { 
 			Id = -2, 
-			Name = "Medium Level",
+			Name = "Średni poziom",
 			CreationDate = DateTime.Now,
 			DrawStartPoint = true,
 			NrOfLevels = 9,
-            WaitingTime = 3f,
+            WaitingTime = 2f,
 			Levels = new List<LevelConfig> {
 				new LevelConfig { levelNumber = 1, shape = Shape.VerticalLine, lineStroke = LineStroke.VeryThick, shapeColor = PastelColorFactory.LightYellow, brushColor = PastelColorFactory.LightBlue },
 				new LevelConfig { levelNumber = 2, shape = Shape.HorizontalLine, lineStroke = LineStroke.Thick, shapeColor = PastelColorFactory.DarkBlue, brushColor = PastelColorFactory.LightPink },
@@ -69,11 +73,11 @@ public class ConfigFactory
 	{
 		Config config = new Config { 
 			Id = -1, 
-			Name = "Hard Level",
+			Name = "Trudny poziom",
 			CreationDate = DateTime.Now,
 			DrawStartPoint = false,
             NrOfLevels = 3,
-            WaitingTime = 3f,
+            WaitingTime = 1f,
 			Levels = new List<LevelConfig> {
 				new LevelConfig { levelNumber = 1, shape = Shape.Triangle, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.Pink, brushColor = PastelColorFactory.Yellow },
 				new LevelConfig { levelNumber = 2, shape = Shape.Square, lineStroke = LineStroke.Thin, shapeColor = PastelColorFactory.Mint, brushColor = PastelColorFactory.Orange },

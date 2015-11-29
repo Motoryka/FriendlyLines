@@ -84,7 +84,8 @@ public class ConfigCreator : MonoBehaviour {
 
     public void AddLevel(int pos)
     {
-		var level = new LevelConfig { levelNumber = pos + 1, shape = Shape.HorizontalLine, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.RandomColor, brushColor = PastelColorFactory.RandomColor };
+		var level = new LevelConfig { levelNumber = pos + 1, shape = Shape.HorizontalLine, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.RandomColor };
+		level.brushColor = PastelColorFactory.RandomColorWithExclude(level.shapeColor);
         
         config.Levels.Insert(pos, level);
 
@@ -210,6 +211,7 @@ public class ConfigCreator : MonoBehaviour {
 
     public void Cancel()
     {
+		GameManager.Instance.GameConfig = ConfigFactory.CreateEasyLevel();
         GameManager.Instance.fader.LoadSceneFading("configChoice");
     }
 

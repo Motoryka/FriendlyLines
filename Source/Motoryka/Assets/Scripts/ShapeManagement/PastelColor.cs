@@ -57,6 +57,14 @@ public class PastelColorFactory
 		} 
 	}
 
+	public static PastelColor RandomColorWithExclude(PastelColor exclude){
+		PastelColor color;
+		do{	color = colorList[Random.Range(0, colorList.Count - 1)]; }
+		while(color.Name == "Czarny" || color == exclude);
+		
+		return color;
+	}
+
     public static PastelColor LightRed { get; internal set; }
     public static PastelColor LightGreen { get; internal set; }
     public static PastelColor LightBlue { get; internal set; }
