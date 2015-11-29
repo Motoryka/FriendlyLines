@@ -163,7 +163,11 @@ public class UILevelManager : MonoBehaviour {
     {
 		cfg.lineStroke = LineStroke.IntToFloat((int)value);
     }
-
+	
+	public void setKnobSize()
+	{
+		LineStrokeSlider.animator.SetInteger ("knobSize", (int)LineStrokeSlider.value);
+	}
 
     public void SetActiveLevelNext()
     {

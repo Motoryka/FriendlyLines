@@ -92,7 +92,10 @@ public class ConfigChooser : MonoBehaviour {
 			var btn = o.transform.GetComponent<Button>();
 			if(btn != null){
 				if(btn.name == buttonName){
-					btn.image.color = PastelColorFactory.Mint.Color;
+					if(btn.animator != null)
+						btn.animator.SetBool("isChosen", true);
+					else 
+						btn.image.color = PastelColorFactory.Mint.Color;
 				}
 			}
 		}
@@ -163,7 +166,10 @@ public class ConfigChooser : MonoBehaviour {
 	public void ChooseSelectedButton(Button button)
 	{
 		RemoveSelectionOnButton();
-		button.image.color = PastelColorFactory.Mint.Color;
+		if(button.animator != null)
+			button.animator.SetBool ("isChosen", true);
+		else 
+			button.image.color = PastelColorFactory.Mint.Color;
 	}
 
 	private void RemoveSelectionOnButton()
@@ -175,6 +181,9 @@ public class ConfigChooser : MonoBehaviour {
 				if(btn.image.color == PastelColorFactory.Mint.Color){
 					btn.image.color = Color.white;
 				}
+				if (btn.animator != null)
+					btn.animator.SetBool ("isChosen", false);
+
 			}
 		}
 	}
