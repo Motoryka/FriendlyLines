@@ -196,6 +196,7 @@ public class ConfigCreator : MonoBehaviour {
 		ConfigLoader.SerializeConfig(config, config.Id.ToString());
         GameManager.Instance.GameConfig = config;
         GameManager.Instance.fader.LoadSceneFading("configChoice");
+		ConfigChooser.selectedConfigName = config.Name;
     }
 
 	public void SaveAndReplaceConfig(int configId)
@@ -204,6 +205,7 @@ public class ConfigCreator : MonoBehaviour {
 		ConfigLoader.SerializeConfig(config, configId.ToString());
 		GameManager.Instance.GameConfig = config;
 		GameManager.Instance.fader.LoadSceneFading("configChoice");
+		ConfigChooser.selectedConfigName = config.Name;
 	}
 
     public void Cancel()

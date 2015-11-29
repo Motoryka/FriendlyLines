@@ -20,17 +20,25 @@ public class ConfigChooser : MonoBehaviour {
 	public Config config;
 	public GameObject canvas;
 	public GameObject editButton;
+	public GameObject removeButton;
 	private ConfigCreator cc;
-	public static string selectedConfigName;
+	public static string selectedConfigName = "";
 	public Transform ContentPanel;
 
 	// Use this for initialization
 	void Start () {
+		Init ();
+	}
+
+	private void Init()
+	{
 		ConfigFiles = new List<ConfigFile>();
 		ConfigButtons = new List<GameObject>();
-		SetSelection();
+		//SetSelection();
 		StoreAllConfigs();
 		CreateConfigButtons();
+		if(selectedConfigName != "") ShowButtons();
+		else HideButtons();
 	}
 	
 	// Update is called once per frame
@@ -48,26 +56,28 @@ public class ConfigChooser : MonoBehaviour {
 		GameManager.Instance.fader.LoadSceneFading("config");
 	}
 
-	public void ShowEditButton()
+	public void ShowButtons()
 	{
 		this.editButton.SetActive(true);
+		this.removeButton.SetActive(true);
 	}
 
-	public void HideEditButton()
+	public void HideButtons()
 	{
 		this.editButton.SetActive(false);
+		this.removeButton.SetActive(false);
 	}
 
 	private void SetSelection()
 	{
-		switch(GameManager.Instance.GameConfig.Name){
-		case "Easy Level":
+		switch(GameManager.Instance.GameConfig.Id){
+		case -3:
 			ChangeButtonColor("EasyLevelButton");
 			break;
-		case "Medium Level":
+		case -2:
 			ChangeButtonColor("MediumLevelButton");
 			break;
-		case "Hard Level":
+		case -1:
 			ChangeButtonColor("HardLevelButton");
 			break;
 		default:
@@ -113,7 +123,7 @@ public class ConfigChooser : MonoBehaviour {
 				}
 				if(name != "" && nrOfLevels != 0)
 				{
-					this.ConfigFiles.Add(new ConfigFile { Path = Path.GetFileNameWithoutExtension(file), Name = name, NrOfLevels = nrOfLevels });
+					this.ConfigFiles.Add(new ConfigFile { Path = file, Name = name, NrOfLevels = nrOfLevels });
 					break;
 				}
 			}
@@ -125,7 +135,7 @@ public class ConfigChooser : MonoBehaviour {
 	{
 		ConfigFile cf = this.ConfigFiles.Find(x => x.Name == name);
 		if(cf == null) return;
-		GameManager.Instance.GameConfig = ConfigLoader.DeserializeConfig(cf.Path);
+		GameManager.Instance.GameConfig = ConfigLoader.DeserializeConfig(Path.GetFileNameWithoutExtension(cf.Path));
 		selectedConfigName = name;
 	}
 
@@ -133,18 +143,21 @@ public class ConfigChooser : MonoBehaviour {
 	{
 		selectedConfigName = "";
 		GameManager.Instance.GameConfig = ConfigFactory.CreateEasyLevel();
+		HideButtons ();
 	}
 
 	public void MediumLevelChoose()
 	{
 		selectedConfigName = "";
 		GameManager.Instance.GameConfig = ConfigFactory.CreateMediumLevel();
+		HideButtons ();
 	}
 
 	public void HardLevelChoose()
 	{
 		selectedConfigName = "";
 		GameManager.Instance.GameConfig = ConfigFactory.CreateHardLevel();
+		HideButtons ();
 	}
 
 	public void ChooseSelectedButton(Button button)
@@ -172,10 +185,7 @@ public class ConfigChooser : MonoBehaviour {
 		foreach(var cf in this.ConfigFiles)
 		{
 			GameObject o = Instantiate<GameObject>(configButton);
-			//var rect = o.GetComponent<RectTransform>();
-			//rect.SetParent(canvas.GetComponent<RectTransform>(), false);
 			o.transform.SetParent(ContentPanel);
-			//rect.SetParent(ContentPanel, false);
 			Text cn = o.GetComponentInChildren<Transform>().Find("configName").gameObject.GetComponent<Text>();
 			cn.text = cf.Name;
 			if(cf.Name == selectedConfigName){
@@ -185,7 +195,7 @@ public class ConfigChooser : MonoBehaviour {
 			cnof.text = cf.NrOfLevels.ToString();
 			o.GetComponent<Button>().onClick.AddListener(() => this.GetConfig(cn.text));
 			o.GetComponent<Button>().onClick.AddListener(() => this.ChooseSelectedButton(o.GetComponent<Button>()));
-			o.GetComponent<Button>().onClick.AddListener(() => this.ShowEditButton());
+			o.GetComponent<Button>().onClick.AddListener(() => this.ShowButtons());
 			ConfigButtons.Add(o);
 			i++;
 		}
@@ -195,5 +205,36 @@ public class ConfigChooser : MonoBehaviour {
 		Config config = ConfigFactory.CreateNewConfig();
 		GameManager.Instance.GameConfig = config;
 		GameManager.Instance.fader.LoadSceneFading("config");
+	}
+
+	public void RemoveConfig()
+	{
+		var configFileToRemove = this.ConfigFiles.Find (x => x.Name == selectedConfigName);
+		string path = configFileToRemove.Path;
+		this.ConfigFiles.Remove (configFileToRemove);
+		bool removed = false;
+		foreach(var cb in ConfigButtons)
+		{
+			Text[] texts = cb.GetComponent<Button>().GetComponentsInChildren<Text>();
+			foreach(var t in texts){
+				if(t.name == "configName"){
+					if(t.text == selectedConfigName){
+						this.ConfigButtons.Remove (cb);
+						GameObject.DestroyImmediate(cb);
+						removed = true;
+						break;
+					}
+					break;
+				}
+			}
+			if(removed) break;
+		}
+		if(removed && path != null){
+			if(File.Exists(path)){
+				File.Delete(path);
+				EasyLevelChoose();
+				//SetSelection();
+			}
+		}
 	}
 }
