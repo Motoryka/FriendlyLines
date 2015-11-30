@@ -9,8 +9,8 @@ public class UIConfigManager : MonoBehaviour {
     public Toggle ShowStartPointToggle;
     public InputField ConfigNameInputField;
     public Dropdown DrawTimeoutDropdown;
-    public Text LevelsLabel;
 	public GameObject CannotSavePanel;
+	public GameObject CancelPanel;
 	private GameObject BlackImage;
 	private int configReplaceId;
 
@@ -41,6 +41,18 @@ public class UIConfigManager : MonoBehaviour {
 		BlackImage.SetActive(false);
 	}
 
+	public void CancelForSure()
+	{
+		creator.SendMessage("Cancel");
+	}
+
+	public void CloseCancelPanel()
+	{
+		CancelPanel.SetActive(false);
+		SetInteractableOfAllSceneObjects(true);
+		BlackImage.SetActive(false);
+	}
+
 	private void SetInteractableOfAllSceneObjects(bool b)
 	{
 		GameObject canvas = GameObject.Find ("Canvas");
@@ -63,7 +75,9 @@ public class UIConfigManager : MonoBehaviour {
 
     public void Cancel()
     {
-        creator.SendMessage("Cancel");
+		CancelPanel.SetActive(true);
+		SetInteractableOfAllSceneObjects(false);
+		BlackImage.SetActive(true);
     }
 
     public void Init(Config config)
@@ -75,13 +89,11 @@ public class UIConfigManager : MonoBehaviour {
         ConfigNameInputField.onValueChange.AddListener(s => UpdateName(s));
         ShowStartPointToggle.onValueChanged.AddListener(b => UpdateShowStartPoint(b));
 
-        LevelsLabel.text = config.Levels.Count.ToString();
-
-        creator.LevelAdded += new ConfigCreator.LevelAddHandler(OnAddLevel);
-        creator.LevelDeleted += new ConfigCreator.LevelDeleteHandler(OnRemoveLevel);
-
 		CannotSavePanel = GameObject.Find ("CannotSavePanel");
 		CannotSavePanel.SetActive(false);
+
+		CancelPanel = GameObject.Find ("CancelPanel");
+		CancelPanel.SetActive(false);
 
 		BlackImage = GameObject.Find ("BlackImage");
 		BlackImage.SetActive(false);
@@ -172,15 +184,5 @@ public class UIConfigManager : MonoBehaviour {
     void UpdateShowStartPoint(bool value)
     {
         config.DrawStartPoint = value;
-    }
-
-    void OnAddLevel(int pos)
-    {
-        LevelsLabel.text = config.Levels.Count.ToString();
-    }
-
-    void OnRemoveLevel(int pos)
-    {
-        LevelsLabel.text = config.Levels.Count.ToString();
     }
 }

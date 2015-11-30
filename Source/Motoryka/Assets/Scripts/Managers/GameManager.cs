@@ -80,11 +80,6 @@ public class GameManager : Singleton<GameManager>, IInitable {
         {
             fader = gameObject.AddComponent<Fader>();
         }
-		
-        if (_config == null)
-        {
-            _config = ConfigFactory.CreateHardLevel();
-        }
 
 		this.ResultsList = new List<LevelResult>();
         

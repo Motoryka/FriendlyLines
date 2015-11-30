@@ -1553,9 +1553,11 @@ MonoBehaviour:
   LineColorText: {fileID: 1626217098}
   ShapeColorText: {fileID: 631152209}
   LevelResultText: {fileID: 1296563239}
+  LevelResultIncorrectText: {fileID: 1313143110}
   StartPointToggle: {fileID: 1369622303}
   DrawTimeoutText: {fileID: 2019402514}
   ResultText: {fileID: 10467180}
+  ResultIncorrectText: {fileID: 494595289}
 --- !u!1 &1243951497
 GameObject:
   m_ObjectHideFlags: 0

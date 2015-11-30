@@ -11,7 +11,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Motoryka
-  productName: fms-v0.6
+  productName: fms-v0.99
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_ShowUnitySplashScreen: 1
@@ -85,7 +85,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.Motoryka.fms06
+  bundleIdentifier: com.Motoryka.fms099
   bundleVersion: 1.0
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
