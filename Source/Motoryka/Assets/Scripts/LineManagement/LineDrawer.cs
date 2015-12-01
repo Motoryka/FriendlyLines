@@ -19,12 +19,15 @@ namespace LineManagement
         private ILine _currentLine;
         private Vector3 _lastVertex;
 
+        public bool BlockDrawing { get; set; }
+
         public LineDrawer()
         {
             _vertices = new List<Vector3>();
             _factory = new LineFactory<T>();
             _lines = new List<ILine>();
             _currentLine = null;
+            BlockDrawing = false;
         }
 
         // Use this for initialization
@@ -58,6 +61,8 @@ namespace LineManagement
 
         public void StartDrawing()
         {
+            if (BlockDrawing)
+                return;
             Debug.Log("LineDrawer: starting drawing");
             _drawing = true;
             _currentLine = _factory.Create();
