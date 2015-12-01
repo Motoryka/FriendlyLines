@@ -17,7 +17,6 @@ public class ConfigChooser : MonoBehaviour {
 	public List<ConfigFile> ConfigFiles;
 	public GameObject configButton;
 	List<GameObject> ConfigButtons;
-	public Config config;
 	public GameObject canvas;
 	public GameObject editButton;
 	public GameObject removeButton;
@@ -238,8 +237,8 @@ public class ConfigChooser : MonoBehaviour {
 	}
 
 	public void AddConfig(){
-		Config config = ConfigFactory.CreateNewConfig();
-		GameManager.Instance.GameConfig = config;
+		GameManager.Instance.oldConfig = GameManager.Instance.GameConfig;
+		GameManager.Instance.GameConfig = ConfigFactory.CreateNewConfig();
 		GameManager.Instance.fader.LoadSceneFading("config");
 	}
 

@@ -214,7 +214,12 @@ public class ConfigCreator : MonoBehaviour {
 
     public void Cancel()
     {
-		GameManager.Instance.GameConfig = ConfigFactory.CreateEasyLevel();
+		if(GameManager.Instance.oldConfig != null){
+			GameManager.Instance.GameConfig = GameManager.Instance.oldConfig;
+		}
+		else{
+			GameManager.Instance.GameConfig = ConfigFactory.CreateEasyLevel();
+		}
         GameManager.Instance.fader.LoadSceneFading("configChoice");
     }
 
