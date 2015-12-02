@@ -11,6 +11,7 @@ public class UIConfigManager : MonoBehaviour {
     public Dropdown DrawTimeoutDropdown;
 	public GameObject CannotSavePanel;
 	public GameObject CancelPanel;
+	public GameObject EmptyNamePanel;
 	private GameObject BlackImage;
 	private int configReplaceId;
 
@@ -18,6 +19,12 @@ public class UIConfigManager : MonoBehaviour {
 
     public void SaveConfig()
     {
+		if(ConfigNameInputField.text == ""){
+			EmptyNamePanel.SetActive(true);
+			SetInteractableOfAllSceneObjects(false);
+			BlackImage.SetActive(true);
+			return;
+		}
 		configReplaceId = DoesConfigNameExist(config.Name);
 		if(configReplaceId != -1){
 			CannotSavePanel.SetActive(true);
@@ -49,6 +56,13 @@ public class UIConfigManager : MonoBehaviour {
 	public void CloseCancelPanel()
 	{
 		CancelPanel.SetActive(false);
+		SetInteractableOfAllSceneObjects(true);
+		BlackImage.SetActive(false);
+	}
+
+	public void CloseEmptyNamePanel()
+	{
+		EmptyNamePanel.SetActive(false);
 		SetInteractableOfAllSceneObjects(true);
 		BlackImage.SetActive(false);
 	}
@@ -94,6 +108,9 @@ public class UIConfigManager : MonoBehaviour {
 
 		CancelPanel = GameObject.Find ("CancelPanel");
 		CancelPanel.SetActive(false);
+
+		EmptyNamePanel = GameObject.Find ("EmptyNamePanel");
+		EmptyNamePanel.SetActive(false);
 
 		BlackImage = GameObject.Find ("BlackImage");
 		BlackImage.SetActive(false);
