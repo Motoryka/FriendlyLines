@@ -60,7 +60,7 @@ public class ResultScene : MonoBehaviour {
         ShapeColorText.GetComponent<Text>().text = currentLevel.shapeColor.Name;
 		LevelResultText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.shapeCovering + " %";
         LevelResultIncorrectText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.errorRange + " %";
-		DrawTimeoutText.GetComponent<Text>().text = GameManager.Instance.GameConfig.WaitingTime.ToString();
+		DrawTimeoutText.GetComponent<Text>().text = GameManager.Instance.GameConfig.WaitingTime.ToString() + " s";
         ResultText.GetComponent<Text>().text = this.finalResult.shapeCovering + " %";
         ResultIncorrectText.GetComponent<Text>().text = this.finalResult.errorRange + " %";
         if (GameManager.Instance.GameConfig.DrawStartPoint)

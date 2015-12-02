@@ -52,18 +52,12 @@ public class ConfigFactory
 			Name = "Średni poziom",
 			CreationDate = DateTime.Now,
 			DrawStartPoint = true,
-			NrOfLevels = 9,
+			NrOfLevels = 3,
             WaitingTime = 2f,
 			Levels = new List<LevelConfig> {
-				new LevelConfig { levelNumber = 1, shape = Shape.VerticalLine, lineStroke = LineStroke.VeryThick, shapeColor = PastelColorFactory.LightYellow, brushColor = PastelColorFactory.LightBlue },
-				new LevelConfig { levelNumber = 2, shape = Shape.HorizontalLine, lineStroke = LineStroke.Thick, shapeColor = PastelColorFactory.DarkBlue, brushColor = PastelColorFactory.LightPink },
-				new LevelConfig { levelNumber = 3, shape = Shape.DiagonalLine, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.Purple, brushColor = PastelColorFactory.LightGreen },
-				new LevelConfig { levelNumber = 4, shape = Shape.CurvedLine, lineStroke = LineStroke.Thin, shapeColor = PastelColorFactory.Green, brushColor = PastelColorFactory.DarkGray },
-				new LevelConfig { levelNumber = 5, shape = Shape.Circle, lineStroke = LineStroke.VeryThin, shapeColor = PastelColorFactory.Blue, brushColor = PastelColorFactory.LightRed },
-				new LevelConfig { levelNumber = 6, shape = Shape.Ellipse, lineStroke = LineStroke.Thin, shapeColor = PastelColorFactory.Mint, brushColor = PastelColorFactory.Black },
-				new LevelConfig { levelNumber = 7, shape = Shape.Triangle, lineStroke = LineStroke.Thin, shapeColor = PastelColorFactory.Orange, brushColor = PastelColorFactory.Yellow },
-				new LevelConfig { levelNumber = 8, shape = Shape.Square, lineStroke = LineStroke.Thin, shapeColor = PastelColorFactory.LightBlue, brushColor = PastelColorFactory.LightRed },
-				new LevelConfig { levelNumber = 9, shape = Shape.Rectangle, lineStroke = LineStroke.Thin, shapeColor = PastelColorFactory.Purple, brushColor = PastelColorFactory.LightGreen }
+				new LevelConfig { levelNumber = 1, shape = Shape.CurvedLine, lineStroke = LineStroke.Thick, shapeColor = PastelColorFactory.Green, brushColor = PastelColorFactory.DarkGray },
+				new LevelConfig { levelNumber = 2, shape = Shape.Circle, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.Blue, brushColor = PastelColorFactory.LightRed },
+				new LevelConfig { levelNumber = 3, shape = Shape.Ellipse, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.Mint, brushColor = PastelColorFactory.Black }
 			}
 		};
 		return config;
@@ -79,7 +73,7 @@ public class ConfigFactory
             NrOfLevels = 3,
             WaitingTime = 1f,
 			Levels = new List<LevelConfig> {
-				new LevelConfig { levelNumber = 1, shape = Shape.Triangle, lineStroke = LineStroke.Medium, shapeColor = PastelColorFactory.Pink, brushColor = PastelColorFactory.Yellow },
+				new LevelConfig { levelNumber = 1, shape = Shape.Triangle, lineStroke = LineStroke.Thin, shapeColor = PastelColorFactory.Pink, brushColor = PastelColorFactory.Yellow },
 				new LevelConfig { levelNumber = 2, shape = Shape.Square, lineStroke = LineStroke.Thin, shapeColor = PastelColorFactory.Mint, brushColor = PastelColorFactory.Orange },
 				new LevelConfig { levelNumber = 3, shape = Shape.Rectangle, lineStroke = LineStroke.VeryThin, shapeColor = PastelColorFactory.LightBlue, brushColor = PastelColorFactory.Orange }
 			}
