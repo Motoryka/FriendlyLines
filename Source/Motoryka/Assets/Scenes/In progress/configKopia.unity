@@ -377,6 +377,7 @@ MonoBehaviour:
   DrawTimeoutDropdown: {fileID: 808026861}
   CannotSavePanel: {fileID: 0}
   CancelPanel: {fileID: 0}
+  EmptyNamePanel: {fileID: 0}
 --- !u!1 &315769825
 GameObject:
   m_ObjectHideFlags: 0

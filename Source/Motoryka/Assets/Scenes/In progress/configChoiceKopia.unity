@@ -119,7 +119,7 @@ RectTransform:
   m_AnchorMax: {x: .25, y: .25}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1680122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1015,6 +1015,18 @@ Prefab:
     - target: {fileID: 22484950, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_Pivot.y
       value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11414204, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 11498366, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 11427712, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
