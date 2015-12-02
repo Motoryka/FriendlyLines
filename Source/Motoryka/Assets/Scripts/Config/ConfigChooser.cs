@@ -17,13 +17,11 @@ public class ConfigChooser : MonoBehaviour {
 	public List<ConfigFile> ConfigFiles;
 	public GameObject configButton;
 	List<GameObject> ConfigButtons;
-	public Config config;
 	public GameObject canvas;
 	public GameObject editButton;
 	public GameObject removeButton;
 	public GameObject removePanel;
 	public GameObject blackImage;
-	private ConfigCreator cc;
 	public static string selectedConfigName = "";
 	public Transform ContentPanel;
 
@@ -99,20 +97,20 @@ public class ConfigChooser : MonoBehaviour {
 	{
 		switch(GameManager.Instance.GameConfig.Id){
 		case -3:
-			ChangeButtonColor("EasyLevelButton");
+			ChooseButton("EasyLevelButton");
 			break;
 		case -2:
-			ChangeButtonColor("MediumLevelButton");
+			ChooseButton("MediumLevelButton");
 			break;
 		case -1:
-			ChangeButtonColor("HardLevelButton");
+			ChooseButton("HardLevelButton");
 			break;
 		default:
 			break;
 		}
 	}
 
-	private void ChangeButtonColor(string buttonName)
+	private void ChooseButton(string buttonName)
 	{
 		Transform[] objs = canvas.GetComponentsInChildren<Transform>();
 		foreach(var o in objs){
@@ -195,6 +193,9 @@ public class ConfigChooser : MonoBehaviour {
 		if(button.animator != null){
 			button.animator.SetBool ("isChosen", true);
 		}
+		else{
+			button.image.color = PastelColorFactory.Mint.Color;
+		}
 	}
 
 	private void RemoveSelectionOnButton()
@@ -205,6 +206,9 @@ public class ConfigChooser : MonoBehaviour {
 			if(btn != null){
 				if (btn.animator != null){
 					btn.animator.SetBool ("isChosen", false);
+				}
+				else{
+					btn.image.color = Color.white;
 				}
 			}
 		}
@@ -233,8 +237,8 @@ public class ConfigChooser : MonoBehaviour {
 	}
 
 	public void AddConfig(){
-		Config config = ConfigFactory.CreateNewConfig();
-		GameManager.Instance.GameConfig = config;
+		GameManager.Instance.oldConfig = GameManager.Instance.GameConfig;
+		GameManager.Instance.GameConfig = ConfigFactory.CreateNewConfig();
 		GameManager.Instance.fader.LoadSceneFading("config");
 	}
 

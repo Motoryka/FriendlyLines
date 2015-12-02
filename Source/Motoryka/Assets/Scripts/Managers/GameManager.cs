@@ -30,6 +30,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     int _currentLevel;
     public Config _config = null;
+	public Config oldConfig = null;
     bool initialized = false;
 
     string sceneName = "level";

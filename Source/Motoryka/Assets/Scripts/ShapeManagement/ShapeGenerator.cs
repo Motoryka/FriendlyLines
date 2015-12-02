@@ -303,7 +303,7 @@ public class ShapeGenerator : MonoBehaviour
 
     public ShapeElement CreateEllipse()
     {
-        float radius = Random.Range(1f, 4f);
+        float radius = Random.Range(1.5f, 4f);
 
         float xFactor = 1f, yFactor = 1f;
         // 50% chance for squashing x or y coordinate to reduce its height

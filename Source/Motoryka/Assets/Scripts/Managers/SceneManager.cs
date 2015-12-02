@@ -93,11 +93,12 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     protected override void PreFinish()
     {
+        lineDrawer.StopDrawing();
+        lineDrawer.BlockDrawing = true;
         var result = analizer.GetResult(shape.Shape, userLines);
         Debug.Log("Prefinish");
         Debug.Log("Wynik: " + result.shapeCovering + " % " + result.errorRange + " %");
         GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = result });
-		lineDrawer.StopDrawing();
 
         shape.Shape.CollapseToPoint(Vector2.zero, collapsingTime);
         shape.StartPoint.CollapseToPoint(Vector2.zero, collapsingTime);
@@ -177,6 +178,8 @@ public class SceneManager : BaseLvlManager<SceneManager>
 
     public void OnStartDraw(Vector3 pos)
     {
+        if (lineDrawer.BlockDrawing)
+            return;
         drewThisRound = true;
         RegisterUserLine(inputHandler.lineDrawer.CurrentLine);
         if(RestartingCoroutine != null)
