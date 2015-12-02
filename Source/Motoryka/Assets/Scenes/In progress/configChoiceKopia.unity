@@ -978,19 +978,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22484950, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 225.900009
       objectReference: {fileID: 0}
     - target: {fileID: 22484950, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -35
       objectReference: {fileID: 0}
     - target: {fileID: 22484950, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 451.800018
       objectReference: {fileID: 0}
     - target: {fileID: 22484950, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 22484950, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_AnchorMin.x
@@ -998,7 +998,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22484950, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22484950, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_AnchorMax.x
@@ -1006,7 +1006,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22484950, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22484950, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_Pivot.x
@@ -1027,6 +1027,18 @@ Prefab:
     - target: {fileID: 11427712, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
       propertyPath: m_FontData.m_MaxSize
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 11443700, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
+      propertyPath: m_PreferredWidth
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11443700, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
+      propertyPath: m_PreferredHeight
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11443700, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
+      propertyPath: m_FlexibleWidth
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c0642e609c0a9404c89dbd00ffbed5da, type: 2}
