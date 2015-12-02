@@ -11,10 +11,13 @@ public class ResultScene : MonoBehaviour {
     public GameObject ShapeColorText;
     public GameObject LevelResultText;
     public GameObject LevelResultIncorrectText;
-    public GameObject StartPointToggle;
+//    public GameObject StartPointToggle;
     public GameObject DrawTimeoutText;
     public GameObject ResultText;
     public GameObject ResultIncorrectText;
+    public GameObject StartPointImg;
+    public Sprite checkYes;
+    public Sprite checkNo;
 
     private Result finalResult;
 
@@ -57,9 +60,12 @@ public class ResultScene : MonoBehaviour {
         ShapeColorText.GetComponent<Text>().text = currentLevel.shapeColor.Name;
 		LevelResultText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.shapeCovering + " %";
         LevelResultIncorrectText.GetComponent<Text>().text = GameManager.Instance.ResultsList.Find(x => x.levelNumber == currentLevelNumber).result.errorRange + " %";
-        StartPointToggle.GetComponent<Toggle>().isOn = GameManager.Instance.GameConfig.DrawStartPoint;
 		DrawTimeoutText.GetComponent<Text>().text = GameManager.Instance.GameConfig.WaitingTime.ToString();
         ResultText.GetComponent<Text>().text = this.finalResult.shapeCovering + " %";
         ResultIncorrectText.GetComponent<Text>().text = this.finalResult.errorRange + " %";
+        if (GameManager.Instance.GameConfig.DrawStartPoint)
+            StartPointImg.GetComponent<Image>().sprite = checkYes;
+        else
+            StartPointImg.GetComponent<Image>().sprite = checkNo;
     }
 }

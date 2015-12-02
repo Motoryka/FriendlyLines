@@ -603,10 +603,10 @@ RectTransform:
   - {fileID: 171525778}
   m_Father: {fileID: 1916187916}
   m_RootOrder: 3
-  m_AnchorMin: {x: .349999994, y: .36500001}
-  m_AnchorMax: {x: .649999976, y: .63499999}
-  m_AnchoredPosition: {x: 0, y: -2.61068344e-05}
-  m_SizeDelta: {x: 0, y: -5.24520874e-05}
+  m_AnchorMin: {x: .25, y: .300000012}
+  m_AnchorMax: {x: .75, y: .649999976}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &196020933
 MonoBehaviour:
@@ -911,11 +911,11 @@ RectTransform:
   - {fileID: 670108899}
   m_Father: {fileID: 1512969654}
   m_RootOrder: 1
-  m_AnchorMin: {x: 0, y: .5}
-  m_AnchorMax: {x: 0, y: .5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 30, y: 30}
-  m_Pivot: {x: .5, y: .5}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: .5}
 --- !u!114 &363132418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -938,7 +938,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 4844bb19097ad3e42bf92ba609e5c605, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1080,7 +1080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1958017647}
-  uiLevelManagerPrefab: {fileID: 126430, guid: 2e825fa4aa1fcd24eaa217d2b53872e5, type: 2}
+  uiLevelManagerPrefab: {fileID: 192706, guid: 03ac1ab48ae8cea4aa1a099c526e61a3, type: 2}
   configManager: {fileID: 168575861}
 --- !u!4 &533681796
 Transform:
@@ -1402,11 +1402,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 363132417}
   m_RootOrder: 0
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 30, y: 30}
-  m_Pivot: {x: .5, y: .5}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: .5}
 --- !u!114 &670108900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1429,7 +1429,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1590,7 +1590,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a54f2af393fef94d8c05f41ece5891b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startButton: {fileID: 0}
   optionButton: {fileID: 0}
 --- !u!212 &696818792
 SpriteRenderer:
@@ -1662,10 +1661,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 808026860}
   m_RootOrder: 1
-  m_AnchorMin: {x: 1, y: .5}
-  m_AnchorMax: {x: 1, y: .5}
-  m_AnchoredPosition: {x: -15, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_AnchorMin: {x: .699999988, y: .25}
+  m_AnchorMax: {x: 1, y: .75}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &736378274
 MonoBehaviour:
@@ -2139,8 +2138,8 @@ RectTransform:
   - {fileID: 591044833}
   m_Father: {fileID: 1916187916}
   m_RootOrder: 4
-  m_AnchorMin: {x: .349999994, y: .36500001}
-  m_AnchorMax: {x: .649999976, y: .63499999}
+  m_AnchorMin: {x: .25, y: .300000012}
+  m_AnchorMax: {x: .75, y: .649999976}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
@@ -2242,10 +2241,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 602081339}
   m_RootOrder: 1
-  m_AnchorMin: {x: 0, y: .5}
-  m_AnchorMax: {x: 0, y: .5}
-  m_AnchoredPosition: {x: 10, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_AnchorMin: {x: 0, y: .25}
+  m_AnchorMax: {x: .25, y: .75}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!1 &861926475
 GameObject:
@@ -2522,10 +2521,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 602081339}
   m_RootOrder: 2
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5, y: -.5}
-  m_SizeDelta: {x: -30, y: -3}
+  m_AnchorMin: {x: .25, y: .100000001}
+  m_AnchorMax: {x: 1, y: .899999976}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1074130546
 MonoBehaviour:
@@ -2552,11 +2551,11 @@ MonoBehaviour:
     m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
+    m_MinSize: 5
     m_MaxSize: 25
     m_Alignment: 3
-    m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_RichText: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Option A
@@ -2597,10 +2596,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 808026860}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -7.5, y: -.5}
-  m_SizeDelta: {x: -35, y: -13}
+  m_AnchorMin: {x: .100000001, y: .100000001}
+  m_AnchorMax: {x: .649999976, y: .899999976}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1145999079
 MonoBehaviour:
@@ -2627,11 +2626,11 @@ MonoBehaviour:
     m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 25
     m_Alignment: 3
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0 s
@@ -2881,10 +2880,10 @@ RectTransform:
   - {fileID: 363132417}
   m_Father: {fileID: 99524124}
   m_RootOrder: 0
-  m_AnchorMin: {x: .0500000007, y: 0}
-  m_AnchorMax: {x: .400000006, y: .400000006}
-  m_AnchoredPosition: {x: 8, y: 0}
-  m_SizeDelta: {x: -16, y: 0}
+  m_AnchorMin: {x: .0500000007, y: .0199999996}
+  m_AnchorMax: {x: .400000006, y: .379999995}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: 1}
 --- !u!114 &1512969655
 MonoBehaviour:
@@ -3273,10 +3272,10 @@ MonoBehaviour:
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
+    m_MinSize: 7
     m_MaxSize: 40
     m_Alignment: 4
-    m_RichText: 1
+    m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
@@ -3621,7 +3620,7 @@ MonoBehaviour:
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
+    m_MinSize: 5
     m_MaxSize: 40
     m_Alignment: 4
     m_RichText: 1
