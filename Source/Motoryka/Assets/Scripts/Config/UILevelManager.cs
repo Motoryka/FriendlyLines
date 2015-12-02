@@ -166,6 +166,7 @@ public class UILevelManager : MonoBehaviour {
 	
 	public void setKnobSize()
 	{
+//        LineStrokeSlider.handleRect.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0.6f+0.2f*LineStrokeSlider.value*(float)Screen.height, 0.6f + 0.2f * LineStrokeSlider.value * (float)Screen.height);
 		LineStrokeSlider.animator.SetInteger ("knobSize", (int)LineStrokeSlider.value);
 	}
 
