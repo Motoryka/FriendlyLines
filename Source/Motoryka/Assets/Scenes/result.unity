@@ -686,7 +686,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "b\u0142\u0119dne pokrycie:"
+  m_Text: "\u015Blad poza lini\u0105:"
 --- !u!222 &515204171
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -969,7 +969,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "b\u0142\u0119dne pokrycie:"
+  m_Text: "\u015Blad poza lini\u0105:"
 --- !u!222 &886212538
 CanvasRenderer:
   m_ObjectHideFlags: 0

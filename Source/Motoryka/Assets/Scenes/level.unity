@@ -1156,13 +1156,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animations:
   - {fileID: 9100000, guid: d96b43663db4d3d44a7a61a8274408e0, type: 2}
+  - {fileID: 9100000, guid: b21930e7c3f24e94f99f8bbc0862d8b9, type: 2}
   - {fileID: 9100000, guid: 9dccde304bafb36458e850ce8260a816, type: 2}
   - {fileID: 9100000, guid: 7515440be6d35434fb332bd9a40cec67, type: 2}
-  - {fileID: 9100000, guid: 6b59d3e90fa3fd0479a0bb77322b6467, type: 2}
-  - {fileID: 9100000, guid: bd3ae0a1b90bffd43960b04be59025d6, type: 2}
-  - {fileID: 9100000, guid: fb4cf6232378389448748b41d374bbed, type: 2}
   - {fileID: 9100000, guid: 96a8c83f6a47f9d4b93280d041d94c45, type: 2}
-  - {fileID: 9100000, guid: b21930e7c3f24e94f99f8bbc0862d8b9, type: 2}
+  - {fileID: 9100000, guid: fb4cf6232378389448748b41d374bbed, type: 2}
+  - {fileID: 9100000, guid: bd3ae0a1b90bffd43960b04be59025d6, type: 2}
+  - {fileID: 9100000, guid: 6b59d3e90fa3fd0479a0bb77322b6467, type: 2}
   - {fileID: 9100000, guid: 9ddfd8f9763a56c428ce14ace27f52e9, type: 2}
   inputHandler: {fileID: 0}
   lineDrawer: {fileID: 0}
