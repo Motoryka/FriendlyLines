@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 using LineManagement;
 using LineManagement.GLLines;
+
+using UnityEngine;
+using UnityEngine.UI;
 
 public class SceneManager : BaseLvlManager<SceneManager>
 {
@@ -81,14 +82,12 @@ public class SceneManager : BaseLvlManager<SceneManager>
         }
         else
 		{
-            shape = prevVertices;//sGen.CreateShape(prevVertices);
+            shape = prevVertices;
         }
 
 		this.levelNumberText.text = "Poziom " + GameManager.Instance.CurrentLevel + " / " + GameManager.Instance._config.NrOfLevels;
 
         drewThisRound = false;
-
-        //this.shape = this.sGen.CreateShape(this.sGen.CollapseShape(shape));
     }
 
     protected override void PreFinish()
@@ -122,8 +121,6 @@ public class SceneManager : BaseLvlManager<SceneManager>
         Debug.Log("Animation trigger is set");
     }
 
-
-
     public void RegisterUserLine(ILine line)
     {
         userLines.Add(line);
@@ -151,13 +148,12 @@ public class SceneManager : BaseLvlManager<SceneManager>
                 if (!isFinishing)
                     GameManager.Instance.levelFinishedSound.Play();
                 pauseButton.interactable = false;
-                //CurrentPhase = LevelPhase.Prefinished;
+
                 isFinishing = true;
                 StartCoroutine(PreFinishAfterTime(2f));
             }
             else
             {
-                //RestartLevel();
                 RestartingCoroutine = RestartAfterIdleTime(GameManager.Instance.GameConfig.WaitingTime);
                 StartCoroutine(RestartingCoroutine);
             }
@@ -169,7 +165,9 @@ public class SceneManager : BaseLvlManager<SceneManager>
         if (inputHandler.lineDrawer.IsDrawing && IsFinished())
         {
             if (!isFinishing)
+            {
                 GameManager.Instance.levelFinishedSound.Play();
+            }
             pauseButton.interactable = false;
             isFinishing = true;
             StartCoroutine(PreFinishAfterTime(1f));
@@ -242,7 +240,6 @@ public class SceneManager : BaseLvlManager<SceneManager>
             Result result = new Result(0,0);
             Debug.Log("Wynik: " + result.shapeCovering + " %");
             GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = result });
-
 
             GameManager.Instance.NextLevel();
         }

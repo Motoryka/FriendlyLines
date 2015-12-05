@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using UnityEngine;
 
 namespace LineManagement.LineRendererLines
 {
@@ -134,7 +134,6 @@ namespace LineManagement.LineRendererLines
             transform.parent = canvas;
         }
 
-
         public Color Color
         {
             get { return this._color; }
@@ -144,7 +143,6 @@ namespace LineManagement.LineRendererLines
         {
             return _vertices;
         }
-
 
         public List<Vector2> GetVertices2()
         {
@@ -157,7 +155,6 @@ namespace LineManagement.LineRendererLines
 
             return l;
         }
-
 
         public void Delete()
         {

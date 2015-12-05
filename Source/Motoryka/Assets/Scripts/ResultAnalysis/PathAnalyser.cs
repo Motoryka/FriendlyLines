@@ -1,29 +1,31 @@
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 using LineManagement;
 
-public enum AccuracyLevel {
+using UnityEngine;
+
+public enum AccuracyLevel 
+{
 	Easy,
 	Medium,
 	Hard
 }
 
-public struct LevelResult {
+public struct LevelResult 
+{
     public int levelNumber;
     public Result result;
 }
 
 public class PathAnalyser : MonoBehaviour, IAnalyser
 {
-	
 	private Dictionary<AccuracyLevel, float> levelMap = new Dictionary<AccuracyLevel, float> () 
 	{
 		{AccuracyLevel.Easy, 2.5f},
 		{AccuracyLevel.Medium, 2f},
 		{AccuracyLevel.Hard, 1.5f}
 	};
+
 	//Czy punkt startowy sie wyswietla
 	public bool IsStartDisplayed = true;
 
@@ -32,8 +34,8 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 
 	private Dictionary<Shape, IsStartCorrectFunc> shapeMap;
 
-	public PathAnalyser () {
-
+	public PathAnalyser ()
+    {
 		shapeMap = new Dictionary<Shape, IsStartCorrectFunc>
 		{
 			{ Shape.HorizontalLine, IsStartEqPoint },
@@ -45,43 +47,53 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 			{ Shape.Ellipse, IsStartEqShape },
 			{ Shape.Square, IsStartEqVertexes },
 			{ Shape.Rectangle, IsStartEqVertexes }
-
 		};
 	}
 
-	public PathAnalyser (AccuracyLevel level) {
+	public PathAnalyser (AccuracyLevel level)
+    {
 		this.level = level;
 	}
 
-	public void SetIsStartDisplayed(bool val) {
+	public void SetIsStartDisplayed(bool val)
+    {
 		this.IsStartDisplayed = val;
 	}
 
-	public void SetAccuracyLevel(AccuracyLevel lvl) {
+	public void SetAccuracyLevel(AccuracyLevel lvl)
+    {
 		this.level = lvl;
 	}
 	
-	public bool IsFinished(ILine generatedLine, List<ILine> userLines) {
-		
-		if (userLines == null || generatedLine == null || userLines.Count == 0)
-			return false;
+	public bool IsFinished(ILine generatedLine, List<ILine> userLines)
+    {
+	    if (userLines == null || generatedLine == null || userLines.Count == 0)
+	    {
+	        return false;
+	    }
 		
 		bool isChecked = false;
 		
 		List<Vector2> listG = FillVertexes (generatedLine.GetVertices2().ToArray ());
 
-		foreach (Vector2 checkpoint in listG) {
+		foreach (Vector2 checkpoint in listG) 
+        {
 			
-			foreach (ILine line in userLines) {
+			foreach (ILine line in userLines) 
+            {
 				isChecked = IsPointCovered (checkpoint, line);
-				
-				if (isChecked) 
-					break;
+
+                if (isChecked)
+                {
+                    break;
+                }
 			}
 			
-			if (!isChecked) {
+			if (!isChecked) 
+            {
 				return false;
 			}
+
 			isChecked = false;
 		}
 
@@ -99,6 +111,7 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
             {
                 return false;
             }
+
             isChecked = false;
         }
 		
@@ -121,6 +134,7 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
         {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -141,25 +155,32 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 	/*
 	 * Jaki procent linii narysowanej lezy poza ta wygenerowana.
 	 */
-	private float GetUserLineErrorCovering(ILine generatedLine, List<ILine> userLines) {
-		List<Vector2> listG = FillVertexes (generatedLine.GetVertices2().ToArray ());
+	private float GetUserLineErrorCovering(ILine generatedLine, List<ILine> userLines)
+    {
+		List<Vector2> listG = FillVertexes (generatedLine.GetVertices2().ToArray());
 		int correctPoints = 0;
 		int wrongPoints = 0;
 
-		foreach (ILine line in userLines) {
+		foreach (ILine line in userLines) 
+        {
             List<Vector2> listU = FillVertexes(line.GetVertices2().ToArray());
-			foreach (Vector2 point in listU) {
+			foreach (Vector2 point in listU) 
+            {
 				float min = GetMinDistance (listG.ToArray(), point);
-				if (min < generatedLine.GetSize () / 2 * levelMap [level]) {
+				if (min < generatedLine.GetSize () / 2 * levelMap [level]) 
+                {
 					correctPoints++;
-				} else {
+				} 
+                else 
+                {
 					wrongPoints++;
 				}
 			}
 		}
 
-		if (correctPoints + wrongPoints != 0) {
-            return ((wrongPoints * 100) / (correctPoints + wrongPoints));
+		if (correctPoints + wrongPoints != 0) 
+        {
+            return (wrongPoints * 100) / (correctPoints + wrongPoints);
 		}
 		
 		return 0;
@@ -168,30 +189,38 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 	/*
 	 * Jaki procent wygenerowanych wierzcholkow zostal pokryty.
 	 */
-	private float GetGenLineCovering (ILine generatedLine, List<ILine> userLines) {
-		List<Vector2> listG = FillVertexes (generatedLine.GetVertices2().ToArray ());
+	private float GetGenLineCovering (ILine generatedLine, List<ILine> userLines)
+    {
+		List<Vector2> listG = FillVertexes(generatedLine.GetVertices2().ToArray());
 		int correctCheckpoints = 0;
 		int wrongCheckpoints = 0;
 
-		foreach (Vector2 checkpoint in listG) {
+		foreach (Vector2 checkpoint in listG) 
+        {
 			bool correct = false;
 			
-			foreach (ILine line in userLines) {
+			foreach (ILine line in userLines) 
+            {
 				correct = IsPointCovered(checkpoint, line, true);
 				
-				if (correct) {
+				if (correct) 
+                {
 					break;
 				}
 			}
 			
-			if (correct) {
+			if (correct) 
+            {
 				correctCheckpoints++;
-			}else {
+			}
+            else 
+            {
 				wrongCheckpoints++;
 			}
 		}
 		
-		if (correctCheckpoints + wrongCheckpoints != 0) {
+		if (correctCheckpoints + wrongCheckpoints != 0) 
+        {
 			return (100 * correctCheckpoints) / (correctCheckpoints + wrongCheckpoints);
 		}
 		
@@ -201,14 +230,16 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 	/**
 	 * Uzupelnianie brakujacych wierzcholkow - gdy wygenerowane wierzcholki leza daleko od siebie.
 	 */
-	private List<Vector2> FillVertexes (Vector2[] listG) {
-		List<Vector2> result = new List<Vector2> ();
+	private List<Vector2> FillVertexes (Vector2[] listG) 
+    {
+		List<Vector2> result = new List<Vector2>();
 
-		for (int i = 0; i < listG.Length; i++) {
-
+		for (int i = 0; i < listG.Length; i++) 
+        {
 			result.Add(listG[i]);
 
-			if (i < listG.Length - 1) {
+			if (i < listG.Length - 1) 
+            {
 				result.AddRange (Fill (listG[i], listG[i+1]));
 			}
 		}
@@ -219,41 +250,39 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
     /**
      * Zwraca liste wierzcholkow wygenerowanych pomiedzy podanymi wierzcholkami.
      */
-	private List<Vector2> Fill (Vector2 first, Vector2 second) {
-		List<Vector2> result = new List<Vector2> ();
+	private List<Vector2> Fill (Vector2 first, Vector2 second)
+    {
+		List<Vector2> result = new List<Vector2>();
 
-		if (Vector2.Distance (first, second) < 0.1f) {
+		if (Vector2.Distance(first, second) < 0.1f)
+        {
 			return result;
 		}
 
-		Vector2 extraVector = new Vector2 (
+		Vector2 extraVector = new Vector2(
 			(first.x + second.x) / 2, 
 			(first.y + second.y) / 2
-		);
+            );
 
-		while(Vector2.Distance(extraVector, first) > 0.1f) {
-
-			result.Add (extraVector);
+		while(Vector2.Distance(extraVector, first) > 0.1f) 
+        {
+			result.Add(extraVector);
 
 			extraVector.Set(
 					(first.x + extraVector.x) / 2, 
 					(first.y + extraVector.y) / 2
-			);
-
+                    );
 		}
 
-		while(Vector2.Distance(extraVector, second) > 0.1f) {
-			
-			result.Add (extraVector);
+		while(Vector2.Distance(extraVector, second) > 0.1f)
+        {
+			result.Add(extraVector);
 			
 			extraVector.Set(
 				(second.x + extraVector.x) / 2, 
 				(second.y + extraVector.y) / 2
 				);
-			
 		}
-		//result.AddRange (Fill(first, extraVector));
-		//result.AddRange (Fill(extraVector, second));
 
 		return result;
 	}
@@ -261,17 +290,19 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 	/**
 	 * Get minimum distance from point to line.
 	 */
-	private float GetMinDistance (Vector2[] listG, Vector2 point) {
+	private float GetMinDistance (Vector2[] listG, Vector2 point)
+    {
 		float min = 100;
 		
-		for (int i = 0; i < listG.Length - 1; i++) {
+		for (int i = 0; i < listG.Length - 1; i++) 
+        {
 			//(x2 - x1)(y - y1) = (y2 - y1)(x - x1)
 			//u  = ((x2 - x1)(x - x1) + (y2 - y1)(y - y1)) / (x2 - x1)^2 + (y2 - y1)^2
 			
 			Vector2 p1 = listG [i];
 			Vector2 p2 = listG [i + 1];
 			
-			float U = ((p2.x - p1.x)*(point.x - p1.x) + (p2.y - p1.y)*(point.y - p1.y))/ 
+			float U = ((p2.x - p1.x)*(point.x - p1.x) + (p2.y - p1.y)*(point.y - p1.y)) /
 				(Mathf.Pow((p2.x - p1.x), 2) + Mathf.Pow(p2.y - p1.y, 2));
 			
 			//P3 - punkt przeciecia prostej
@@ -284,15 +315,21 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 			
 			float score = 0;
 			
-			if (U <= 0) {
+			if (U <= 0) 
+            {
 				score = Vector2.Distance(p1, point);
-			}else if (U > 0 && U < 1) {
+			}
+            else if (U > 0 && U < 1) 
+            {
 				score = Vector2.Distance(p3, point);
-			}else {
+			}
+            else 
+            {
 				score = Vector2.Distance(p2, point);
 			}
 			
-			if (min > score) {
+			if (min > score) 
+            {
 				min = score;
 			}
 		}
@@ -314,8 +351,10 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 			return IsStartEqShapes (point, userLines);
         }
 
-		if (IsStartDisplayed)
-			return IsStartEqPoint (vec, shape.Shape);
+        if (IsStartDisplayed)
+        {
+            return IsStartEqPoint (vec, shape.Shape);
+        }
 
 		return shapeMap[shape.Type](vec, shape.Shape);
 	}

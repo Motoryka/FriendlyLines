@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace LineManagement
 {
     public interface ILineDrawer
     {
-
         void SetColor(Color color);
         void StartDrawing();
         void Draw(Vector3 position);

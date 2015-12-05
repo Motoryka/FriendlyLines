@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+
 using System;
 using System.Collections.Generic;
 
@@ -21,15 +21,9 @@ namespace LineManagement
             if (isLineLR(typeof(T)))
             {
                 if (_linePrefab == null)
+                {
                     _linePrefab = (GameObject)Resources.Load(_linePrefabName);
-
-                /*  var newLineGameObject = ((GameObject)GameObject.Instantiate(_linePrefab, Vector3.zero, Quaternion.identity)).GetComponent<T>();
-
-                  if (canvas != null)
-                      newLineGameObject.Init(canvas.transform);
-
-                  newLine = newLineGameObject;
-                  newLine.SortingLayer = sortingLayer;*/
+                }
             }
             else if (isLineGL(typeof(T)))
             {
@@ -41,7 +35,9 @@ namespace LineManagement
             var newLineGameObject = ((GameObject)GameObject.Instantiate(_linePrefab, Vector3.zero, Quaternion.identity)).GetComponent<T>();
 
             if (canvas != null)
+            {
                 newLineGameObject.Init(canvas.transform);
+            }
 
             newLine = newLineGameObject;
             newLine.SortingLayer = sortingLayer;
@@ -89,12 +85,16 @@ namespace LineManagement
         public T Create(List<Vector2> vertices)
         {
             if (vertices.Count == 0)
+            {
                 return Create();
+            }
 
             T newLine = Create(vertices[0]);
 
             foreach (Vector2 v in vertices)
+            {
                 newLine.AddVertex(v);
+            }
 
             return newLine;
         }
@@ -108,7 +108,5 @@ namespace LineManagement
         {
             return t == typeof(LineManagement.GLLines.Line);
         }
-
     }
-
 }

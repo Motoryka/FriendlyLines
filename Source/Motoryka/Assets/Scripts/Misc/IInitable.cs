@@ -1,5 +1,4 @@
-﻿public interface IInitable  {
-
+﻿public interface IInitable  
+{
     void Initialize();
-
 }

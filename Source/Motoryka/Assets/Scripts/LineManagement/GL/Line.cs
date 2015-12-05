@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System.Collections.Generic;
+
+using UnityEngine;
 
 namespace LineManagement.GLLines
 {
@@ -120,29 +119,6 @@ namespace LineManagement.GLLines
                 Vector2 p1 = _verticesAdded[_verticesAdded.Count - 2];
                 Vector2 p2 = _verticesAdded[_verticesAdded.Count - 1];
 
-               /* Vector2 M = calculateM(p0, p1, p2);
-
-                Vector2 m1 = p1 + M;
-                Vector2 m2 = p1 - M;
-
-                int length = _triangleVertices.Count;
-
-                _triangleVertices[length - 1] = m2;
-                _triangleVertices[length - 2] = m1;
-                _triangleVertices[length - 4] = m1;
-
-
-                Vector2 line2 = (p2 - p1).normalized;
-                Vector2 line2N = new Vector2(-line2.y, line2.x);
-
-                _triangleVertices.Add(m1);
-                _triangleVertices.Add(m2);
-                _triangleVertices.Add(p2 + _thickness * line2N);
-
-                _triangleVertices.Add(m2);
-                _triangleVertices.Add(p2 - _thickness * line2N);
-                _triangleVertices.Add(p2 + _thickness * line2N);*/
-
                 _triangleVertices.AddRange(_generateRoundTrianglesForLines(p0, p1, p2));
             }
 
@@ -152,25 +128,7 @@ namespace LineManagement.GLLines
                 Vector2 p1 = _verticesAdded[0];
                 Vector2 p2 = _verticesAdded[_verticesAdded.Count - 2];
 
-
                 _triangleVertices.AddRange(_genJointCircle(p0, p1, p2));
-
-                /*Vector2 M = calculateM(p0, p1, p2);
-
-                Vector2 m1 = p1 + M;
-                Vector2 m2 = p1 - M;
-
-                _triangleVertices[0] = m2;
-                _triangleVertices[1] = m1;
-                _triangleVertices[3] = m1;
-
-                int length = _triangleVertices.Count;
-
-                _triangleVertices[length - 1] = m1;
-                _triangleVertices[length - 2] = m2;
-                _triangleVertices[length - 4] = m2;*/
-
-
             }
         }
 
@@ -181,7 +139,6 @@ namespace LineManagement.GLLines
             Vector2 line2 = (p2 - p1).normalized;
 
             Vector2 n2 = new Vector2(-line2.y, line2.x).normalized;
-
 
             triangles.AddRange(_genJointCircle(p0,p1,p2));
 
@@ -261,7 +218,6 @@ namespace LineManagement.GLLines
             UpdateColor();
             UpdateVertices();
 
-
 			if(isCollapsing)
 			{
 				_collapseVertices();
@@ -322,7 +278,6 @@ namespace LineManagement.GLLines
             {
                 _addVertex(_vertices[_verticesAdded.Count]);
             }
-
         }
 
         public void OnRenderObject()
@@ -330,7 +285,6 @@ namespace LineManagement.GLLines
             UpdateThickness();
             UpdateColor();
             
-
             GraphicsProvider.DrawTriangles(transform, _color, _defaultZ, _triangleVertices);
 
             if (_verticesAdded.Count > 0 && (_verticesAdded[0] != _verticesAdded[_verticesAdded.Count - 1] || _verticesAdded.Count == 1))
@@ -377,14 +331,6 @@ namespace LineManagement.GLLines
             }
         }
 
-        
-
-        /*Color nextColor()
-        {
-            curColor = (curColor + 1) % colors.Count;
-            return colors[curColor];
-        }*/
-
         public string SortingLayer
         {
             get
@@ -429,8 +375,6 @@ namespace LineManagement.GLLines
         public void AddVertex(Vector2 pos)
         {
             _vertices.Add(pos);
-
-            //_addVertex(pos);
         }
 
         public void AddVertex(Vector3 pos)
@@ -450,12 +394,10 @@ namespace LineManagement.GLLines
             return l;
         }
 
-
         public List<Vector2> GetVertices2()
         {
             return _vertices;
         }
-
 
         public void Delete()
         {
@@ -574,5 +516,4 @@ namespace LineManagement.GLLines
             return bounds;
         }
     }
-
 }

@@ -10,8 +10,8 @@ PlayerSettings:
   targetResolution: 0
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: "Politechnika Gda\u0144ska"
-  productName: Wodne Szlaczki
+  companyName: Politechnika Gdanska
+  productName: Przyjazne linie
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_ShowUnitySplashScreen: 1
@@ -85,7 +85,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: pl.gda.pg.eti.fms
+  bundleIdentifier: pl.edu.pg.eti.fms
   bundleVersion: 1.0
   preloadedAssets: []
   metroEnableIndependentInputSource: 0

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using LineManagement;
 
 public enum LevelPhase
 {
@@ -19,15 +18,17 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
     bool _finishing = false;
     
     protected ShapeElement shape;
+
     public virtual void Init()
     {
-
     }
 
     public void Initialize()
     {
         if (!initialized)
+        {
             Init();
+        }
 
         initialized = true;
     }
@@ -96,22 +97,18 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
 
     protected virtual void PreStart()
     {
-
     }
 
     protected virtual void PostStart()
     {
-
     }
 
     protected virtual void PreFinish()
     {
-
     }
 
     protected virtual void PostFinish() 
     {
-
     }
 
     private void _PreStart()
@@ -123,7 +120,6 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
     {
         PostStart();
         GameManager.Instance.SendMessage("StartedLevel"); //.StartedLevel();
-
     }
 
     private void _PreFinish()
@@ -152,4 +148,3 @@ public abstract class BaseLvlManager<T> : Singleton<T>, IInitable where T : Mono
         }
     }
 }
-
