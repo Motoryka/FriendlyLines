@@ -10,7 +10,7 @@ PlayerSettings:
   targetResolution: 0
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: "Politechnika Gda\u0144ska"
+  companyName: Politechnika Gdanska
   productName: Przyjazne linie
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
