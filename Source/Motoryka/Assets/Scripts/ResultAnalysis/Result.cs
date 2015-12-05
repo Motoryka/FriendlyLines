@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System;
-
-public class Result
+﻿public class Result
 {
     public int shapeCovering {get; set;}
     public int errorRange { get; set; }

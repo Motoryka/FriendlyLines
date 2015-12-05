@@ -1,10 +1,28 @@
-﻿using UnityEngine;
+﻿/**********************************************************************
+Copyright (C) 2015  Wojciech Nadurski
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+**********************************************************************/
+
 using System.Collections;
-using UnityEngine.UI;
 using System.Collections.Generic;
 
 using LineManagement;
 using LineManagement.GLLines;
+
+using UnityEngine;
+using UnityEngine.UI;
 
 public class SceneManager : BaseLvlManager<SceneManager>
 {
@@ -81,14 +99,12 @@ public class SceneManager : BaseLvlManager<SceneManager>
         }
         else
 		{
-            shape = prevVertices;//sGen.CreateShape(prevVertices);
+            shape = prevVertices;
         }
 
 		this.levelNumberText.text = "Poziom " + GameManager.Instance.CurrentLevel + " / " + GameManager.Instance._config.NrOfLevels;
 
         drewThisRound = false;
-
-        //this.shape = this.sGen.CreateShape(this.sGen.CollapseShape(shape));
     }
 
     protected override void PreFinish()
@@ -122,8 +138,6 @@ public class SceneManager : BaseLvlManager<SceneManager>
         Debug.Log("Animation trigger is set");
     }
 
-
-
     public void RegisterUserLine(ILine line)
     {
         userLines.Add(line);
@@ -151,13 +165,12 @@ public class SceneManager : BaseLvlManager<SceneManager>
                 if (!isFinishing)
                     GameManager.Instance.levelFinishedSound.Play();
                 pauseButton.interactable = false;
-                //CurrentPhase = LevelPhase.Prefinished;
+
                 isFinishing = true;
                 StartCoroutine(PreFinishAfterTime(2f));
             }
             else
             {
-                //RestartLevel();
                 RestartingCoroutine = RestartAfterIdleTime(GameManager.Instance.GameConfig.WaitingTime);
                 StartCoroutine(RestartingCoroutine);
             }
@@ -169,7 +182,9 @@ public class SceneManager : BaseLvlManager<SceneManager>
         if (inputHandler.lineDrawer.IsDrawing && IsFinished())
         {
             if (!isFinishing)
+            {
                 GameManager.Instance.levelFinishedSound.Play();
+            }
             pauseButton.interactable = false;
             isFinishing = true;
             StartCoroutine(PreFinishAfterTime(1f));
@@ -242,7 +257,6 @@ public class SceneManager : BaseLvlManager<SceneManager>
             Result result = new Result(0,0);
             Debug.Log("Wynik: " + result.shapeCovering + " %");
             GameManager.Instance.ResultsList.Add(new LevelResult { levelNumber = GameManager.Instance.CurrentLevel, result = result });
-
 
             GameManager.Instance.NextLevel();
         }
