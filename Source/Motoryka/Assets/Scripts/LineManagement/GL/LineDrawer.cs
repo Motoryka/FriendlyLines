@@ -1,10 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace LineManagement.GLLines
+﻿namespace LineManagement.GLLines
 {
     public class LineDrawer : LineDrawer<Line>
     {
-
     }
 }

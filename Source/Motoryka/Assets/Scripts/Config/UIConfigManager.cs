@@ -1,10 +1,12 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Xml;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Xml;
+
+using UnityEngine;
 using UnityEngine.UI;
 
-public class UIConfigManager : MonoBehaviour {
+public class UIConfigManager : MonoBehaviour 
+{
     public ConfigCreator creator;
     public Toggle ShowStartPointToggle;
     public InputField ConfigNameInputField;
@@ -15,23 +17,26 @@ public class UIConfigManager : MonoBehaviour {
 	private GameObject BlackImage;
 	private int configReplaceId;
 
-    Config config;
+    private Config config;
 
     public void SaveConfig()
     {
-		if(ConfigNameInputField.text == ""){
+		if(ConfigNameInputField.text == "")
+        {
 			EmptyNamePanel.SetActive(true);
 			SetInteractableOfAllSceneObjects(false);
 			BlackImage.SetActive(true);
 			return;
 		}
 		configReplaceId = DoesConfigNameExist(config.Name);
-		if(configReplaceId != -1){
+		if(configReplaceId != -1)
+        {
 			CannotSavePanel.SetActive(true);
 			SetInteractableOfAllSceneObjects(false);
 			BlackImage.SetActive(true);
 		}
-		else{
+		else
+        {
         	creator.SendMessage("SaveConfig");
 		}
     }
@@ -69,7 +74,7 @@ public class UIConfigManager : MonoBehaviour {
 
 	private void SetInteractableOfAllSceneObjects(bool b)
 	{
-		GameObject canvas = GameObject.Find ("Canvas");
+		GameObject canvas = GameObject.Find("Canvas");
 		foreach(var button in canvas.GetComponentsInChildren<Button>()){
 			button.interactable = b;
 		}
@@ -130,22 +135,21 @@ public class UIConfigManager : MonoBehaviour {
             index++;
         }
     }
+
 	// Use this for initialization
-	void Start () {
-	
+	void Start() {
 	}
 
 	private int DoesConfigNameExist(string name)
 	{
 		List<KeyValuePair<int, string>> ConfigIdAndName = new List<KeyValuePair<int, string>>();
-		List<string> configNames = new List<string>();
 		string[] configFiles = Directory.GetFiles(Application.persistentDataPath + "/configs/");
 		foreach(var file in configFiles)
 		{
 			int cid = -1;
 			string cname = "";
 			XmlTextReader reader = new XmlTextReader(file);
-			while(reader.Read ())
+			while(reader.Read())
 			{
 				reader.MoveToContent();
 				if(reader.NodeType == XmlNodeType.Element && reader.Name == "Id")
@@ -155,20 +159,24 @@ public class UIConfigManager : MonoBehaviour {
 					int.TryParse(reader.Value, out id);
 					cid = id;
 				}
+
 				if(reader.NodeType == XmlNodeType.Element && reader.Name == "Name")
 				{
 					reader.Read();
 					cname = reader.Value;
 				}
+
 				if(cid != -1 && cname != "")
 				{
 					ConfigIdAndName.Add(new KeyValuePair<int, string>(cid, cname));
 					break;
 				}
 			}
+
 			reader.Close();
 		}
-		int configId =  ConfigIdAndName.Find (x => x.Value == name).Key;
+
+		int configId = ConfigIdAndName.Find (x => x.Value == name).Key;
 		if(configId != 0)
 		{
 			return configId;

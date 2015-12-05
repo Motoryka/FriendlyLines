@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ConfigFile 
@@ -12,8 +12,8 @@ public class ConfigFile
 	public int NrOfLevels;
 }
 
-public class ConfigChooser : MonoBehaviour {
-	
+public class ConfigChooser : MonoBehaviour 
+{
 	public List<ConfigFile> ConfigFiles;
 	public GameObject configButton;
 	List<GameObject> ConfigButtons;
@@ -26,49 +26,62 @@ public class ConfigChooser : MonoBehaviour {
 	public Transform ContentPanel;
 
 	// Use this for initialization
-	void Start () {
-		Init ();
+	void Start()
+    {
+		Init();
 
-		removePanel = GameObject.Find ("RemovePanel");
-		removePanel.SetActive(false);
-		blackImage = GameObject.Find ("BlackImage");
-		blackImage.SetActive(false);
+		this.removePanel = GameObject.Find("RemovePanel");
+        this.removePanel.SetActive(false);
+        this.blackImage = GameObject.Find("BlackImage");
+        this.blackImage.SetActive(false);
 	}
 
 	private void Init()
 	{
-		ConfigFiles = new List<ConfigFile>();
-		ConfigButtons = new List<GameObject>();
-		SetSelection();
-		StoreAllConfigs();
-		CreateConfigButtons();
-		if(selectedConfigName != "") ShowButtons();
-		else HideButtons();
+        this.ConfigFiles = new List<ConfigFile>();
+        this.ConfigButtons = new List<GameObject>();
+        this.SetSelection();
+        this.StoreAllConfigs();
+        this.CreateConfigButtons();
+	    if (selectedConfigName != "")
+	    {
+	        this.ShowButtons();
+	    }
+        else this.HideButtons();
 	}
 
 	private void SetInteractableOfAllSceneObjects(bool b)
 	{
-		GameObject canvas = GameObject.Find ("Canvas");
-		foreach(var button in canvas.GetComponentsInChildren<Button>()){
+		GameObject canvas = GameObject.Find("Canvas");
+		foreach(var button in canvas.GetComponentsInChildren<Button>())
+        {
 			button.interactable = b;
 		}
-		foreach(var input in canvas.GetComponentsInChildren<InputField>()){
+
+		foreach(var input in canvas.GetComponentsInChildren<InputField>())
+        {
 			input.interactable = b;
 		}
-		foreach(var toggle in canvas.GetComponentsInChildren<Toggle>()){
+
+		foreach(var toggle in canvas.GetComponentsInChildren<Toggle>())
+        {
 			toggle.interactable = b;
 		}
-		foreach(var dropdown in canvas.GetComponentsInChildren<Dropdown>()){
+
+		foreach(var dropdown in canvas.GetComponentsInChildren<Dropdown>())
+        {
 			dropdown.interactable = b;
 		}
-		foreach(var slider in canvas.GetComponentsInChildren<Slider>()){
+
+		foreach(var slider in canvas.GetComponentsInChildren<Slider>())
+        {
 			slider.interactable = b;
 		}
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update() 
+    {
 	}
 
 	public void BackToTitle()
@@ -95,29 +108,32 @@ public class ConfigChooser : MonoBehaviour {
 
 	private void SetSelection()
 	{
-		switch(GameManager.Instance.GameConfig.Id){
+		switch(GameManager.Instance.GameConfig.Id)
+        {
 		case -3:
-			ChooseButton("EasyLevelButton");
+			this.ChooseButton("EasyLevelButton");
 			break;
 		case -2:
-			ChooseButton("MediumLevelButton");
+            this.ChooseButton("MediumLevelButton");
 			break;
 		case -1:
-			ChooseButton("HardLevelButton");
-			break;
-		default:
+            this.ChooseButton("HardLevelButton");
 			break;
 		}
 	}
 
 	private void ChooseButton(string buttonName)
 	{
-		Transform[] objs = canvas.GetComponentsInChildren<Transform>();
-		foreach(var o in objs){
+        Transform[] objs = this.canvas.GetComponentsInChildren<Transform>();
+		foreach(var o in objs)
+        {
 			var btn = o.transform.GetComponent<Button>();
-			if(btn != null){
-				if(btn.name == buttonName){
-					if(btn.animator != null){
+			if(btn != null)
+            {
+				if(btn.name == buttonName)
+                {
+					if(btn.animator != null)
+                    {
 						btn.animator.SetBool("isChosen", true);
 					}
 				}
@@ -125,7 +141,7 @@ public class ConfigChooser : MonoBehaviour {
 		}
 	}
 
-	public void StoreAllConfigs()
+    private void StoreAllConfigs()
 	{
 		string[] configFiles = Directory.GetFiles(Application.persistentDataPath + "/configs/");
 		foreach(var file in configFiles)
@@ -133,7 +149,7 @@ public class ConfigChooser : MonoBehaviour {
 			string name = "";
 			int nrOfLevels = 0;
 			XmlTextReader reader = new XmlTextReader(file);
-			while(reader.Read ())
+			while(reader.Read())
 			{
 				reader.MoveToContent();
 				if(reader.NodeType == XmlNodeType.Element && reader.Name == "Name")
@@ -141,6 +157,7 @@ public class ConfigChooser : MonoBehaviour {
 					reader.Read();
 					name = reader.Value;
 				}
+
 				if(reader.NodeType == XmlNodeType.Element && reader.Name == "NrOfLevels")
 				{
 					reader.Read();
@@ -148,12 +165,14 @@ public class ConfigChooser : MonoBehaviour {
 					int.TryParse(reader.Value, out intp);
 					nrOfLevels = intp;
 				}
+
 				if(name != "" && nrOfLevels != 0)
 				{
 					this.ConfigFiles.Add(new ConfigFile { Path = file, Name = name, NrOfLevels = nrOfLevels });
 					break;
 				}
 			}
+
 			reader.Close();
 		}
 	}
@@ -170,60 +189,67 @@ public class ConfigChooser : MonoBehaviour {
 	{
 		selectedConfigName = "";
 		GameManager.Instance.GameConfig = ConfigFactory.CreateEasyLevel();
-		HideButtons ();
+        this.HideButtons();
 	}
 
 	public void MediumLevelChoose()
 	{
 		selectedConfigName = "";
 		GameManager.Instance.GameConfig = ConfigFactory.CreateMediumLevel();
-		HideButtons ();
+        this.HideButtons();
 	}
 
 	public void HardLevelChoose()
 	{
 		selectedConfigName = "";
 		GameManager.Instance.GameConfig = ConfigFactory.CreateHardLevel();
-		HideButtons ();
+        this.HideButtons();
 	}
 
 	public void ChooseSelectedButton(Button button)
 	{
-		RemoveSelectionOnButton();
-		if(button.animator != null){
-			button.animator.SetBool ("isChosen", true);
+        this.RemoveSelectionOnButton();
+		if(button.animator != null)
+        {
+			button.animator.SetBool("isChosen", true);
 		}
-		else{
+		else
+        {
 			button.image.color = PastelColorFactory.Mint.Color;
 		}
 	}
 
 	private void RemoveSelectionOnButton()
 	{
-		Transform[] objs = canvas.GetComponentsInChildren<Transform>();
-		foreach(var o in objs){
+        Transform[] objs = this.canvas.GetComponentsInChildren<Transform>();
+		foreach(var o in objs)
+        {
 			var btn = o.transform.GetComponent<Button>();
-			if(btn != null){
-				if (btn.animator != null){
-					btn.animator.SetBool ("isChosen", false);
+			if(btn != null)
+            {
+				if(btn.animator != null)
+                {
+					btn.animator.SetBool("isChosen", false);
 				}
-				else{
+				else
+                {
 					btn.image.color = Color.white;
 				}
 			}
 		}
 	}
 
-	public void CreateConfigButtons()
+    private void CreateConfigButtons()
 	{
 		int i = 0;
 		foreach(var cf in this.ConfigFiles)
 		{
-			GameObject o = Instantiate<GameObject>(configButton);
+            GameObject o = Instantiate<GameObject>(this.configButton);
 			o.transform.SetParent(ContentPanel);
 			Text cn = o.GetComponentInChildren<Transform>().Find("configName").gameObject.GetComponent<Text>();
 			cn.text = cf.Name;
-			if(cf.Name == selectedConfigName){
+			if(cf.Name == selectedConfigName)
+            {
 				o.GetComponent<Button>().image.color = PastelColorFactory.Mint.Color;
 			}
 			Text cnof = o.GetComponentInChildren<Transform>().Find("numberOfLevels").gameObject.GetComponent<Text>();
@@ -231,12 +257,13 @@ public class ConfigChooser : MonoBehaviour {
 			o.GetComponent<Button>().onClick.AddListener(() => this.GetConfig(cn.text));
 			o.GetComponent<Button>().onClick.AddListener(() => this.ChooseSelectedButton(o.GetComponent<Button>()));
 			o.GetComponent<Button>().onClick.AddListener(() => this.ShowButtons());
-			ConfigButtons.Add(o);
+            this.ConfigButtons.Add(o);
 			i++;
 		}
 	}
 
-	public void AddConfig(){
+	public void AddConfig()
+    {
 		GameManager.Instance.oldConfig = GameManager.Instance.GameConfig;
 		GameManager.Instance.GameConfig = ConfigFactory.CreateNewConfig();
 		GameManager.Instance.fader.LoadSceneFading("config");
@@ -244,9 +271,9 @@ public class ConfigChooser : MonoBehaviour {
 
 	public void RemoveConfig()
 	{
-		removePanel.SetActive(true);
-		SetInteractableOfAllSceneObjects(false);
-		blackImage.SetActive(true);
+        this.removePanel.SetActive(true);
+        this.SetInteractableOfAllSceneObjects(false);
+        this.blackImage.SetActive(true);
 	}
 
 	public void RemoveForSure()
@@ -255,39 +282,49 @@ public class ConfigChooser : MonoBehaviour {
 		string path = configFileToRemove.Path;
 		this.ConfigFiles.Remove (configFileToRemove);
 		bool removed = false;
-		foreach(var cb in ConfigButtons)
+        foreach (var cb in this.ConfigButtons)
 		{
 			Text[] texts = cb.GetComponent<Button>().GetComponentsInChildren<Text>();
-			foreach(var t in texts){
-				if(t.name == "configName"){
-					if(t.text == selectedConfigName){
-						this.ConfigButtons.Remove (cb);
+			foreach(var t in texts)
+            {
+				if(t.name == "configName")
+                {
+					if(t.text == selectedConfigName)
+                    {
+						this.ConfigButtons.Remove(cb);
 						GameObject.DestroyImmediate(cb);
 						removed = true;
 						break;
 					}
+
 					break;
 				}
 			}
-			if(removed) break;
+
+		    if (removed)
+		    {
+		        break;
+		    }
 		}
-		if(removed && path != null){
-			if(File.Exists(path)){
+		if(removed && path != null)
+        {
+			if(File.Exists(path))
+            {
 				File.Delete(path);
-				EasyLevelChoose();
-				SetSelection();
+                this.EasyLevelChoose();
+                this.SetSelection();
 			}
 		}
 
-		removePanel.SetActive(false);
-		SetInteractableOfAllSceneObjects(true);
-		blackImage.SetActive(false);
+        this.removePanel.SetActive(false);
+        this.SetInteractableOfAllSceneObjects(true);
+        this.blackImage.SetActive(false);
 	}
 
 	public void CancelRemoving()
 	{
-		removePanel.SetActive(false);
-		SetInteractableOfAllSceneObjects(true);
-		blackImage.SetActive(false);
+        this.removePanel.SetActive(false);
+        this.SetInteractableOfAllSceneObjects(true);
+        this.blackImage.SetActive(false);
 	}
 }

@@ -1,21 +1,23 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
-public class SpriteAdjust : MonoBehaviour {
-
+public class SpriteAdjust : MonoBehaviour
+{
 	public Button optionButton;
 
 	// Use this for initialization
-	void Start () {
+	void Start() 
+    {
 		SetBackground ();
 	}
 
 	void SetBackground()
 	{
 		SpriteRenderer renderer=GetComponent<SpriteRenderer>();
-		if(renderer==null)
-			return;
+	    if (renderer == null)
+	    {
+	        return;
+	    }
 		
 		transform.localScale=new Vector3(1,1,1);
 		

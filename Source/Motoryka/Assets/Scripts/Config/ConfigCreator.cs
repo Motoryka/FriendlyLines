@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
-public class ConfigCreator : MonoBehaviour {
+using UnityEngine;
+
+public class ConfigCreator : MonoBehaviour
+{
 	public delegate void LevelAddHandler(int atIndex);
 	public event LevelAddHandler LevelAdded;
 
@@ -16,69 +17,67 @@ public class ConfigCreator : MonoBehaviour {
     public UIConfigManager configManager;
 
     public Config config;
-    List<UILevelManager> _levelManagers;
-    int activeLevelManager;
+    private List<UILevelManager> _levelManagers;
+    private int activeLevelManager;
 
-    Vector3 previousPoint = new Vector3(-Screen.width, 0f, 0f);
-    //Vector3 activePoint = Vector3.zero;
-    Vector3 nextPoint = new Vector3(Screen.width, 0f, 0f);
+    private Vector3 previousPoint = new Vector3(-Screen.width, 0f, 0f);
+    private Vector3 nextPoint = new Vector3(Screen.width, 0f, 0f);
 
 	public T GetUIElement<T>(string name)
 	{
-		var go = GameObject.Find (name);
+		var go = GameObject.Find(name);
 		var element = go.GetComponent<T>();
-		return (T) element;
+		return (T)element;
 	}
 
 	// Use this for initialization
-	void Start () {
-        activeLevelManager = 0;
+	void Start () 
+    {
+        this.activeLevelManager = 0;
         var gconfig = GameManager.Instance.GameConfig;
 
-        config = gconfig.Copy();
+        this.config = gconfig.Copy();
 
-        _levelManagers = new List<UILevelManager>();
+        this._levelManagers = new List<UILevelManager>();
         int i = 0;
 
-        configManager.Init(config);
+        this.configManager.Init(this.config);
 
-        foreach(LevelConfig l in config.Levels)
+        foreach (LevelConfig l in this.config.Levels)
         {
-            _levelManagers.Add( InstantiateLevelManager(l, i) );
+            this._levelManagers.Add(InstantiateLevelManager(l, i));
             i++;
         }
-
-
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update()
+    {
 	}
 
     UILevelManager InstantiateLevelManager(LevelConfig l, int i)
     {
         GameObject o = Instantiate<GameObject>(uiLevelManagerPrefab);
-        o.GetComponent<RectTransform>().SetParent(canvas.GetComponent<RectTransform>(), false);
+        o.GetComponent<RectTransform>().SetParent(this.canvas.GetComponent<RectTransform>(), false);
 
-        SetPosition(o, i);
+        this.SetPosition(o, i);
 
         UILevelManager mng = o.GetComponent<UILevelManager>();
 
-        mng.Init(this, l, i, config.Levels.Count - 1);
+        mng.Init(this, l, i, this.config.Levels.Count - 1);
 
         return mng;
     }
 
     public void SetPosition(GameObject o, int i)
     {
-        o.transform.localPosition = nextPoint * (i - activeLevelManager);
-        SetStayingPosition(o.GetComponent<UILevelManager>(), i);
+        o.transform.localPosition = this.nextPoint * (i - this.activeLevelManager);
+        this.SetStayingPosition(o.GetComponent<UILevelManager>(), i);
     }
 
-    void SetStayingPosition(UILevelManager o, int i)
+    private void SetStayingPosition(UILevelManager o, int i)
     {
-        o.GetComponent<UILevelManager>().StayingPoint = nextPoint * (i - activeLevelManager);
+        o.GetComponent<UILevelManager>().StayingPoint = this.nextPoint * (i - this.activeLevelManager);
     }
 
     public void AddLevel(int pos)
@@ -169,11 +168,8 @@ public class ConfigCreator : MonoBehaviour {
             {
                 mng.MoveToPoint(mng.StayingPoint + previousPoint);
             }
+
             activeLevelManager++;
-        /*
-            _levelManagers[activeLevelManager].MoveToPoint(previousPoint);
-            activeLevelManager++;
-            _levelManagers[activeLevelManager].MoveToPoint(activePoint);*/
         }
     }
 
@@ -186,10 +182,6 @@ public class ConfigCreator : MonoBehaviour {
                 mng.MoveToPoint(mng.StayingPoint + nextPoint);
             }
             activeLevelManager--;
-            /*
-            _levelManagers[activeLevelManager].MoveToPoint(nextPoint);
-            activeLevelManager--;
-            _levelManagers[activeLevelManager].MoveToPoint(activePoint);*/
         }
     }
 
@@ -214,12 +206,15 @@ public class ConfigCreator : MonoBehaviour {
 
     public void Cancel()
     {
-		if(GameManager.Instance.oldConfig != null){
+		if(GameManager.Instance.oldConfig != null)
+        {
 			GameManager.Instance.GameConfig = GameManager.Instance.oldConfig;
 		}
-		else{
+		else
+        {
 			GameManager.Instance.GameConfig = ConfigFactory.CreateEasyLevel();
 		}
+
         GameManager.Instance.fader.LoadSceneFading("configChoice");
     }
 
@@ -231,7 +226,7 @@ public class ConfigCreator : MonoBehaviour {
 		{
 			int id = 0;
 			XmlTextReader reader = new XmlTextReader(file);
-			while(reader.Read ())
+			while(reader.Read())
 			{
 				reader.MoveToContent();
 				if(reader.NodeType == XmlNodeType.Element && reader.Name == "Id")
@@ -242,16 +237,21 @@ public class ConfigCreator : MonoBehaviour {
 					break;
 				}
 			}
+
 			reader.Close();
 		}
 
-		ids.Sort((a,b) => a.CompareTo(b));
+		ids.Sort((a, b) => a.CompareTo(b));
 		int minId = 0;
-		while(true){
+		while(true)
+        {
 			minId++;
-			if(ids.IndexOf(minId) == -1)
-				return minId;
-		}
+            if (ids.IndexOf(minId) == -1)
+            {
+                return minId;
+            }
+        }
+
 		return ++minId;
 	}
 

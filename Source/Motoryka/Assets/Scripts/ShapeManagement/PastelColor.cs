@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 using UnityEngine;
 
@@ -9,7 +8,8 @@ public class PastelColor
 
     public Color Color { get; set; }
 
-	public PastelColor(){
+	public PastelColor()
+    {
 	}
 
     public PastelColor(string name, Color color)
@@ -34,7 +34,7 @@ public class PastelColorFactory
         Red = AddColorToList("Czerwony", new Color(1f, 0.412f, 0.38f));
         Green = AddColorToList("Zielony", new Color(0.467f, 0.867f, 0.467f));
         Blue = AddColorToList("Niebieski", new Color(0.682f, 0.776f, 0.812f));
-        Yellow = AddColorToList("Żółty", new Color(0.992f, 0.992f, 0.588f));
+        Yellow = AddColorToList("Żółty", new Color(0.92f, 0.92f, 0.588f));
         Pink = AddColorToList("Różowy", new Color(1f, 0.82f, 0.863f));
         Orange = AddColorToList("Pomarańczowy", new Color(1f, 0.702f, 0.278f));
         Purple = AddColorToList("Fioletowy", new Color(0.392f, 0.078f, 0.392f));
@@ -47,8 +47,10 @@ public class PastelColorFactory
         DarkGray = AddColorToList("Ciemny szary", new Color(0.4f, 0.4f, 0.4f));
     }
 
-    public static PastelColor RandomColor { 
-		get {
+    public static PastelColor RandomColor 
+    { 
+		get 
+        {
 			PastelColor color;
 			do{	color = colorList[Random.Range(0, colorList.Count - 1)]; }
 			while(color.Name == "Czarny");
@@ -57,7 +59,8 @@ public class PastelColorFactory
 		} 
 	}
 
-	public static PastelColor RandomColorWithExclude(PastelColor exclude){
+	public static PastelColor RandomColorWithExclude(PastelColor exclude)
+    {
 		PastelColor color;
 		do{	color = colorList[Random.Range(0, colorList.Count - 1)]; }
 		while(color.Name == "Czarny" || color == exclude);
@@ -114,6 +117,6 @@ public class PastelColorFactory
                 return pc;
         }
 
-        return PastelColorFactory.Black;
+        return Black;
     }
 }

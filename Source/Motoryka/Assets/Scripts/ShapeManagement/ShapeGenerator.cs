@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using LineManagement;
+
 using LineManagement.GLLines;
+
+using UnityEngine;
 
 public enum Shape
 {
@@ -249,7 +250,8 @@ public class ShapeGenerator : MonoBehaviour
         do
         {
             startPoint = GetRandomPointFromActiveArea();
-        } while (startPoint.x > -1f || (startPoint.y < 2f && startPoint.y > -2f) || startPoint.y > this.gameUnitsVerticalInActiveArea - 1f || startPoint.y < -this.gameUnitsVerticalInActiveArea + 1f);
+        } 
+        while (startPoint.x > -1f || (startPoint.y < 2f && startPoint.y > -2f) || startPoint.y > this.gameUnitsVerticalInActiveArea - 1f || startPoint.y < -this.gameUnitsVerticalInActiveArea + 1f);
 
 		Line line;
 		Line startLine;
@@ -314,8 +316,8 @@ public class ShapeGenerator : MonoBehaviour
     public ShapeElement CreateEllipse()
     {
         float radius = Random.Range(1.5f, 4f);
-
         float xFactor = 1f, yFactor = 1f;
+
         // 50% chance for squashing x or y coordinate to reduce its height
         if (Random.value < 0.5f)
         {
@@ -383,7 +385,8 @@ public class ShapeGenerator : MonoBehaviour
             BC = (C - B).normalized;
             angleInA = Mathf.Acos(Vector2.Dot(AB, AC)) * 180f / Mathf.PI;
             angleInB = Mathf.Acos(Vector2.Dot(BA, BC)) * 180f / Mathf.PI;
-        } while (((secondLineLength < firstLineLength * 0.7f) && (secondLineLength > firstLineLength * 1.4f)) || (angleInA < 25f || angleInA > 100f) || (angleInB < 25f || angleInB > 100f));
+        } 
+        while (((secondLineLength < firstLineLength * 0.7f) && (secondLineLength > firstLineLength * 1.4f)) || (angleInA < 25f || angleInA > 100f) || (angleInB < 25f || angleInB > 100f));
 
         // point of the center of a triangle
         var translation = new Vector2((A.x + B.x + C.x) / 3f, (A.y + B.y + C.y) / 3f);
@@ -421,7 +424,8 @@ public class ShapeGenerator : MonoBehaviour
         {
             A = GetRandomPointFromActiveArea();
             pointTranslation = Vector2.Distance(A, new Vector2(0f, 0f));
-        } while (A.y < 1f || pointTranslation < 1f || pointTranslation > this.gameUnitsVerticalInActiveArea);
+        }
+        while (A.y < 1f || pointTranslation < 1f || pointTranslation > this.gameUnitsVerticalInActiveArea);
 
         var square = this.lf.Create(A);
         square.AddVertex(new Vector2(A.y, -A.x));
@@ -450,7 +454,8 @@ public class ShapeGenerator : MonoBehaviour
         do
         {
             A = GetRandomPointFromActiveArea();
-        } while ((A.x < 1 && A.x > -1) || (A.y < 1 && A.y > -1) || A.x > 6 || A.x < -6 || (Mathf.Abs(A.x) < Mathf.Abs(A.y) * 1.2f && Mathf.Abs(A.x) > Mathf.Abs(A.y) * 0.8f));
+        }
+        while ((A.x < 1 && A.x > -1) || (A.y < 1 && A.y > -1) || A.x > 6 || A.x < -6 || (Mathf.Abs(A.x) < Mathf.Abs(A.y) * 1.2f && Mathf.Abs(A.x) > Mathf.Abs(A.y) * 0.8f));
 
         var rectangle = this.lf.Create(A);
         rectangle.AddVertex(new Vector2(-A.x, A.y));

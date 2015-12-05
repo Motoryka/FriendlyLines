@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using LineManagement;
-using LineManagement.GLLines;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
-public class GameManager : Singleton<GameManager>, IInitable {
+using UnityEngine;
+
+public class GameManager : Singleton<GameManager>, IInitable 
+{
     public Fader fader;
     public AudioSource backMusic;
     public AudioSource titleMusic;
@@ -20,6 +19,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
             return sceneName;
         }
     }
+
     public string NextScene
     {
         get
@@ -44,10 +44,12 @@ public class GameManager : Singleton<GameManager>, IInitable {
 	ShapeElement _previousShapeVertices = null;
 
 	public Config GameConfig {
-		get{
+		get
+        {
 			return _config;
 		}
-		set{
+		set
+        {
 			this._config = value;
 		}
 	}
@@ -98,13 +100,17 @@ public class GameManager : Singleton<GameManager>, IInitable {
     void Start()
     {
         if (!initialized)
+        {
             Initialize();
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit(); 
+	    if (Input.GetKeyDown(KeyCode.Escape))
+	    {
+	        Application.Quit();
+	    } 
 	}
 
     public Shape GetCurrentShape()
@@ -127,10 +133,14 @@ public class GameManager : Singleton<GameManager>, IInitable {
         float time = 4f;
 
         if (skipping)
+        {
             time = 0f;
+        }
 
         if (CurrentLevel <= _config.NrOfLevels)
+        {
             fader.LoadSceneFadingAfterTime(sceneName, new WaitForSeconds(time));
+        }
         else
         {
             fader.LoadSceneFadingAfterTime(finishSceneName, new WaitForSeconds(time));
@@ -141,7 +151,6 @@ public class GameManager : Singleton<GameManager>, IInitable {
 
     public void FinishedLevel()
     {
-
         _finishedLevel();
     }
 
@@ -168,6 +177,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
             _previousShapeVertices.DontPreserve();
             _previousShapeVertices = null;
         }
+
         fader.FinishGame(titleSceneName, null);
     }
 
@@ -177,6 +187,7 @@ public class GameManager : Singleton<GameManager>, IInitable {
         {
             _previousShapeVertices.DontPreserve();
         }
+
         _finishedLevel(true);
     }
 

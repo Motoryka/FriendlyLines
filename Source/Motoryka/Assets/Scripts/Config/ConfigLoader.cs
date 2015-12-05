@@ -1,9 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Serialization;
 
-public class ConfigLoader {
+using UnityEngine;
+
+public class ConfigLoader 
+{
 
 	// serialize config and save to data dir
 	public static void SerializeConfig(Config details, string filename)
@@ -33,7 +34,7 @@ public class ConfigLoader {
         }
 
 		config = (Config)serializer.Deserialize (reader);
-		reader.Close ();
+		reader.Close();
 
 		return config;
 	}

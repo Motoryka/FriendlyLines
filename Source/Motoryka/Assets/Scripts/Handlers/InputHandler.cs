@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using LineManagement.GLLines;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+﻿using LineManagement.GLLines;
 
-public class InputHandler : MonoBehaviour {
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class InputHandler : MonoBehaviour
+{
     public LineDrawer lineDrawer;
     public Camera cam;
 
@@ -25,13 +26,13 @@ public class InputHandler : MonoBehaviour {
     public delegate void InputHandling();
 
     InputHandling handleInput;
-    //bool _isLine = false;
-    bool drawingEnabled = true;
+    private bool drawingEnabled = true;
 
-    bool isPaused = false;
+    private bool isPaused = false;
 
 	// Use this for initialization
-	void Start () {
+	void Start() 
+    {
         Debug.Log("Adding to press");
         press += StartDrawing;
         release += StopDrawing;
@@ -46,16 +47,15 @@ public class InputHandler : MonoBehaviour {
         handleInput += _TouchInputHandler;
 
 #endif
-
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update()
+    {
         if (isPaused)
             return;
         if (handleInput != null)
             handleInput();
-
 	}
 
 #if UNITY_ANDROID
@@ -82,8 +82,9 @@ public class InputHandler : MonoBehaviour {
                     release();
             }
             else if (touch.phase == TouchPhase.Moved)
+            {
                 move(cam.ScreenToWorldPoint(touch.position));
-
+            }
         }
     }
 
@@ -105,17 +106,23 @@ public class InputHandler : MonoBehaviour {
                 }
             }
             else
+            {
                 Debug.Log("press is null!");
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             if (lineDrawer.IsDrawing)
+            {
                 release();
+            }
         }
 
         if (_mouseMoved())
+        {
             move(cam.ScreenToWorldPoint(Input.mousePosition));
+        }
     }
 
 #endif

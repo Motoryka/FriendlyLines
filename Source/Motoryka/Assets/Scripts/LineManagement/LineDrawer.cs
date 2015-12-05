@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using UnityEngine;
 
 namespace LineManagement
 {
@@ -51,7 +51,6 @@ namespace LineManagement
         // Update is called once per frame
         void Update()
         {
-
         }
 
         public void SetColor(Color color)
@@ -134,5 +133,4 @@ namespace LineManagement
             }
         }
     }
-
 }

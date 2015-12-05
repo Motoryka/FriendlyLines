@@ -1,9 +1,6 @@
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
-using LineManagement;
 using LineManagement.GLLines;
+
+using UnityEngine;
 
 public class ShapeElement
 {
@@ -11,7 +8,8 @@ public class ShapeElement
     private Line startPoint;
 	private Shape type;
 
-	public ShapeElement () {
+	public ShapeElement () 
+    {
 	}
 
     public ShapeElement(Line shape, Line startPoint, Shape type)
@@ -23,30 +21,36 @@ public class ShapeElement
 
     public Line Shape
     {
-		get {
+		get 
+        {
 			return shape;
 		}
-		set {
+		set 
+        {
 			shape = value;
 		}
 	}
 
     public Line StartPoint
     {
-		get {
+		get 
+        {
 			return startPoint;
 		}
-		set {
+		set 
+        {
 			startPoint = value;
 		}
 	}
 
 	public Shape Type
 	{
-		get {
+		get 
+        {
 			return type;
 		}
-		set {
+		set 
+        {
 			type = value;
 		}
 	}

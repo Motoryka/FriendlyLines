@@ -1,8 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+
+using UnityEngine;
 using UnityEngine.UI;
 
-public class Fader : MonoBehaviour {
+public class Fader : MonoBehaviour 
+{
     public Image fadingTexture;
     public float fadingSpeed = 20f;
     public bool isFading = false;

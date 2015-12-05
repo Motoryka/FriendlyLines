@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
-public class ResultScene : MonoBehaviour {
+public class ResultScene : MonoBehaviour
+{
 
     public GameObject LevelChooserDropdown;
     public GameObject ShapeText;
@@ -11,7 +11,6 @@ public class ResultScene : MonoBehaviour {
     public GameObject ShapeColorText;
     public GameObject LevelResultText;
     public GameObject LevelResultIncorrectText;
-//    public GameObject StartPointToggle;
     public GameObject DrawTimeoutText;
     public GameObject ResultText;
     public GameObject ResultIncorrectText;
@@ -27,8 +26,10 @@ public class ResultScene : MonoBehaviour {
     }
 
 	// Use this for initialization
-	void Start () {
-        for(int i = 1; i <= GameManager.Instance.GameConfig.NrOfLevels; i++){
+	void Start()
+    {
+        for(int i = 1; i <= GameManager.Instance.GameConfig.NrOfLevels; i++)
+        {
             LevelChooserDropdown.GetComponent<Dropdown>().options.Add(new Dropdown.OptionData(i.ToString()));
         }
         LevelChooserDropdown.GetComponent<Dropdown>().value = 0;
@@ -39,6 +40,7 @@ public class ResultScene : MonoBehaviour {
             this.finalResult.shapeCovering += res.result.shapeCovering;
             this.finalResult.errorRange += res.result.errorRange;
         }
+
         this.finalResult.shapeCovering /= GameManager.Instance.GameConfig.NrOfLevels;
         this.finalResult.errorRange /= GameManager.Instance.GameConfig.NrOfLevels;
 
@@ -46,8 +48,8 @@ public class ResultScene : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update()
+    {
 	}
 
     public void OnLevelChange()
@@ -64,8 +66,12 @@ public class ResultScene : MonoBehaviour {
         ResultText.GetComponent<Text>().text = this.finalResult.shapeCovering + " %";
         ResultIncorrectText.GetComponent<Text>().text = this.finalResult.errorRange + " %";
         if (GameManager.Instance.GameConfig.DrawStartPoint)
+        {
             StartPointImg.GetComponent<Image>().sprite = checkYes;
+        }
         else
+        {
             StartPointImg.GetComponent<Image>().sprite = checkNo;
+        }
     }
 }
