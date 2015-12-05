@@ -1,10 +1,28 @@
-﻿using UnityEngine;
-using System.Collections;
-using LineManagement.GLLines;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+﻿/**********************************************************************
+Copyright (C) 2015  Wojciech Nadurski
 
-public class InputHandler : MonoBehaviour {
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+**********************************************************************/
+
+using LineManagement.GLLines;
+
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class InputHandler : MonoBehaviour
+{
     public LineDrawer lineDrawer;
     public Camera cam;
 
@@ -25,13 +43,13 @@ public class InputHandler : MonoBehaviour {
     public delegate void InputHandling();
 
     InputHandling handleInput;
-    //bool _isLine = false;
-    bool drawingEnabled = true;
+    private bool drawingEnabled = true;
 
-    bool isPaused = false;
+    private bool isPaused = false;
 
 	// Use this for initialization
-	void Start () {
+	void Start() 
+    {
         Debug.Log("Adding to press");
         press += StartDrawing;
         release += StopDrawing;
@@ -46,16 +64,15 @@ public class InputHandler : MonoBehaviour {
         handleInput += _TouchInputHandler;
 
 #endif
-
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update()
+    {
         if (isPaused)
             return;
         if (handleInput != null)
             handleInput();
-
 	}
 
 #if UNITY_ANDROID
@@ -82,8 +99,9 @@ public class InputHandler : MonoBehaviour {
                     release();
             }
             else if (touch.phase == TouchPhase.Moved)
+            {
                 move(cam.ScreenToWorldPoint(touch.position));
-
+            }
         }
     }
 
@@ -105,17 +123,23 @@ public class InputHandler : MonoBehaviour {
                 }
             }
             else
+            {
                 Debug.Log("press is null!");
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             if (lineDrawer.IsDrawing)
+            {
                 release();
+            }
         }
 
         if (_mouseMoved())
+        {
             move(cam.ScreenToWorldPoint(Input.mousePosition));
+        }
     }
 
 #endif

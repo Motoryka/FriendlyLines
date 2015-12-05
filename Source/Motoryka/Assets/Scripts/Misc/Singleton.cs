@@ -11,7 +11,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, IInitable
 {
     private static T _instance;
 
-    //private static object _lock = new object();
     public static bool IsInstantiated
     {
         get
@@ -24,7 +23,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, IInitable
     {
         get
         {
-
                 if (_instance == null)
                 {
                     _instance = (T)FindObjectOfType(typeof(T));
@@ -57,11 +55,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, IInitable
                 }
 
                 return _instance;
-        
         }
     }
-
-    //private static bool applicationIsQuitting = false;
     /// <summary>
     /// When Unity quits, it destroys objects in a random order.
     /// In principle, a Singleton is only destroyed when application quits.

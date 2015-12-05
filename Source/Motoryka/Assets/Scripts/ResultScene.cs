@@ -1,8 +1,25 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿/**********************************************************************
+Copyright (C) 2015  Mateusz Nojek
 
-public class ResultScene : MonoBehaviour {
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+**********************************************************************/
+
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ResultScene : MonoBehaviour
+{
 
     public GameObject LevelChooserDropdown;
     public GameObject ShapeText;
@@ -11,7 +28,6 @@ public class ResultScene : MonoBehaviour {
     public GameObject ShapeColorText;
     public GameObject LevelResultText;
     public GameObject LevelResultIncorrectText;
-//    public GameObject StartPointToggle;
     public GameObject DrawTimeoutText;
     public GameObject ResultText;
     public GameObject ResultIncorrectText;
@@ -27,8 +43,10 @@ public class ResultScene : MonoBehaviour {
     }
 
 	// Use this for initialization
-	void Start () {
-        for(int i = 1; i <= GameManager.Instance.GameConfig.NrOfLevels; i++){
+	void Start()
+    {
+        for(int i = 1; i <= GameManager.Instance.GameConfig.NrOfLevels; i++)
+        {
             LevelChooserDropdown.GetComponent<Dropdown>().options.Add(new Dropdown.OptionData(i.ToString()));
         }
         LevelChooserDropdown.GetComponent<Dropdown>().value = 0;
@@ -39,6 +57,7 @@ public class ResultScene : MonoBehaviour {
             this.finalResult.shapeCovering += res.result.shapeCovering;
             this.finalResult.errorRange += res.result.errorRange;
         }
+
         this.finalResult.shapeCovering /= GameManager.Instance.GameConfig.NrOfLevels;
         this.finalResult.errorRange /= GameManager.Instance.GameConfig.NrOfLevels;
 
@@ -46,8 +65,8 @@ public class ResultScene : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update()
+    {
 	}
 
     public void OnLevelChange()
@@ -64,8 +83,12 @@ public class ResultScene : MonoBehaviour {
         ResultText.GetComponent<Text>().text = this.finalResult.shapeCovering + " %";
         ResultIncorrectText.GetComponent<Text>().text = this.finalResult.errorRange + " %";
         if (GameManager.Instance.GameConfig.DrawStartPoint)
+        {
             StartPointImg.GetComponent<Image>().sprite = checkYes;
+        }
         else
+        {
             StartPointImg.GetComponent<Image>().sprite = checkNo;
+        }
     }
 }

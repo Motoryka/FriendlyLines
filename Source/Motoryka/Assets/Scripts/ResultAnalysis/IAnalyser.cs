@@ -1,10 +1,11 @@
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 using LineManagement;
 
-public interface IAnalyser {
+using UnityEngine;
+
+public interface IAnalyser
+{
 	bool IsFinished(ILine generatedLine, List<ILine> userLines);
     Result GetResult(ILine generatedLine, List<ILine> userLines);
     bool IsStartCorrect(Vector3 point, ShapeElement shape, List<ILine> userLines, bool isStartDisplayed = true);

@@ -1,6 +1,23 @@
-﻿using UnityEngine;
+﻿/**********************************************************************
+Copyright (C) 2015  Wojciech Nadurski
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+**********************************************************************/
+
 using System.Collections;
-using System.Collections.Generic;
+
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UILevelManager : MonoBehaviour {
@@ -20,23 +37,24 @@ public class UILevelManager : MonoBehaviour {
 
     public Button DeleteBtn;
 
-    LevelConfig cfg;
+    private LevelConfig cfg;
 
-    ConfigCreator creator;
+    private ConfigCreator creator;
 
-    int myindex;
-    int maxindex;
+    private int myindex;
+    private int maxindex;
 
     public float smoothTime = 0.2F;
     private Vector3 velocity = Vector3.zero;
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start() 
+    {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update() 
+    {
         transform.localPosition = Vector3.SmoothDamp(transform.localPosition, StayingPoint, ref velocity, smoothTime);
 	}
 
@@ -57,7 +75,9 @@ public class UILevelManager : MonoBehaviour {
 
         ShapeDropdown.options.Clear();
         foreach (string option in ShapeConverter.GetShapeStringArray())
+        {
             ShapeDropdown.options.Add(new Dropdown.OptionData(option));
+        }
         ShapeDropdown.onValueChanged.AddListener(i => UpdateShape(i));
 
         int index = 0;
@@ -75,9 +95,10 @@ public class UILevelManager : MonoBehaviour {
         }
 
         LineColorDropdown.options.Clear();
-		//LineColorDropdown.options.Add (new Dropdown.OptionData("Losowy"));
         foreach (PastelColor option in PastelColorFactory.ColorList)
+        {
             LineColorDropdown.options.Add(new Dropdown.OptionData(option.Name));
+        }
         LineColorDropdown.onValueChanged.AddListener(i => UpdateLineColor(i));
 
         index = 0;
@@ -97,7 +118,9 @@ public class UILevelManager : MonoBehaviour {
         ShapeColorDropdown.options.Clear();
 		//ShapeColorDropdown.options.Add(new Dropdown.OptionData("Losowy"));
         foreach (PastelColor option in PastelColorFactory.ColorList)
+        {
             ShapeColorDropdown.options.Add(new Dropdown.OptionData(option.Name));
+        }
         ShapeColorDropdown.onValueChanged.AddListener(i => UpdateShapeColor(i));
 
         index = 0;
@@ -129,14 +152,12 @@ public class UILevelManager : MonoBehaviour {
 
     private void UpdateLineColor(int i)
     {
-		/*if(LineColorDropdown.options[i].text == "Losowy") cfg.brushColor = PastelColorFactory.RandomColor;
-		else*/ cfg.brushColor = PastelColorFactory.GetColor(LineColorDropdown.options[i].text);
+		cfg.brushColor = PastelColorFactory.GetColor(LineColorDropdown.options[i].text);
     }
 
     private void UpdateShapeColor(int i)
     {
-		/*if(ShapeColorDropdown.options[i].text == "Losowy") cfg.shapeColor = PastelColorFactory.RandomColor;
-		else*/ cfg.shapeColor = PastelColorFactory.GetColor(ShapeColorDropdown.options[i].text);
+		cfg.shapeColor = PastelColorFactory.GetColor(ShapeColorDropdown.options[i].text);
     }
 
     private void UpdateShape(int i)
@@ -166,7 +187,6 @@ public class UILevelManager : MonoBehaviour {
 	
 	public void setKnobSize()
 	{
-//        LineStrokeSlider.handleRect.GetComponent<Image>().rectTransform.sizeDelta = new Vector2(0.6f+0.2f*LineStrokeSlider.value*(float)Screen.height, 0.6f + 0.2f * LineStrokeSlider.value * (float)Screen.height);
 		LineStrokeSlider.animator.SetInteger ("knobSize", (int)LineStrokeSlider.value);
 	}
 
@@ -182,9 +202,7 @@ public class UILevelManager : MonoBehaviour {
 
     public void MoveToPoint(Vector3 point)
     {
-
         StayingPoint = point;
-        //StartCoroutine(MoveToPointCrt(point));
     }
 
     IEnumerator MoveToPointCrt(Vector3 point)
@@ -193,8 +211,6 @@ public class UILevelManager : MonoBehaviour {
         velocity = Vector3.zero;
         while (transform.localPosition != point)
         {
-            //transform.localPosition = Vector3.MoveTowards(transform.localPosition, point, movingVelocity * Time.deltaTime);
-
             transform.localPosition = Vector3.SmoothDamp(transform.localPosition, point, ref velocity, smoothTime);
             
             yield return new WaitForEndOfFrame();
