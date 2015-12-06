@@ -292,6 +292,11 @@ public class PathAnalyser : MonoBehaviour, IAnalyser
 	 */
 	private float GetMinDistance (Vector2[] listG, Vector2 point)
     {
+        if (listG.Length == 1)
+        {
+            return Vector2.Distance(point, listG[0]);
+        }
+
 		float min = 100;
 		
 		for (int i = 0; i < listG.Length - 1; i++) 
