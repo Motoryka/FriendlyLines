@@ -1,2 +1,13 @@
 # Friendly Lines
-Open-Sourced 2D therapeutic game for autistic children, which goal is to accelerate development of fine motor skills.
+Open-Sourced 2D therapeutic game for autistic children in age 3-7. Main goal of the project is to create application which accelerates development of fine motor skills. Friendly Lines is dedicated for mobile platforms. The project was started as engineer's final degree project.
+
+![Title screen](/Dokumentacja/Screenshots/title.png)
+![Game](/Dokumentacja/Screenshots/game.png)
+![Results](/Dokumentacja/Screenshots/game.png)
+
+The user's task is to exactly repeat each shape with his index finger or a scriber. Detailed results are presented after each game session.
+
+Each game session may be almost fully configurated by a therapist or a parent, in order to fit well to each child individual needs and skills. 
+![Results](/Dokumentacja/Screenshots/configchooser.png)
+![Results](/Dokumentacja/Screenshots/configchooser.png)
+
