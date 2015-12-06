@@ -8,6 +8,6 @@ Open-Sourced 2D therapeutic game for autistic children in age 3-7. Main goal of 
 The user's task is to exactly repeat each shape with his index finger or a scriber. Detailed results are presented after each game session.
 
 Each game session may be almost fully configurated by a therapist or a parent, in order to fit well to each child individual needs and skills. 
-![configchooser](/Dokumentacja/Screenshots/configchooser.png)
+![configchooser](/Dokumentacja/Screenshots/configchoose.png)
 ![config](/Dokumentacja/Screenshots/config.png)
 
