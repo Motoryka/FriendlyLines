@@ -11,3 +11,4 @@ Each game session may be almost fully configurated by a therapist or a parent, i
 ![configchooser](/Dokumentacja/Screenshots/configchoose.png)
 ![config](/Dokumentacja/Screenshots/config.png)
 
+The game's binary file, ready to install on Android platform, can be downloaded from this link: https://www.dropbox.com/s/q8ifyljjzh0b66z/friendlylines.apk?dl=0
