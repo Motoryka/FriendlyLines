@@ -55,11 +55,11 @@ public class InputHandler : MonoBehaviour
         release += StopDrawing;
         move += Move;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 
         handleInput += _MouseInputHandler;
 
-#elif UNITY_ANDROID || UNITY_STANDALONE
+#elif UNITY_ANDROID
 
         handleInput += _TouchInputHandler;
 

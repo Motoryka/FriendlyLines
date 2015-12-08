@@ -195,6 +195,12 @@ namespace LineManagement.GLLines
 
             float angle = Mathf.Acos(scalar);
 
+            if(angle == 0f)
+            {
+                // No filling needed, lines are perfectly parallel
+                return triangles;
+            }
+
             triangles.AddRange(GraphicsProvider.GetCircleTriangles(p1, r, angle, Color.red, _circleDensity, -1f, _defaultZ));
 
             return triangles;
