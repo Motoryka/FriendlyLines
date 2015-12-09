@@ -36,13 +36,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 143014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc543568c9051e9449075fc040b216c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 52beb83eaf3e51949bd60597562eff5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequency: 20
-  color: {r: 1, g: .0441176295, b: .0441176295, a: 1}
-  size: .100000001
+  frequency: .100000001
+  color: {r: 1, g: 0, b: 0, a: 1}
+  size: 1
   canvas: {fileID: 0}
+  sortingLayer: 
   _drawing: 0
 --- !u!1001 &100100000
 Prefab:

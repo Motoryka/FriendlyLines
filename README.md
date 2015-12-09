@@ -1,28 +1,14 @@
-# Gra
-Gra terapeutyczna - Projekt inżynierski
+# Friendly Lines
+Open-Sourced 2D therapeutic game for autistic children in age 3-7. Main goal of the project is to create application which accelerates development of fine motor skills. Friendly Lines is dedicated for mobile platforms. The project was started as engineer's final degree project.
 
-## Instrukcja obsługi Gita
-### Instalacja
-Ściągamy sobie gita i instalujemy Git Basha i ewentualnie Git GUI, jeśli ktoś chce sobie wygodnie okienkowo działać na gicie. Na początek wchodzimy do Git basha i wpisujemy komendy:
-`git config --global user.name "Login z githuba"`
-`git config --global user.email "adres@email.pl"`
+![Title screen](/Dokumentacja/Screenshots/title.png)
+![Game](/Dokumentacja/Screenshots/game.png)
+![Results](/Dokumentacja/Screenshots/results.png)
 
-### Lokalne repozytorium
-Git działa w ten sposób, że u siebie lokalnie możemy stworzyć repozytorium. Wsadzamy tam kod i pliki i commitujemy zmiany, co umożliwia nam kontrolowanie wersji, rollback niepożądanych zmian i wiele innych. Żeby stworzyć repo z naszego zdalnego repozytorium na githubie musimy:
+The user's task is to exactly repeat each shape with his index finger or a scriber. Detailed results are presented after each game session.
 
-1. Stworzyć sobie katalog na pliki projektu. 
-2. Uruchamiamy GIT Bash w tym katalogu
-3. Wpisujemy `git init`
-4. Następnie kolejna komenda: `git remote add origin https://github.com/Motoryka/Gra.git` - czyli dodajemy do aktualnego katalogu repozytorium zdalne. Co robi ta komenda: tworzy alias o nazwie `origin` do zdalnego repo `https://github.com/Motoryka/Gra.git`, przez co nie musimy z każdym pushem i pullem wpisywać całego adresu
-5. `git pull origin master`
+Each game session may be almost fully configurated by a therapist or a parent, in order to fit well to each child individual needs and skills. 
+![configchooser](/Dokumentacja/Screenshots/configchoose.png)
+![config](/Dokumentacja/Screenshots/config.png)
 
-Teraz możemy dodawać, usuwać i zmieniać pliki na naszym lokalnym repo. Kiedy chcemy zcommitować zmiany:
-
-1. Komenda: `git add .` - zamiast `.` mogą być nazwy plików, które chcemy dodać do aktualnego commita
-2. `git commit -m 'Jakis tekst'` - commit zmian
-
-Aby sprawdzic stan plikow, ktore zmienialismy mozna wpisac `git status`
-
-### Zdalne repozytorium
-`git push` wrzucenie commitów z repo lokalnego na zdalne branch master - teraz wszyscy będą widzieć zmiany
-`git pull origin master` pobranie zmian z repo zdalnego
+The game's binary file, ready to install on Android platform, can be downloaded from this link: https://www.dropbox.com/s/q8ifyljjzh0b66z/friendlylines.apk?dl=0
