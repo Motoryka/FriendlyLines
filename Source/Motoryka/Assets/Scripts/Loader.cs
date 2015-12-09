@@ -21,14 +21,20 @@ public class Loader : MonoBehaviour {
     public GameObject gameManagerPrefab;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 	    if(this.gameManagerPrefab && !GameManager.IsInstantiated)
         {
             GameObject.Instantiate(this.gameManagerPrefab);
         }
 	}
+
+    void Start()
+    {
+        GameManager.Instance.fader.LoadSceneFadingAfterTime("title", new WaitForSeconds(2f));
+    }
 	
 	// Update is called once per frame
 	void Update () {
+
 	}
 }
